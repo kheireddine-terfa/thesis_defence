@@ -6,7 +6,26 @@ const professorSchema = new mongoose.Schema({
   grade: {
     type: String,
     required: [true, 'a professor must have a grade'],
+    enum: ['MCA', 'MCB', 'PR', 'PHD'],
   },
+  fields: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Field',
+    },
+  ],
+  themes: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Theme',
+    },
+  ],
+})
+professorSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'fields themes',
+  })
+  next()
 })
 professorSchema.pre('save', async function (next) {
   //check if the password field modified or not (new or updated)
