@@ -135,9 +135,10 @@ exports.logout = (req, res) => {
 exports.protect = async (req, res, next) => {
   const token = req.cookies['token']
   if (!token) {
-    return next(
-      new appError('You are not logged in. Please log in and try again', 401),
-    )
+    return res.status(401).json({
+      status: 'fail',
+      message: 'You are not logged in. Please log in and try again',
+    })
   }
   // Verification of the token:
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)

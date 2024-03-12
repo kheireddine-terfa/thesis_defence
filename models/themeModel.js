@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Professor = require('./professorModel')
 const themeSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -12,9 +13,10 @@ const themeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Speciality',
   },
-  local: {
+  premise: {
+    // this will added by admin :
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Local',
+    ref: 'Premise',
   },
   field: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +24,21 @@ const themeSchema = new mongoose.Schema({
   },
 })
 //***** define pre find hook (populate) later if needed ...
-
+themeSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'speciality premise field',
+  })
+  next()
+})
+themeSchema.pre('remove', { document: true, query: false }, async function (
+  next,
+) {
+  const themeId = this._id
+  await Professor.updateMany(
+    { themes: themeId },
+    { $pull: { themes: themeId } },
+  )
+  next()
+})
 const Theme = mongoose.model('Theme', themeSchema)
 module.exports = Theme
