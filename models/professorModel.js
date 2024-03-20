@@ -14,16 +14,16 @@ const professorSchema = new mongoose.Schema({
       ref: 'Field',
     },
   ],
-  themes: [
+  theses: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Theme',
+      ref: 'Thesis',
     },
   ],
 })
 professorSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'fields themes',
+    path: 'fields theses',
   })
   next()
 })

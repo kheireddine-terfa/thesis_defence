@@ -1,71 +1,110 @@
 const Announce = require('../models/announceModel')
-const Pair = require('../models/pairsModel')
+const Binome = require('../models/binomeModel')
 const Professor = require('../models/professorModel')
 const Student = require('../models/studentModel')
 const Premise = require('../models/premiseModel')
 const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
-
-exports.addPair = async (req, res) => {
-  let stud2
+const jwt = require('jsonwebtoken')
+//-----------------------------------
+const signToekn = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET)
+}
+//-----------------------------------
+exports.addAndSignUpBinome = async (req, res) => {
+  let stud2, binome
   const { student1, student2 } = req.body
   const stud1 = await Student.findById(student1)
   if (student2) {
     stud2 = await Student.findById(student2)
   }
-  if (!stud1 || stud2 === null) {
+  if (!stud1 && !stud2) {
     return res.status(404).json({
       status: 'fail',
       message: 'student not found',
     })
   }
-  const pair = await Pair.create(req.body)
-  res.status(200).json({
+  if (stud1 && !stud2) {
+    binome = await Binome.create({
+      student1: stud1,
+      userName: `${stud1.firstName} ${stud1.lastName}`,
+      email: stud1.email,
+      password: stud1.matricule,
+    })
+  }
+
+  if (stud1 && stud2) {
+    binome = await Binome.create({
+      student1: stud1,
+      student2: stud2,
+      userName: `${stud1.firstName} ${stud1.lastName} | ${stud2.firstName} ${stud2.lastName}`,
+      email: `${stud1.firstName}.${stud2.firstName}@gmail.com`,
+      password: `${stud1.matricule}${stud2.matricule}`,
+    })
+  }
+  // Generate JWT token
+  const token = signToekn(binome._id)
+  // Send response with token
+  res.status(201).json({
     status: 'success',
-    data: {
-      pair,
-    },
+    token,
+    binome,
   })
 }
 
-exports.getAllPair = async (req, res) => {
-  const pairs = await Pair.find()
+exports.getAllBinome = async (req, res) => {
+  const binomes = await Binome.find()
   res.status(200).json({
     status: 'success',
     data: {
-      pairs,
+      binomes,
     },
   })
 }
-exports.getPair = async (req, res) => {
-  const pairId = req.params.id
-  const pair = await Pair.findById(pairId)
+exports.getBinome = async (req, res) => {
+  const binomeId = req.params.id
+  const binome = await Binome.findById(binomeId)
   res.status(200).json({
     status: 'success',
     data: {
-      pair,
+      binome,
     },
   })
 }
-exports.updatePair = async (req, res) => {
-  const pairId = req.params.id
-  const updatedPair = await Pair.findByIdAndUpdate(pairId, req.body, {
-    new: true,
-    runValidators: true,
-  })
+exports.updateBinome = async (req, res) => {
+  const binomeId = req.params.id
+  let updatedBinome
+  const { student1, student2, ApprovedThesis } = req.body
+  const stud1 = await Student.findById(student1)
+  const stud2 = await Student.findById(student2)
+  if (stud2) {
+    updatedBinome = await Binome.findById(binomeId)
+
+    updatedBinome.email = `${stud1.firstName}.${stud2.firstName}@gmail.com`
+    updatedBinome.userName = `${stud1.firstName} ${stud1.lastName} | ${stud2.firstName} ${stud2.lastName}`
+    updatedBinome.student2 = student2
+    updatedBinome.password = `${stud1.matricule}${stud2.matricule}`
+    updatedBinome.ApprovedThesis = ApprovedThesis
+    await updatedBinome.save()
+  } else {
+    updatedBinome = await Binome.findByIdAndUpdate(binomeId, req.body, {
+      new: true,
+      runValidators: true,
+    })
+  }
   res.status(200).json({
     status: 'success',
     data: {
-      updatedPair,
+      updatedBinome,
     },
   })
 }
-exports.deletePair = async (req, res) => {
-  const pairId = req.params.id
-  const deletedPair = await Pair.findByIdAndDelete(pairId)
+exports.deleteBinome = async (req, res) => {
+  const binomeId = req.params.id
+  const deletedBinome = await Binome.findByIdAndDelete(binomeId)
   res.status(204).json({
     status: 'success',
-    message: 'pair deleted successfully',
+    message: 'Binome deleted successfully',
   })
 }
 //---------------

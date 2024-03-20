@@ -39,16 +39,17 @@ router
   .get(adminController.getProfessor)
   .delete(adminController.deleteProfessor)
   .patch(adminController.combineFields, adminController.updateProfessor)
-//-----------------------------pair:
+//-----------------------------binome:
+//.... check these if it still work ... then go to selected thesis
 router
-  .route('/pair')
-  .post(adminController.addPair)
-  .get(adminController.getAllPair)
+  .route('/binome')
+  .post(adminController.addAndSignUpBinome)
+  .get(adminController.getAllBinome)
 router
-  .route('/pair/:id')
-  .get(adminController.getPair)
-  .patch(adminController.updatePair)
-  .delete(adminController.deletePair)
+  .route('/binome/:id')
+  .get(adminController.getBinome)
+  .patch(adminController.updateBinome)
+  .delete(adminController.deleteBinome)
 //-----------------------------announce:
 router
   .route('/announce')

@@ -3,6 +3,7 @@ const Admin = require('../models/adminModel')
 const Professor = require('../models/professorModel')
 const Student = require('../models/studentModel')
 const jwt = require('jsonwebtoken')
+const Binome = require('../models/binomeModel')
 //-----------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -64,6 +65,8 @@ exports.login = async (req, res) => {
       role = 'professor'
     } else if (req.originalUrl === '/student/login') {
       role = 'student'
+    } else if (req.originalUrl === '/binome/login') {
+      role = 'binome'
     } else {
       role = 'invalid'
     }
@@ -79,6 +82,9 @@ exports.login = async (req, res) => {
         break
       case 'admin':
         user = await Admin.findOne({ email }).select('+password')
+        break
+      case 'binome':
+        user = await Binome.findOne({ email }).select('+password')
         break
       default:
         return res.status(400).json({
@@ -152,6 +158,8 @@ exports.protect = async (req, res, next) => {
     role = 'professor'
   } else if (path.startsWith('/student')) {
     role = 'student'
+  } else if (path.startsWith('/binome')) {
+    role = 'binome'
   } else {
     role = 'invalid'
   }
@@ -167,6 +175,9 @@ exports.protect = async (req, res, next) => {
       break
     case 'student':
       user = await Student.findById(decoded.id)
+      break
+    case 'binome':
+      user = await Binome.findById(decoded.id)
       break
     default:
       return res.status(401).json({

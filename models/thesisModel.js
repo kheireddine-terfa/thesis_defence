@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Professor = require('./professorModel')
-const themeSchema = new mongoose.Schema({
+const thesisSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, 'field must have a title'],
@@ -24,21 +24,21 @@ const themeSchema = new mongoose.Schema({
   },
 })
 //***** define pre find hook (populate) later if needed ...
-themeSchema.pre(/^find/, function (next) {
+thesisSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'speciality premise field',
   })
   next()
 })
-themeSchema.pre('remove', { document: true, query: false }, async function (
+thesisSchema.pre('remove', { document: true, query: false }, async function (
   next,
 ) {
-  const themeId = this._id
+  const thesisId = this._id
   await Professor.updateMany(
-    { themes: themeId },
-    { $pull: { themes: themeId } },
+    { theses: thesisId },
+    { $pull: { theses: thesisId } },
   )
   next()
 })
-const Theme = mongoose.model('Theme', themeSchema)
-module.exports = Theme
+const Thesis = mongoose.model('Thesis', thesisSchema)
+module.exports = Thesis

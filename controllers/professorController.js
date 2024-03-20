@@ -1,8 +1,8 @@
 const Field = require('../models/fieldModel')
 const Professor = require('../models/professorModel')
 const Speciality = require('../models/specialityModel')
-const Theme = require('../models/themeModel')
-exports.addTheme = async (req, res) => {
+const Thesis = require('../models/thesisModel')
+exports.addThesis = async (req, res) => {
   console.log(req.user)
   const { title, description, fieldId, specialityId } = req.body
   const field = await Field.findById(fieldId)
@@ -14,7 +14,7 @@ exports.addTheme = async (req, res) => {
         'opps ! something went wrong we do not found a the field or speciality',
     })
   }
-  const theme = await Theme.create({
+  const thesis = await Thesis.create({
     title,
     description,
     field: fieldId,
@@ -22,55 +22,55 @@ exports.addTheme = async (req, res) => {
   })
   await Professor.findByIdAndUpdate(
     req.user._id,
-    { $push: { themes: theme._id } },
+    { $push: { theses: thesis._id } },
     { new: true },
   )
   res.status(201).json({
     status: 'success',
     data: {
-      theme,
+      thesis,
     },
   })
 }
-exports.updateTheme = async (req, res) => {
-  const themeId = req.params.id
-  const updatedTheme = await Theme.findByIdAndUpdate(themeId, req.body, {
+exports.updateThesis = async (req, res) => {
+  const thesisId = req.params.id
+  const updatedThesis = await Thesis.findByIdAndUpdate(thesisId, req.body, {
     new: true,
     runValidators: true,
   })
   res.status(200).json({
     status: 'success',
     data: {
-      updatedTheme,
+      updatedThesis,
     },
   })
 }
-exports.deleteTheme = async (req, res) => {
-  const themeId = req.params.id
-  const updatedTheme = await Theme.findByIdAndDelete(themeId)
+exports.deleteThesis = async (req, res) => {
+  const thesisId = req.params.id
+  const updatedThesis = await Thesis.findByIdAndDelete(thesisId)
   res.status(204).json({
     status: 'success',
-    message: 'theme deleted successfully',
+    message: 'thesis deleted successfully',
   })
 }
-exports.getTheme = async (req, res) => {
-  const themeId = req.params.id
-  const theme = await Theme.findById(themeId)
+exports.getThesis = async (req, res) => {
+  const thesisId = req.params.id
+  const thesis = await Thesis.findById(thesisId)
   res.status(200).json({
     status: 'success',
     data: {
-      theme,
+      thesis,
     },
   })
 }
-exports.getProsessorThemes = async (req, res) => {
+exports.getProsessorTheses = async (req, res) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
-  const themes = professor.themes
+  const theses = professor.theses
   res.status(200).json({
     status: 'success',
     data: {
-      themes,
+      theses,
     },
   })
 }

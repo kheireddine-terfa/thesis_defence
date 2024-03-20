@@ -6,14 +6,14 @@ const professorController = require('../controllers/professorController')
 router.post('/signup', authController.signup)
 router.post('/login', authController.login)
 router.use(authController.protect)
-//--------------------theme:
+//--------------------thesis:
 router
-  .route('/theme')
-  .post(professorController.addTheme)
-  .get(professorController.getProsessorThemes)
+  .route('/thesis')
+  .post(professorController.addThesis)
+  .get(professorController.getProsessorTheses)
 router
-  .route('/theme/:id')
-  .get(professorController.getTheme)
-  .patch(professorController.updateTheme)
-  .delete(professorController.deleteTheme)
+  .route('/thesis/:id')
+  .get(professorController.getThesis)
+  .patch(professorController.updateThesis)
+  .delete(professorController.deleteThesis)
 module.exports = router

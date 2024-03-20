@@ -6,6 +6,8 @@ const app = express()
 const adminRoutes = require('./routes/adminRoutes')
 const professorRoutes = require('./routes/professorRoutes')
 const studentRoutes = require('./routes/studentRoutes')
+const binomeRoutes = require('./routes/binomeRoutes')
+
 // Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }))
 //---- body parser : reading data from body into req.body
@@ -23,6 +25,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use('/admin', adminRoutes)
 app.use('/professor', professorRoutes)
 app.use('/student', studentRoutes)
+app.use('/binome', binomeRoutes)
 
 // handel unhandeled route
 app.all('*', (req, res, next) => {

@@ -1,17 +1,6 @@
-const Thesis = require('../models/thesisModel')
-const Student = require('../models/studentModel')
 const Binome = require('../models/binomeModel')
-//----------------------
-exports.getAllTheses = async (req, res) => {
-  const theses = await Thesis.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      theses,
-    },
-  })
-}
-//------------------------
+const Thesis = require('../models/thesisModel')
+
 exports.nominateToThesis = async (req, res) => {
   const thesisId = req.body.thesisId
   // Find the student by ID
@@ -43,5 +32,15 @@ exports.nominateToThesis = async (req, res) => {
     status: 'success',
     message: 'Thesis selected successfully',
     thesisNumber: binome.selectedThesis.length,
+  })
+}
+//------------------------------
+exports.getAllTheses = async (req, res) => {
+  const theses = await Thesis.find()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      theses,
+    },
   })
 }

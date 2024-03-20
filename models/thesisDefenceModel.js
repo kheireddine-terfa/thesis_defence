@@ -16,7 +16,7 @@ const thesisDefenceSchema = new mongoose.Schema({
   },
   theme: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Theme',
+    ref: 'Thesis',
     required: [true, 'thesis defence must have a theme'],
   },
 })
