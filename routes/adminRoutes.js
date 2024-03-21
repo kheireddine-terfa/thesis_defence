@@ -40,7 +40,6 @@ router
   .delete(adminController.deleteProfessor)
   .patch(adminController.combineFields, adminController.updateProfessor)
 //-----------------------------binome:
-//.... check these if it still work ... then go to selected thesis
 router
   .route('/binome')
   .post(adminController.addAndSignUpBinome)

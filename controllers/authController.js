@@ -4,13 +4,14 @@ const Professor = require('../models/professorModel')
 const Student = require('../models/studentModel')
 const jwt = require('jsonwebtoken')
 const Binome = require('../models/binomeModel')
-//-----------------------------------
+//-------- sign token function :
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
 }
-//-----------------------------------
+//------------- sing up users controller:
 exports.signup = async (req, res) => {
   try {
+    // define the role depending on the URL:
     let role
     if (req.originalUrl === '/admin/signup') {
       role = 'admin'
@@ -48,7 +49,7 @@ exports.signup = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 }
-//-----------------------------------
+// ----------- login users controller:
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body
@@ -130,14 +131,14 @@ exports.login = async (req, res) => {
   }
 }
 
-//---------------------------------
+//------------------ logout users controller:
 exports.logout = (req, res) => {
   res.clearCookie('token')
   res.status(200).json({
     message: 'you are logged out',
   })
 }
-//---------------------------------
+//------------------- protect middelware (this middelware is defined to protect resssources and authorization)
 exports.protect = async (req, res, next) => {
   const token = req.cookies['token']
   if (!token) {

@@ -6,11 +6,11 @@ const Premise = require('../models/premiseModel')
 const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
 const jwt = require('jsonwebtoken')
-//-----------------------------------
+//--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
 }
-//-----------------------------------
+//------------------ controllers: --------------------------------
 exports.addAndSignUpBinome = async (req, res) => {
   let stud2, binome
   const { student1, student2 } = req.body
@@ -51,6 +51,7 @@ exports.addAndSignUpBinome = async (req, res) => {
     binome,
   })
 }
+//----------------------:
 
 exports.getAllBinome = async (req, res) => {
   const binomes = await Binome.find()
@@ -61,6 +62,8 @@ exports.getAllBinome = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getBinome = async (req, res) => {
   const binomeId = req.params.id
   const binome = await Binome.findById(binomeId)
@@ -71,6 +74,8 @@ exports.getBinome = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.updateBinome = async (req, res) => {
   const binomeId = req.params.id
   let updatedBinome
@@ -99,6 +104,8 @@ exports.updateBinome = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteBinome = async (req, res) => {
   const binomeId = req.params.id
   const deletedBinome = await Binome.findByIdAndDelete(binomeId)
@@ -107,7 +114,8 @@ exports.deleteBinome = async (req, res) => {
     message: 'Binome deleted successfully',
   })
 }
-//---------------
+//----------------------:
+
 exports.addAnnounce = async (req, res) => {
   const announce = await Announce.create(req.body)
   res.status(200).json({
@@ -117,6 +125,8 @@ exports.addAnnounce = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getAllAnnounces = async (req, res) => {
   const announces = await Announce.find()
   res.status(200).json({
@@ -126,6 +136,8 @@ exports.getAllAnnounces = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getAnnounce = async (req, res) => {
   const announceId = req.params.id
   const announce = await Announce.findById(announceId)
@@ -136,6 +148,8 @@ exports.getAnnounce = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.updateAnnounce = async (req, res) => {
   const announceId = req.params.id
   const updatedAnnounce = await Announce.findByIdAndUpdate(
@@ -153,6 +167,8 @@ exports.updateAnnounce = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteAnnounce = async (req, res) => {
   const announceId = req.params.id
   const deletedAnnounce = await Announce.findByIdAndDelete(announceId)
@@ -161,7 +177,8 @@ exports.deleteAnnounce = async (req, res) => {
     message: 'announce deleted successfully',
   })
 }
-//---------------------
+//----------------------:
+
 exports.getAllProfessors = async (req, res) => {
   const professors = await Professor.find()
   res.status(200).json({
@@ -171,6 +188,8 @@ exports.getAllProfessors = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getProfessor = async (req, res) => {
   const professorId = req.params.id
   const professor = await Professor.findById(professorId)
@@ -181,6 +200,8 @@ exports.getProfessor = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.combineFields = (req, res, next) => {
   const { field1, field2, field3, firstName, lastName, grade, email } = req.body
   const fields = [field1, field2, field3]
@@ -193,6 +214,8 @@ exports.combineFields = (req, res, next) => {
   }
   next()
 }
+//----------------------:
+
 exports.updateProfessor = async (req, res) => {
   const professorId = req.params.id
   const updatedProfessor = await Professor.findByIdAndUpdate(
@@ -210,6 +233,8 @@ exports.updateProfessor = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteProfessor = async (req, res) => {
   const professorId = req.params.id
   const professor = await Professor.findByIdAndDelete(professorId)
@@ -218,7 +243,8 @@ exports.deleteProfessor = async (req, res) => {
     message: 'professor deleted successfully',
   })
 }
-//---------------------
+//----------------------:
+
 exports.addPremise = async (req, res) => {
   const premise = await Premise.create(req.body)
   res.status(201).json({
@@ -228,6 +254,8 @@ exports.addPremise = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getAllPremises = async (req, res) => {
   const premise = await Premise.find()
   res.status(200).json({
@@ -237,6 +265,8 @@ exports.getAllPremises = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deletePremise = async (req, res) => {
   const premiseId = req.params.id
   const premise = await Premise.findByIdAndDelete(premiseId)
@@ -245,7 +275,8 @@ exports.deletePremise = async (req, res) => {
     message: 'professor deleted successfully',
   })
 }
-//----------------------------------------------
+//----------------------:
+
 exports.addSpeciality = async (req, res) => {
   const speciality = await Speciality.create(req.body)
   res.status(201).json({
@@ -255,7 +286,8 @@ exports.addSpeciality = async (req, res) => {
     },
   })
 }
-//-----------------
+//----------------------:
+
 exports.getAllSpeciality = async (req, res) => {
   const specialities = await Speciality.find()
   res.status(200).json({
@@ -265,6 +297,8 @@ exports.getAllSpeciality = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteSpeciality = async (req, res) => {
   const specialityId = req.params.id
   const deletedSpeciality = await Speciality.findByIdAndDelete(specialityId)
@@ -273,7 +307,8 @@ exports.deleteSpeciality = async (req, res) => {
     message: 'speciality successfully deleted',
   })
 }
-//----------------------------------------
+//----------------------:
+
 exports.addField = async (req, res) => {
   const field = await Field.create(req.body)
   res.status(201).json({
@@ -283,7 +318,8 @@ exports.addField = async (req, res) => {
     },
   })
 }
-//--------------------------
+//----------------------:
+
 exports.getAllFields = async (req, res) => {
   const fields = await Field.find()
   res.status(200).json({
@@ -293,6 +329,8 @@ exports.getAllFields = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getField = async (req, res) => {
   const fieldId = req.params.id
   const field = await Field.findById(fieldId)
@@ -303,6 +341,8 @@ exports.getField = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteField = async (req, res) => {
   const fieldId = req.params.id
   const deletedField = await Field.findByIdAndDelete(fieldId)
@@ -311,6 +351,8 @@ exports.deleteField = async (req, res) => {
     message: 'field successfully deleted',
   })
 }
+//----------------------:
+
 exports.updateField = async (req, res) => {
   const fieldId = req.params.id
   const updatedField = await Field.findByIdAndUpdate(fieldId, req.body, {
@@ -324,7 +366,8 @@ exports.updateField = async (req, res) => {
     },
   })
 }
-//---------------------------------
+//----------------------:
+
 exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
   res.status(200).json({
@@ -334,6 +377,8 @@ exports.getAllStudents = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.getStudent = async (req, res) => {
   const studentId = req.params.id
   const student = await Student.findById(studentId)
@@ -344,6 +389,8 @@ exports.getStudent = async (req, res) => {
     },
   })
 }
+//----------------------:
+
 exports.deleteStudent = async (req, res) => {
   const studentId = req.params.id
   const deletedStudent = await Student.findByIdAndDelete(studentId)
@@ -352,6 +399,8 @@ exports.deleteStudent = async (req, res) => {
     message: 'student deleted successfully',
   })
 }
+//----------------------:
+
 exports.updateStudent = async (req, res) => {
   const studentId = req.params.id
   const updatedStudent = await Student.findByIdAndUpdate(studentId, req.body, {

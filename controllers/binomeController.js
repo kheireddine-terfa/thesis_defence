@@ -1,6 +1,6 @@
 const Binome = require('../models/binomeModel')
 const Thesis = require('../models/thesisModel')
-
+//-------------------- controllers : ---------------------
 exports.nominateToThesis = async (req, res) => {
   const thesisId = req.body.thesisId
   // Find the student by ID
@@ -34,7 +34,8 @@ exports.nominateToThesis = async (req, res) => {
     thesisNumber: binome.selectedThesis.length,
   })
 }
-//------------------------------
+//--------------------- :
+
 exports.getAllTheses = async (req, res) => {
   const theses = await Thesis.find()
   res.status(200).json({

@@ -16,4 +16,8 @@ router
   .get(professorController.getThesis)
   .patch(professorController.updateThesis)
   .delete(professorController.deleteThesis)
+router
+  .route('/thesis-validation')
+  .get(professorController.getCandidacyApp)
+  .post(professorController.validateCandidacy)
 module.exports = router
