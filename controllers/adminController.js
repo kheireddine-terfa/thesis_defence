@@ -6,6 +6,7 @@ const Premise = require('../models/premiseModel')
 const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
 const jwt = require('jsonwebtoken')
+const Session = require('../models/sessionModel')
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -122,17 +123,6 @@ exports.addAnnounce = async (req, res) => {
     status: 'success',
     data: {
       announce,
-    },
-  })
-}
-//----------------------:
-
-exports.getAllAnnounces = async (req, res) => {
-  const announces = await Announce.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      announces,
     },
   })
 }
@@ -411,6 +401,63 @@ exports.updateStudent = async (req, res) => {
     status: 'success',
     data: {
       updatedStudent,
+    },
+  })
+}
+//-----------------:
+exports.addSession = async (req, res) => {
+  const session = await Session.create(req.body)
+  res.status(201).json({
+    status: 'success',
+    data: {
+      session,
+    },
+  })
+}
+//-----------------:
+exports.getAllSession = async (req, res) => {
+  const sessions = await Session.find()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      sessions,
+    },
+  })
+}
+//-----------------:
+exports.getSession = async (req, res) => {
+  const sessionId = req.params.id
+  const session = await Session.findById(sessionId)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      session,
+    },
+  })
+}
+//-----------------:
+exports.updateSession = async (req, res) => {
+  const sessionId = req.params.id
+  const updatedSession = await Session.findByIdAndUpdate(sessionId, req.body, {
+    new: true,
+    runValidators: true,
+  })
+  await updatedSession.save()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedSession,
+    },
+  })
+}
+//-----------------:
+exports.deleteSession = async (req, res) => {
+  const sessionId = req.params.id
+  const deletedSession = await Session.findByIdAndDelete(sessionId)
+  res.status(204).json({
+    status: 'success',
+    data: {
+      deletedSession,
     },
   })
 }

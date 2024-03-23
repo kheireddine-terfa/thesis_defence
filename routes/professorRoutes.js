@@ -20,4 +20,6 @@ router
   .route('/thesis-validation')
   .get(professorController.getCandidacyApp)
   .post(professorController.validateCandidacy)
+//----------------- binome :
+router.route('/binome').get(professorController.getSupervisedBinomes)
 module.exports = router

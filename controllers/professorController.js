@@ -140,7 +140,7 @@ exports.getCandidacyApp = async (req, res) => {
 exports.validateCandidacy = async (req, res) => {
   //1- find the binome by id and update approvedthesis field to the current selected thesis:
   //2- delete all the Candidacy applications made by this binome
-
+  const professorId = req.user._id
   const { binomeId, thesisId } = req.body
   const updatedBinome = await Binome.findByIdAndUpdate(
     binomeId,
@@ -154,8 +154,27 @@ exports.validateCandidacy = async (req, res) => {
     { selectedThesis: thesisId },
     { $pull: { selectedThesis: thesisId } },
   )
+  //4 add this binome to supervisedBinomes array:
+  const updatedProfessor = await Professor.findByIdAndUpdate(
+    professorId,
+    { $push: { supervisedBinomes: binomeId } },
+    { new: true },
+  )
   res.status(200).json({
     status: 'success',
     updatedBinome,
+    updatedProfessor,
+  })
+}
+//----------------:
+exports.getSupervisedBinomes = async (req, res) => {
+  const professorId = req.user._id
+  const professor = await Professor.findById(professorId)
+  const supervisedBinomes = professor.supervisedBinomes
+  res.status(200).json({
+    status: 'success',
+    data: {
+      supervisedBinomes,
+    },
   })
 }

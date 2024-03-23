@@ -10,5 +10,4 @@ router.get('/thesis', binomeController.getAllTheses)
 // nominate to thesis :
 // router.route('/thesis-nominate').post(studentController.nominateToThesis)
 router.route('/thesis-nominate').post(binomeController.nominateToThesis)
-
 module.exports = router

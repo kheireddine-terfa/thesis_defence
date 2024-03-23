@@ -62,5 +62,5 @@ binomeSchema.pre(/^find/, function (next) {
   })
   next()
 })
-const Binome = mongoose.model('binome', binomeSchema)
+const Binome = mongoose.model('Binome', binomeSchema)
 module.exports = Binome

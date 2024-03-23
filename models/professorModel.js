@@ -20,10 +20,16 @@ const professorSchema = new mongoose.Schema({
       ref: 'Thesis',
     },
   ],
+  supervisedBinomes: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Binome',
+    },
+  ],
 })
 professorSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'fields theses',
+    path: 'fields theses supervisedBinomes',
   })
   next()
 })

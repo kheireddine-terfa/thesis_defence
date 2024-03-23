@@ -7,6 +7,7 @@ const adminRoutes = require('./routes/adminRoutes')
 const professorRoutes = require('./routes/professorRoutes')
 const studentRoutes = require('./routes/studentRoutes')
 const binomeRoutes = require('./routes/binomeRoutes')
+const viewRoutes = require('./routes/viewRoutes')
 
 // Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }))
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 //4) ROUTE
+app.use('/', viewRoutes)
 app.use('/admin', adminRoutes)
 app.use('/professor', professorRoutes)
 app.use('/student', studentRoutes)

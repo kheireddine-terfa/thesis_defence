@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authController = require('../controllers/authController')
 const adminController = require('../controllers/adminController')
+const viewsController = require('../controllers/viewsController')
 //-----------------------------authentication:
 
 router.post('/signup', authController.signup)
@@ -53,7 +54,7 @@ router
 router
   .route('/announce')
   .post(adminController.addAnnounce)
-  .get(adminController.getAllAnnounces)
+  .get(viewsController.getAllAnnounces)
 router
   .route('/announce/:id')
   .get(adminController.getAnnounce)
@@ -65,4 +66,14 @@ router
   .post(adminController.addPremise)
   .get(adminController.getAllPremises)
 router.route('/premise/:id').delete(adminController.deletePremise)
+//----------------------------- session :
+router
+  .route('/session')
+  .post(adminController.addSession)
+  .get(adminController.getAllSession)
+router
+  .route('/session/:id')
+  .get(adminController.getSession)
+  .patch(adminController.updateSession)
+  .delete(adminController.deleteSession)
 module.exports = router
