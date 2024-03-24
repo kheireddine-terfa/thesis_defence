@@ -1082,3 +1082,61 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 13px;
   color: #012970;
 }
+/* liste des thémes */
+
+.tableau-style {
+  border-collapse: collapse;
+  min-width: 400px;
+  width: auto;
+  box-shadow: 0 5px 50px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  margin: 100px auto;
+  border: 1px solid #ddd;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 20px;
+}
+
+thead tr {
+  background-color: #5aadf1;
+  color: #fff;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 15px 20px;
+}
+
+tbody tr,
+td,
+th {
+  border: 1px solid #ddd;
+}
+
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #5aadf1;
+}
+
+.main h2 {
+  text-align: center;
+  color: #3088de;
+  padding-top: 15px;
+}
+
+/* l'ajout des thémes */
+.main h1 {
+  text-align: center;
+  color: #5aadf1;
+}
+
+.formAjout {
+ 
+  margin: 40px;
+  margin-left: 80px;
+  margin-right: 80px;
+  border: solid 2px #5aadf1;
+  border-radius: 15px;
+  padding: 50px;
+}
