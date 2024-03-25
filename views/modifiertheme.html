@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Consultation soutenances</title>
+    <title>Modifier thémes</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -60,20 +60,18 @@
 
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link " href="consulterSoutenance.html">
+                <a class="nav-link collapsed" href="consulterSoutenance.html">
                     <span>Consultaion des soutenances</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="listeBinom.html">
                     <span>Liste des binômes à encadré</span>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link collapsed" href="listeTheme.html">
-                    <span>Thémes</span>
+                <a class="nav-link " href="listeTheme.html">
+                    <span>Théme</span>
                 </a>
             </li>
 
@@ -97,56 +95,76 @@
 
     <main id="main" class="main">
         <div class="pagetitle">
-      
+
             <nav>
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">consultation des soutenance</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="listeTheme.html">Thémes</a></li>
+                    <li class="breadcrumb-item active">Modifier thémes</li>
+                </ol>
             </nav>
-          </div>
+        </div>
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="card">
                         <div class="card-body">
-                            <h2>Mes soutenances</h2>
+                            <h5 class="card-title" style="color: #3088de;">Modifier thémes</h5>
+                            <form>
+                                <!-- <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Id</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div> -->
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Intitulé</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
 
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Date</th>
-                                        <th>Locale</th>
-                                        <th>Binôme</th>
-                                        <th>Intitulé</th>
-                                        <th>Domaine</th>
-                                        <th>Spécialité</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>12/06/2024</td>
-                                        <td>B8S11</td>
-                                        <td>Amroud Fares <br>
-                                            Aiche Youva</td>
-                                        <td>Planification des soutenances</td>
-                                        <td></td>
-                                        <td>GL</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="row mb-3">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" style="height: 100px"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Domaine</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option value=""></option>
+                                            <option value=""></option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Spécialité</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option value="GL">GL</option>
+                                            <option value="IA">IA</option>
+                                            <option value="ASR">ASR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-12" style="margin-left: 78%;">
+                                        <button
+                                            style="color: red;margin-top: 45px;border-color: red;background-color: white;margin-right: 10px;"
+                                            type="submit" class="btn btn-primary">Annuler</button>
+                                        <button
+                                            style="color:green;margin-top: 45px;border-color: green;background-color: #fff;"
+                                            type="submit" class="btn btn-primary">Modifier</button>
+                                    </div>
+                                </div>
+                                
+
+                            </form>
                         </div>
                     </div>
 
