@@ -27,12 +27,13 @@ exports.addThesis = async (req, res) => {
     { $push: { theses: thesis._id } },
     { new: true },
   )
-  res.status(201).json({
-    status: 'success',
-    data: {
-      thesis,
-    },
-  })
+  res.status(201).redirect('/professor/thesis')
+  // res.status(201).json({
+  //   status: 'success',
+  //   data: {
+  //     thesis,
+  //   },
+  // })
 }
 //----------------------:
 
@@ -53,10 +54,35 @@ exports.updateThesis = async (req, res) => {
 
 exports.deleteThesis = async (req, res) => {
   const thesisId = req.params.id
-  const updatedThesis = await Thesis.findByIdAndDelete(thesisId)
+  const thesis = await Thesis.findById(thesisId)
+  if (!thesis) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Thesis not found',
+    })
+  }
+
+  // Check if the thesis is approved in any binome
+  const binomesWithApprovedThesis = await Binome.find({
+    ApprovedThesis: thesisId,
+  })
+  if (binomesWithApprovedThesis.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'Cannot delete the thesis because it is approved for binome',
+    })
+  }
+  // Remove the thesis from the selectedThesis array of all binomes
+  await Binome.updateMany(
+    { selectedThesis: thesisId },
+    { $pull: { selectedThesis: thesisId } },
+  )
+  // Delete the thesis
+  await Thesis.findByIdAndDelete(thesisId)
+
   res.status(204).json({
     status: 'success',
-    message: 'thesis deleted successfully',
+    message: 'Thesis deleted successfully',
   })
 }
 //----------------------:
@@ -77,12 +103,10 @@ exports.getProsessorTheses = async (req, res) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
   const theses = professor.theses
-  res.status(200).json({
-    status: 'success',
-    data: {
-      theses,
-    },
-  })
+  // res.status(200).json({
+  //   theses,
+  // })
+  res.status(200).render('listeTheme', { layout: 'professorLayout', theses })
 }
 //----------------------:
 
@@ -171,10 +195,8 @@ exports.getSupervisedBinomes = async (req, res) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
   const supervisedBinomes = professor.supervisedBinomes
-  res.status(200).json({
-    status: 'success',
-    data: {
-      supervisedBinomes,
-    },
+  res.status(200).render('listeBinom', {
+    layout: 'professorLayout',
+    supervisedBinomes,
   })
 }

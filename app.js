@@ -8,7 +8,6 @@ const professorRoutes = require('./routes/professorRoutes')
 const studentRoutes = require('./routes/studentRoutes')
 const binomeRoutes = require('./routes/binomeRoutes')
 const viewRoutes = require('./routes/viewRoutes')
-
 // Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }))
 //---- body parser : reading data from body into req.body

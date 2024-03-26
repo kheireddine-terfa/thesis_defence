@@ -1,0 +1,127 @@
+<main id="main" class="main">
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #3088de;">
+              Ajouter thémes
+            </h5>
+            <form action="/professor/thesis" method="post">
+              <!-- <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">
+                  Code
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" />
+                </div>
+              </div> -->
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">
+                  Intitulé
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="title" />
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-2 col-form-label">
+                  Description
+                </label>
+                <div class="col-sm-10">
+                  <textarea
+                    class="form-control"
+                    style="height: 100px;"
+                    name="description"
+                  ></textarea>
+                </div>
+              </div>
+              <!-- <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">
+                  Mots Clés
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" />
+                </div>
+              </div> -->
+
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="specialty">
+                  Spécialité
+                </label>
+                <div class="col-sm-10">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="specialty"
+                    name="specialityId"
+                  >
+                    <% if (specialities.length > 0 ) { %> <%
+                    specialities.forEach(function(speciality){ %>
+                    <option value="<%= speciality._id %>">
+                      <%= speciality.title %>
+                    </option>
+                    <% }); %> <% } else { %>
+                    <div class="text-center text-danger">no entries found</div>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="field">
+                  Domaine
+                </label>
+                <div class="col-sm-10">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="field"
+                    name="fieldId"
+                  >
+                    <% if (fields.length > 0 ) { %> <%
+                    fields.forEach(function(field){ %>
+                    <option value="<%= field._id %>"><%= field.title %></option>
+                    <% }); %> <% } else { %>
+                    <div class="text-center text-danger">no entries found</div>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-lg-12" style="margin-left: 80%;">
+                  <button
+                    style="
+                      color: red;
+                      margin-top: 45px;
+                      border-color: red;
+                      background-color: white;
+                      margin-right: 10px;
+                    "
+                    type="reset"
+                    class="btn btn-primary"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    style="
+                      color: green;
+                      margin-top: 45px;
+                      border-color: green;
+                      background-color: #fff;
+                    "
+                    type="submit"
+                    class="btn btn-primary"
+                  >
+                    Ajouter
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

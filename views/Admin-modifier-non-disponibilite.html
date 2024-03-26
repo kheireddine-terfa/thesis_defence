@@ -1,98 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Dashboard - Admin</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-  <title>Dashboard - Admin</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="../public/assets/img/favicon.png" rel="icon" />
+    <link
+      href="../public/assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link
+      href="../public/assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/remixicon/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/quill/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/quill/quill.bubble.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../public/assets/vendor/simple-datatables/style.css"
+      rel="stylesheet"
+    />
+    <link
+      href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css "
+      rel="stylesheet"
+    />
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css " rel="stylesheet">
-  
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-  
-  <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js "></script>
-  <!-- =======================================================
+    <!-- Template Main CSS File -->
+    <link href="../public/assets/css/style.css" rel="stylesheet" />
+
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js "></script>
+    <!-- =======================================================
   * Template Name: NiceAdmin - v2.1.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-</head>
+  </head>
 
-<body>
+  <body>
+    <div id="admin-nav-bar">
+      <!-- ======= Header ======= -->
+      <header id="header" class="header fixed-top d-flex align-items-center">
+        <div
+          class="d-flex align-items-center justify-content-between"
+          style="width: 100%;"
+        >
+          <i class="bi bi-list toggle-sidebar-btn"></i>
+          <a href="Admin-accueil.html" class="logo d-flex align-items-center">
+            <svg height="56" viewBox="0 0 56 56" width="56">
+              <path
+                d="m27.9999 51.9062c13.0547 0 23.9064-10.8515 23.9064-23.9062 0-13.0781-10.8751-23.9062-23.9298-23.9062-13.0782 0-23.8828 10.8281-23.8828 23.9062 0 13.0547 10.8281 23.9062 23.9062 23.9062zm0-25.2187c-3.2578-.0235-5.8359-2.7422-5.8359-6.375 0-3.3985 2.5781-6.2344 5.8359-6.2344 3.2344 0 5.8125 2.8359 5.8125 6.2344 0 3.6328-2.5781 6.4219-5.8125 6.375zm-10.3828 13.0547c-.9141 0-1.3594-.6094-1.3594-1.4297 0-2.5078 3.7735-8.9531 11.7422-8.9531 7.9688 0 11.7188 6.4453 11.7188 8.9531 0 .8203-.4454 1.4297-1.336 1.4297z"
+              />
+            </svg>
+            <span class="d-none d-lg-block">Administrateur</span>
+          </a>
+        </div>
+        <!-- End Logo -->
+      </header>
 
-  <div id="admin-nav-bar"></div>
-  <script>
+      <!-- ======= Sidebar ======= -->
+      <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Annonces-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Annonces</span>
+              <!--
+            dans la page annonces il y aura une liste des annonces et pour chaque annonce on associe deux (2) bouttons (delete/modify)
+            et dans un coin il y aura un bouton pour ajouter une annonce
+          -->
+            </a>
+          </li>
+          <!-- End Étudiants Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#planningS-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Planning</span>
+              <!--
+            dans la page Planning il y aura un tableau du planning déjà généré(s'il existe bien-sur),
+            et un boutton qui offre la possibilité de générer a new planning
+          -->
+            </a>
+          </li>
+          <!-- End plannigS Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Session-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Sessions</span>
+              <!--
+            dans la page Sessions il y aura les informations des session déja créées, 
+            et un bouton qui offre la possibilité de créer a new session
+          -->
+            </a>
+          </li>
+          <!-- End Session Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Créneaux-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Créneaux</span>
+              <!--
+            dans la page Créneaux il y aura un tableau qui liste tout les créneau générés
+            pour chaque créneau on associe deux (2) bouttons (delete/modify)
+            + UN BOUTON DE REPORT DE SESSION
+          -->
+            </a>
+          </li>
+          <!-- End Créneaux Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#éxaminateurs-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Gestion des éxaminateurs</span>
+              <!--
+            dans cette il y aura un tableau qui représente les deux examinateurs de chaque thème (s'il est généré)
+            + un bouton de création d'une nouvelle répartition 
+            (si le planning est créé on peut pas créer une nouvelle repartion)             
+          -->
+            </a>
+          </li>
+          <!-- End éxaminateurs Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Domaines-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Domaines</span>
+            </a>
+          </li>
+          <!-- End Domaine Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Spécialités-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Spécialités</span>
+            </a>
+          </li>
+          <!-- End Spécialités Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Locaux-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Locaux</span>
+            </a>
+          </li>
+          <!-- End Local Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Étudiants-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Étudiants</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul
+              id="Étudiants-nav"
+              class="nav-content collapse"
+              data-bs-parent="#sidebar-nav"
+            >
+              <li>
+                <a href="Admin-liste-etudiant.html">
+                  <i class="bi bi-circle"></i>
+                  <span>Liste des étudiants</span>
+                  <!--
+                liste des etudiants + bouttons (add/modify/delete) 
+              -->
+                </a>
+              </li>
+              <li>
+                <a href="Admin-liste-binome.html">
+                  <i class="bi bi-circle"></i>
+                  <span>Binômes</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- End Étudiants Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Enseignants-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Enseignants</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul
+              id="Enseignants-nav"
+              class="nav-content collapse"
+              data-bs-parent="#sidebar-nav"
+            >
+              <li>
+                <a href="Admin-liste-enseignant.html">
+                  <i class="bi bi-circle"></i>
+                  <span>Liste des enseignants</span>
+                  <!--
+                liste des enseignants + bouttons (add/modify/delete) 
+              -->
+                </a>
+              </li>
+              <li>
+                <a href="Admin-non-disponibilite.html">
+                  <i class="bi bi-circle"></i>
+                  <span>Non-disponibilités</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- End Enseignants Nav -->
+
+          <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              data-bs-target="#Themes-nav"
+              data-bs-toggle="collapse"
+              href="#"
+            >
+              <span>Thèmes</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul
+              id="Themes-nav"
+              class="nav-content collapse"
+              data-bs-parent="#sidebar-nav"
+            >
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i>
+                  <span>Thèmes proposés</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i>
+                  <span>Thèmes affectés</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- End theme Nav -->
+
+          <li class="nav-heading">Personnel</li>
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="users-profile.html">
+              <i class="bi bi-person"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <!-- End Profile Page Nav -->
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-login.html">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+          <!-- End Login Page Nav -->
+        </ul>
+      </aside>
+      <!-- End Sidebar-->
+    </div>
+    <!-- <script>
     fetch('Admin-nav-bar.html')
               .then(response => response.text())
               .then(data => {
                   document.getElementById('admin-nav-bar').innerHTML = data;
               });
-  </script>
+  </script> -->
 
-  <main id="main" class="main">
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>Enseignants</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="Admin-accueil.html">Accueil</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="Admin-non-disponibilite.html">Non-Disponibilité</a>
+            </li>
+            <li class="breadcrumb-item active">Modifier</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
 
-    <div class="pagetitle">
-      <h1>Enseignants</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="Admin-accueil.html">Accueil</a></li>
-          <li class="breadcrumb-item"><a href="Admin-non-disponibilite.html">Non-Disponibilité</a></li>
-          <li class="breadcrumb-item active">Modifier</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+      <section class="section dashboard">
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="mb-5 mt-4">
+                Modifier une période de non-disponibilité pour un enseignant
+              </h2>
 
-    <section class="section dashboard">
-      <div class="row">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="mb-5 mt-4">Modifier une période de non-disponibilité pour un enseignant</h2>
-
-            <!-- No Labels Form -->
-            <form class="row g-3" action="/admin/student" method="POST" class="needs-validation" novalidate>
-              
-              <div class="row col-md-12">
-                <div class="col-md-6">
-                  <label for="dateDeb"><em>Date de Debut :</em></label>
-                  <input type="date" class="form-control" id="dateDeb" name="dateDeb" placeholder="Prenom" required>
-                  <div class="invalid-feedback">
-                    Veuillez fournir la date de Debut de la période.
+              <!-- No Labels Form -->
+              <form
+                class="row g-3"
+                action="/admin/student"
+                method="POST"
+                class="needs-validation"
+                novalidate
+              >
+                <div class="row col-md-12">
+                  <div class="col-md-6">
+                    <label for="dateDeb"><em>Date de Debut :</em></label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateDeb"
+                      name="dateDeb"
+                      placeholder="Prenom"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Veuillez fournir la date de Debut de la période.
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="dateFin"><em>Date de Fin :</em></label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateFin"
+                      name="dateFin"
+                      placeholder="Prenom"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Veuillez fournir la date de fin de la période.
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="dateFin"><em>Date de Fin :</em></label>
-                  <input type="date" class="form-control" id="dateFin" name="dateFin" placeholder="Prenom" required>
-                  <div class="invalid-feedback">
-                    Veuillez fournir la date de fin de la période.
-                  </div>
-                </div>
-              </div>
-            
-              <div class="row col-md-12 p-4">
+
+                <div class="row col-md-12 p-4">
                   <label for="prof"><em>Enseignant :</em></label>
-                  <select class="form-select form-control" aria-label="Default select example" id="prof">
-                    <option selected>Ouvrir pour selectionner un Enseignant</option>
+                  <select
+                    class="form-select form-control"
+                    aria-label="Default select example"
+                    id="prof"
+                  >
+                    <option selected>
+                      Ouvrir pour selectionner un Enseignant
+                    </option>
                     <option value="001">ACHROUFANE Achour</option>
                     <option value="002">ELBOUHISSI Houda</option>
                     <option value="003">MIR Foudhil</option>
@@ -101,43 +420,39 @@
                   <div class="invalid-feedback">
                     Veuillez choisir un enseignant.
                   </div>
-                
-              </div>
-              
-              
+                </div>
 
-              
-              
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
-              </div>
-              
-            </form><!-- End No Labels Form --> 
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form>
+              <!-- End No Labels Form -->
+            </div>
           </div>
-        </div>      
-      </div>
-    </section>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
 
-  </main><!-- End #main -->
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    >
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
 
- 
+    <!-- Vendor JS Files -->
+    <script src="../public/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="../public/assets/vendor/php-email-form/validate.js"></script>
+    <script src="../public/assets/vendor/quill/quill.min.js"></script>
+    <script src="../public/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../public/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../public/assets/vendor/chart.js/chart.min.js"></script>
+    <script src="../public/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../public/assets/vendor/echarts/echarts.min.js"></script>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-</body>
-
+    <!-- Template Main JS File -->
+    <script src="../public/assets/js/main.js"></script>
+  </body>
 </html>
