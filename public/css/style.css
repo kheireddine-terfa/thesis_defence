@@ -1,0 +1,22 @@
+.popup {
+  width: 40%;
+  top: 100px;
+  left: 40%;
+  position: absolute;
+  z-index: 111;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  padding: 10px;
+  transition: all 0.4s ease;
+  background: gainsboro;
+}
+.popup i {
+  color: red;
+  font-size: 24px;
+  padding: 3px 15px;
+  background-color: white;
+  border-radius: 7px;
+}

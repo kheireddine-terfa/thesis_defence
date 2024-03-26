@@ -1,0 +1,60 @@
+<main id="main" class="main">
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4"></div>
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body pt-3">
+            <h2 style="margin-top: 5%; margin-bottom: 10%;">Profile</h2>
+            <div class="tab-content pt-2">
+              <div
+                class="tab-pane fade show active profile-overview"
+                id="profile-overview"
+              >
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    Nom
+                  </div>
+                  <div class="col-lg-9 col-md-8"><%= user.lastName %></div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    Prénom
+                  </div>
+                  <div class="col-lg-9 col-md-8"><%= user.firstName %></div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    Grade
+                  </div>
+                  <div class="col-lg-9 col-md-8"><%= user.grade %></div>
+                </div>
+
+                <!-- <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    N° Téléphone
+                  </div>
+                  <div class="col-lg-9 col-md-8">0000000000</div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    Email
+                  </div>
+                  <div class="col-lg-9 col-md-8">
+                    <%= user.email %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Bordered Tabs -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
