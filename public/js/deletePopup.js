@@ -30,6 +30,10 @@ const thesisId = deleteThesisBtns.forEach(function (btn) {
             const errMsj = document.getElementById('dlt-error')
             errMsj.style.display = 'block'
             console.error('Failed to delete thesis')
+            // Hide error message after 3 seconds
+            setTimeout(function () {
+              errMsj.style.display = 'none'
+            }, 2000)
           }
         })
         .catch((error) => {
