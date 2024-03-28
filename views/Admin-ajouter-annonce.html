@@ -51,11 +51,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Etudiant</h1>
+      <h1>Annonce</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="Admin-accueil.html">Accueil</a></li>
-          <li class="breadcrumb-item"><a href="Admin-liste-etudiant.html">Etudiants</a></li>
+          <li class="breadcrumb-item"><a href="Admin-liste-annonce.html">Annonces</a></li>
           <li class="breadcrumb-item active">Ajouter</li>
         </ol>
       </nav>
@@ -65,57 +65,33 @@
       <div class="row">
         <div class="card">
           <div class="card-body">
-            <h2 class="mb-4 mt-4">Ajouter un nouvel étudiant</h2>
+            <h2 class="mb-4 mt-4">Ajouter une annonce</h2>
 
             <!-- No Labels Form -->
             <form class="row g-3" action="/admin/student" method="POST" class="needs-validation" novalidate>
               <div class="col-md-12">
-                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prenom" required>
+                <label for="title"><em>Titre :</em></label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="e.g : Affichage des délais " required>
                 <div class="invalid-feedback">
-                  Veuillez fournir un prénom.
-              </div>
-              </div>
-              <div class="col-md-12">
-                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Nom" required>
-                <div class="invalid-feedback">
-                  Veuillez fournir un nom.
-              </div>
-              </div>
-              <div class="col-md-6">
-                <input type="email" class="form-control" id="email" name="email"  placeholder="Email"required>
-                <div class="invalid-feedback">
-                  Veuillez fournir une adresse email valide.
-              </div>
-              </div>
-              <div class="col-md-6">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                <div class="invalid-feedback">
-                  Le mot de passe doit contenir au moins 8 caractères.
-              </div>
-              </div>
-
-              <div class="col-md-6">
-                <input type="text" class="form-control" id="matricule" name="matricule" placeholder="Matricule">
-                <div class="invalid-feedback">
-                  Veuillez fournir un matricule.
+                  Veuillez fournir un titre pour l'annonce.
                 </div>
               </div>
+              <div class="col-md-12" style="height: 250px !important;">
+                <label for="content"><em>Contenu :</em></label>
+                <textarea class="tinymce-editor form-control" id="content">
+                    <p>Hello World!</p>
+                    <p>This is TinyMCE <strong>full</strong> editor</p>
+                </textarea><!-- End TinyMCE Editor -->
+    
+              </div>
+              
 
-                <div class="col-md-6">
-                  <div>
-                    <select class="form-select form-control" aria-label="Default select example">
-                      <option selected>Ouvrir pour selectionner une spécialité</option>
-                      <option value="GL">GL</option>
-                      <option value="SIA">SIA</option>
-                      <option value="IA">IA</option>
-                      <option value="RS">RS</option>
-                    </select>
-                  </div>
-                </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
               </div>
+
+
             </form><!-- End No Labels Form -->
           </div>
         </div>       

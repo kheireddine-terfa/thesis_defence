@@ -16,10 +16,17 @@
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a   href="Admin-accueil.html" class="nav-link collapsed">
+          <span><i class="bi bi-house-fill"></i>Accueil</span>
+        </a>
+        
+      </li><!-- End Étudiants Nav -->
+
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Annonces-nav" data-bs-toggle="collapse" href="#">
-          <span>Annonces</span>
+        <a   href="Admin-liste-annonce.html" class="nav-link collapsed">
+          <span><i class="bi bi-megaphone-fill"></i>Annonces</span>
           <!--
             dans la page annonces il y aura une liste des annonces et pour chaque annonce on associe deux (2) bouttons (delete/modify)
             et dans un coin il y aura un bouton pour ajouter une annonce
@@ -29,8 +36,8 @@
       </li><!-- End Étudiants Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#planningS-nav" data-bs-toggle="collapse" href="#">
-          <span>Planning</span>
+        <a   href="Admin-planning.html" class="nav-link collapsed">
+          <span><i class="bi bi-grid-3x3-gap-fill"></i>Planning</span>
           <!--
             dans la page Planning il y aura un tableau du planning déjà généré(s'il existe bien-sur),
             et un boutton qui offre la possibilité de générer a new planning
@@ -40,8 +47,8 @@
       </li><!-- End plannigS Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Session-nav" data-bs-toggle="collapse" href="#">
-          <span>Sessions</span>
+        <a   href="Admin-liste-session.html" class="nav-link collapsed">
+          <span><i class="bi bi-calendar-range-fill"></i>Sessions</span>
           <!--
             dans la page Sessions il y aura les informations des session déja créées, 
             et un bouton qui offre la possibilité de créer a new session
@@ -52,8 +59,8 @@
 
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Créneaux-nav" data-bs-toggle="collapse" href="#">
-          <span>Créneaux</span>
+        <a   href="Admin-liste-local.html" class="nav-link collapsed">
+          <span><i class="bi bi-calendar2-check-fill"></i>Créneaux</span>
           <!--
             dans la page Créneaux il y aura un tableau qui liste tout les créneau générés
             pour chaque créneau on associe deux (2) bouttons (delete/modify)
@@ -64,8 +71,8 @@
       </li><!-- End Créneaux Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#éxaminateurs-nav" data-bs-toggle="collapse" href="#">
-          <span>Gestion des éxaminateurs</span>
+        <a   href="Admin-liste-local.html" class="nav-link collapsed">
+          <span><i class="bi bi-bookmark-check-fill"></i>Jurys</span>
           <!--
             dans cette il y aura un tableau qui représente les deux examinateurs de chaque thème (s'il est généré)
             + un bouton de création d'une nouvelle répartition 
@@ -76,22 +83,22 @@
       </li><!-- End éxaminateurs Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Domaines-nav" data-bs-toggle="collapse" href="#">
-          <span>Domaines</span>
+        <a   href="Admin-liste-domaine.html" class="nav-link collapsed">
+          <span><i class="bi bi-patch-check-fill"></i>Domaines</span>
         </a>
         
       </li><!-- End Domaine Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Spécialités-nav" data-bs-toggle="collapse" href="#">
-          <span>Spécialités</span>
+        <a   href="Admin-liste-specialite.html" class="nav-link collapsed">
+          <span><i class="bi bi-book-fill"></i>Spécialités</span>
         </a>
         
       </li><!-- End Spécialités Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Locaux-nav" data-bs-toggle="collapse" href="#">
-          <span>Locaux</span>
+        <a   href="Admin-liste-local.html" class="nav-link collapsed">
+          <span><i class="bi bi-geo-alt-fill"></i>Locaux</span>
         </a>
         
       </li><!-- End Local Nav -->
@@ -100,7 +107,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Étudiants-nav" data-bs-toggle="collapse" href="#">
-          <span>Étudiants</span><i class="bi bi-chevron-down ms-auto"></i>
+          <span><i class="bi bi-people-fill"></i>Étudiants</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="Étudiants-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -121,7 +128,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Enseignants-nav" data-bs-toggle="collapse" href="#">
-          <span>Enseignants</span><i class="bi bi-chevron-down ms-auto"></i>
+          <span><i class="bi bi-briefcase-fill"></i>Enseignants</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="Enseignants-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -142,17 +149,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Themes-nav" data-bs-toggle="collapse" href="#">
-          <span>Thèmes</span><i class="bi bi-chevron-down ms-auto"></i>
+          <span><i class="bi bi-lightbulb-fill"></i>Thèmes</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="Themes-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="Admin-liste-theme-proposes.html">
               <i class="bi bi-circle"></i><span>Thèmes proposés</span>
               
             </a>
           </li>
           <li>  
-            <a href="#">
+            <a href="Admin-liste-theme-affectes.html">
               <i class="bi bi-circle"></i><span>Thèmes affectés</span>
             </a>
           </li>
