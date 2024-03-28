@@ -26,7 +26,7 @@
                   <td><%= thesis.speciality.title %></td>
                   <td><%= thesis.field.title %></td>
                   <td>
-                    <i style="cursor: pointer; color: gray;" class="bi bi-pencil-square"></i>
+                    <a href="/professor/update-thesis/<%= thesis._id %>"><i style="cursor: pointer; color: gray;" class="bi bi-pencil-square"></i></a>
                     <i style="cursor: pointer; color: red; margin-left: 3px;" class="bi bi-trash delete-thesis" data-thesis-id="<%= thesis._id %>" id="delete-thesis-<%= thesis._id %>"></i>
                   </td>
                 </tr>
@@ -42,7 +42,7 @@
                   Ajouter un théme
                 </a>
               </button>
-              <button class="btn btn-primary">Affecter thémes</button>
+             <a href="/professor/thesis-validation" class="btn btn-primary">Affecter thémes</a>
             </div>
           </div>
         </div>

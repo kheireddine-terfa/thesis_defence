@@ -1,8 +1,8 @@
 const Announce = require('../models/announceModel')
 const Premise = require('../models/premiseModel')
-const axios = require('axios')
 const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
+const Thesis = require('../models/thesisModel')
 
 //--------------------- controllers : ------------------
 exports.getAllAnnounces = async (req, res) => {
@@ -26,7 +26,7 @@ exports.getPremise = async (req, res) => {
 }
 //--------------:
 exports.getIndexPageProfessor = (req, res) => {
-  res.status(200).render('index', {
+  res.status(200).render('Enseignant-index', {
     layout: 'professorLayout',
   })
 }
@@ -40,16 +40,28 @@ exports.getProfessorLoginForm = (req, res) => {
 exports.getAddThesisForm = async (req, res) => {
   const specialities = await Speciality.find()
   const fields = await Field.find()
-  res.status(200).render('ajoutertheme', {
+  res.status(200).render('Enseignant-ajoutertheme', {
     layout: 'professorLayout',
     specialities,
     fields,
   })
 }
 //----------------:
+exports.getUpdateThesisForm = async (req, res) => {
+  const specialities = await Speciality.find()
+  const fields = await Field.find()
+  const thesis = await Thesis.findById(req.params.id)
+  res.render('Enseignant-modifiertheme', {
+    layout: 'professorLayout',
+    specialities,
+    fields,
+    thesis,
+  })
+}
+//----------------:
 exports.getProfessorInfos = async (req, res) => {
   const user = req.user
-  res.status(200).render('users-profile', {
+  res.status(200).render('Enseignant-users-profile', {
     layout: 'professorLayout',
     user,
   })

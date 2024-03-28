@@ -10,6 +10,10 @@ router.route('/professor').get(viwesController.getIndexPageProfessor)
 router.route('/professor/login').get(viwesController.getProfessorLoginForm)
 router.route('/professor/add-thesis').get(viwesController.getAddThesisForm)
 router
+  .route('/professor/update-thesis/:id')
+  .get(viwesController.getUpdateThesisForm)
+
+router
   .route('/professor/profile')
   .get(authController.protect, viwesController.getProfessorInfos)
 
