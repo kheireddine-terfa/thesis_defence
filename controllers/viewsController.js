@@ -3,6 +3,7 @@ const Premise = require('../models/premiseModel')
 const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
 const Thesis = require('../models/thesisModel')
+const Binome = require('../models/binomeModel')
 
 //--------------------- controllers : ------------------
 exports.getAllAnnounces = async (req, res) => {
@@ -24,7 +25,7 @@ exports.getPremise = async (req, res) => {
     premise,
   })
 }
-//--------------:
+//--------------: professor
 exports.getIndexPageProfessor = (req, res) => {
   res.status(200).render('Enseignant-index', {
     layout: 'professorLayout',
@@ -64,5 +65,37 @@ exports.getProfessorInfos = async (req, res) => {
   res.status(200).render('Enseignant-users-profile', {
     layout: 'professorLayout',
     user,
+  })
+}
+//---------------: binome
+exports.getIndexPageBinome = (req, res) => {
+  res.status(200).render('Etudiant-index', {
+    layout: 'binomeLayout',
+  })
+}
+//----------------
+exports.getBinomeLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    layout: false,
+  })
+}
+//----------------:
+exports.getBinomeInfos = async (req, res) => {
+  const user = req.user
+  // console.log(user)
+  res.status(200).render('Etudiant-users-profile', {
+    layout: 'binomeLayout',
+    user,
+  })
+}
+//---------------- :
+exports.getSelectedTheses = async (req, res) => {
+  const binome = await Binome.findById(req.user._id)
+  const selectedTheses = binome.selectedThesis
+  const approvedThesis = binome.ApprovedThesis
+  res.status(200).render('Etudiant-pages-selected-theses', {
+    layout: 'binomeLayout',
+    selectedTheses,
+    approvedThesis,
   })
 }

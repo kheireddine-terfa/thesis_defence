@@ -20,3 +20,9 @@
   background-color: white;
   border-radius: 7px;
 }
+#selected-t {
+  display: none;
+}
+.selected {
+  background-color: rgb(87, 193, 87);
+}

@@ -1,0 +1,40 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Liste Des Thémes</h1>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table datatable">
+            <p class="text-center mt-1 " id="selected-t">you've selected <span id="selected-counter" style="color: red;"></span></p>
+            <thead>
+              <tr class="header-row">
+                <th scope="col"></th>
+                <th scope="col">Intitulé</th>
+                <th scope="col">Description</th>
+                <th scope="col">spécialité</th>
+                <th scope="col">Domaine</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (theses.length > 0 ) { %> <% theses.forEach(function(thesis , index){ %>
+                <tr class="<%= isSelectedArray[index] ? 'selected' : '' %>">
+                  <td><input type="checkbox" class="nominate-btn" style="cursor: pointer;" data-thesis-id="<%= thesis._id %>" <%= isSelectedArray[index] ? 'checked' : '' %> /></td>
+                  <td><%= thesis.title %></td>
+                  <td><%= thesis.description %></td>
+                  <td><%= thesis.speciality.title %></td>
+                  <td><%= thesis.field.title %></td>
+                    </tr> 
+              <% }); %> <% } else { %>
+                <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
