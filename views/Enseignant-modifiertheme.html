@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Ajouter thémes</title>
+    <title>Modifier thémes</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -51,7 +51,7 @@
                 <span class="d-none d-lg-block">Nom</span>&nbsp;
                 <span class="d-none d-lg-block">Prenom</span>
             </a>
-           
+
         </div>
     </header><!-- End Header -->
 
@@ -60,25 +60,31 @@
 
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link collapsed" href="consulterSoutenance.html">
-                    <span>Consultaion des soutenances</span>
+                <a class="nav-link collapsed " href="Enseignant-consulterSoutenance.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-mortarboard" viewBox="0 0 16 16">
+                        <path
+                            d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z" />
+                        <path
+                            d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z" />
+                    </svg> &nbsp;&nbsp;&nbsp;
+                    <span> Mes soutenances</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="listeBinom.html">
-                    <span>Liste des binômes à encadré</span>
+                <a class="nav-link collapsed " href="Enseignant-listeBinom.html">
+                    <i class="bi bi-people"></i>
+                    <span>La liste des binômes</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="listeTheme.html">
-                    <span>Théme</span>
+                <a class="nav-link " href="Enseignant-listeTheme.html">
+                    <i class="bi bi-lightbulb"></i>
+                    <span>Thémes</span>
                 </a>
             </li>
-           
-            <!-- <li class="nav-heading">Pages</li> -->
-
             <li class="nav-item">
-                <a class="nav-link collapsed" href="users-profile.html">
+                <a class="nav-link collapsed" href="Enseignant-profile.html">
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
@@ -98,9 +104,9 @@
 
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="listeTheme.html">Thémes</a></li>
-                    <li class="breadcrumb-item active">Ajouter thémes</li>
+                    <li class="breadcrumb-item"><a href="Enseignant-Accueil.html">Accueil</a></li>
+                    <li class="breadcrumb-item active"><a href="Enseignant-listeTheme.html">Thémes</a></li>
+                    <li class="breadcrumb-item active">Modifier thémes</li>
                 </ol>
             </nav>
         </div>
@@ -110,14 +116,8 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" style="color: #3088de;">Ajouter thémes</h5>
+                            <h2  style="color: #3088de;">Modifier thémes</h2>
                             <form>
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Id</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
                                 <div class="row mb-3">
                                     <label for="inputText" class="col-sm-2 col-form-label">Intitulé</label>
                                     <div class="col-sm-10">
@@ -153,15 +153,16 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-lg-12" style="margin-left: 80%;">
+                                    <div class="col-lg-12" style="margin-left: 78%;">
                                         <button
                                             style="color: red;margin-top: 45px;border-color: red;background-color: white;margin-right: 10px;"
                                             type="submit" class="btn btn-primary">Annuler</button>
                                         <button
                                             style="color:green;margin-top: 45px;border-color: green;background-color: #fff;"
-                                            type="submit" class="btn btn-primary">Ajouter</button>
+                                            type="submit" class="btn btn-primary">Modifier</button>
                                     </div>
                                 </div>
+
 
                             </form>
                         </div>
@@ -174,6 +175,19 @@
 
 
     </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright . All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+    </div>
+  </footer><!-- End Footer -->
 
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
