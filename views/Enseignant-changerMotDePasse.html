@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Modifier thémes</title>
+    <title>Profile</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -46,18 +46,17 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <i class="bi bi-list toggle-sidebar-btn" style="position: relative;"></i>
-            <a href="#" class="logo d-flex align-items-center" style="position: absolute;left: 80%;">
+            <a href="index.html" class="logo d-flex align-items-center" style="position: absolute;left: 80%;">
                 <img src="assets/img/usericone.jpg" alt="">
                 <span class="d-none d-lg-block">Nom</span>&nbsp;
                 <span class="d-none d-lg-block">Prenom</span>
             </a>
 
         </div>
-    </header><!-- End Header -->
+    </header>
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
                 <a class="nav-link collapsed " href="Enseignant-consulterSoutenance.html">
@@ -78,19 +77,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="Enseignant-listeTheme.html">
+                <a class="nav-link collapsed " href="Enseignant-listeTheme.html">
                     <i class="bi bi-lightbulb"></i>
                     <span>Thémes</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="Enseignant-profile.html">
+                <a class="nav-link collapsed " href="Enseignant-profile.html">
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed " href="Enseignant-changerMotDePasse.html">
+                <a class="nav-link " href="Enseignant-changerMotDePasse.html">
                     <i class="bi bi-lock"></i>
                     <span>Changer le mot de passe</span>
                 </a>
@@ -102,7 +101,6 @@
                 </a>
             </li>
         </ul>
-
     </aside>
 
     <main id="main" class="main">
@@ -111,90 +109,66 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="Enseignant-Accueil.html">Accueil</a></li>
-                    <li class="breadcrumb-item active"><a href="Enseignant-listeTheme.html">Thémes</a></li>
-                    <li class="breadcrumb-item active">Modifier thémes</li>
+                    <li class="breadcrumb-item active">Changer le mot de passe</li>
                 </ol>
             </nav>
         </div>
-        <section class="section">
+        <section class="section profile">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-12">
 
                     <div class="card">
                         <div class="card-body">
-                            <h2  style="color: #3088de;">Modifier thémes</h2>
+                            <h2 style="color: #3088de;margin-bottom: 70px;">Changer le mot de passe</h2>
                             <form>
                                 <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Intitulé</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Mot de passe actuel</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control">
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Nouveau mot de passe</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Confirmer le nouveau mot de
+                                        passe</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" style="height: 100px"></textarea>
+                                        <input type="password" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Domaine</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option value=""></option>
-                                            <option value=""></option>
-                                            <option value=""></option>
-                                        </select>
+                                    <div class="col-lg-12" style="margin-left: 76%;">
+                                        <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
                                     </div>
                                 </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Spécialité</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option value="GL">GL</option>
-                                            <option value="IA">IA</option>
-                                            <option value="ASR">ASR</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-12" style="margin-left: 78%;">
-                                        <button
-                                            style="color: red;margin-top: 45px;border-color: red;background-color: white;margin-right: 10px;"
-                                            type="submit" class="btn btn-primary">Annuler</button>
-                                        <button
-                                            style="color:green;margin-top: 45px;border-color: green;background-color: #fff;"
-                                            type="submit" class="btn btn-primary">Modifier</button>
-                                    </div>
-                                </div>
-
 
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-
-
     </main><!-- End #main -->
-    <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright . All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
-    </div>
-  </footer><!-- End Footer -->
 
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright . All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+            <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+        </div>
+    </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
