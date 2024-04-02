@@ -6,7 +6,6 @@ const viewsController = require('../controllers/viewsController')
 //-----------------------------authentication:
 
 router.post('/signup', authController.signup)
-router.post('/login', authController.login)
 router.get('/logout', authController.logout)
 //-----------------------------speciality:
 router.use(authController.protect)
@@ -34,7 +33,11 @@ router
   .delete(adminController.deleteStudent)
   .patch(adminController.updateStudent)
 //-----------------------------professor:
-router.route('/professor').get(adminController.getAllProfessors)
+router
+  .route('/professor')
+  .get(adminController.getAllProfessors)
+  .post(adminController.addAndSignUpProfessor)
+
 router
   .route('/professor/:id')
   .get(adminController.getProfessor)
@@ -51,10 +54,7 @@ router
   .patch(adminController.updateBinome)
   .delete(adminController.deleteBinome)
 //-----------------------------announce:
-router
-  .route('/announce')
-  .post(adminController.addAnnounce)
-  .get(viewsController.getAllAnnounces)
+router.route('/announce').post(adminController.addAnnounce)
 router
   .route('/announce/:id')
   .get(adminController.getAnnounce)

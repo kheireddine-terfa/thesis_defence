@@ -1,0 +1,174 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Home</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">
+          <a href="Admin-accueil.html">Accueil</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="row"><h2 class="mb-4">Dashbord</h2></div>
+      <div class="row">
+        <div class="col-md-4">
+          <a href="Admin-liste-etudiant.html">
+            <!--Etudiant card-->
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Etudiants</h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>145</h6>
+                    <span class="text-success small pt-1 fw-bold">76</span>
+                    <span class="text-muted small pt-2 ps-1">Binômes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- End Etudiant Card -->
+
+        <div class="col-md-4">
+          <a href="Admin-liste-enseignant.html">
+            <!--Enseignant card-->
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Enseignants</h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                    style="color: #11ac3f; background-color: #e1fce9;"
+                  >
+                    <i class="bi bi-briefcase"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>50</h6>
+                    <span class="text-success small pt-1 fw-bold">45</span>
+                    <span class="text-muted small pt-2 ps-1">
+                      ont proposé
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- End Enseignant Card -->
+
+        <div class="col-md-4">
+          <a href="Admin-liste-theme-affectes.html">
+            <!--Themes card-->
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Thèmes affectés</h5>
+
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                    style="color: #d81616; background-color: #fde6e6;"
+                  >
+                    <i class="bi bi-lightbulb"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>15</h6>
+                    <span class="text-success small pt-1 fw-bold">
+                      / 50
+                    </span>
+                    <span class="text-muted small pt-2 ps-1">proposés</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- End Theme Card -->
+      </div>
+    </div>
+    <!--end Cards sections-->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Statistiques par Spécialité</h5>
+
+            <!-- Column Chart -->
+            <div id="columnChart"></div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', () => {
+                new ApexCharts(document.querySelector('#columnChart'), {
+                  series: [
+                    {
+                      name: 'Etudiants',
+                      data: [44, 55, 57, 56, 61],
+                    },
+                    {
+                      name: 'Thèmes',
+                      data: [76, 85, 101, 98, 87],
+                    },
+                    {
+                      name: 'Binômes',
+                      data: [35, 41, 36, 26, 45],
+                    },
+                  ],
+                  chart: {
+                    type: 'bar',
+                    height: 350,
+                  },
+                  plotOptions: {
+                    bar: {
+                      horizontal: false,
+                      columnWidth: '55%',
+                      endingShape: 'rounded',
+                    },
+                  },
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent'],
+                  },
+                  xaxis: {
+                    categories: ['GL', 'SIA', 'ASR', 'IA', 'RS'],
+                  },
+                  yaxis: {
+                    title: {
+                      text: '',
+                    },
+                  },
+                  fill: {
+                    opacity: 1,
+                  },
+                  tooltip: {
+                    y: {
+                      formatter: function (val) {
+                        return val
+                      },
+                    },
+                  },
+                }).render()
+              })
+            </script>
+            <!-- End Column Chart -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

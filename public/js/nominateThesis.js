@@ -35,7 +35,7 @@ nominateBtns.forEach(function (nominateBtn) {
             }, 2000)
           }
           console.log(data)
-          const thesisRow = nominateBtn.closest('tr') // Find the closest ancestor <tr> element
+          const thesisRow = nominateBtn.closest('tr')
           if (thesisRow) {
             thesisRow.classList.add('selected')
           }
@@ -70,7 +70,7 @@ nominateBtns.forEach(function (nominateBtn) {
             }, 2000)
           }
           console.log(data)
-          const thesisRow = nominateBtn.closest('tr') // Find the closest ancestor <tr> element
+          const thesisRow = nominateBtn.closest('tr')
           if (thesisRow) {
             thesisRow.classList.remove('selected')
           }

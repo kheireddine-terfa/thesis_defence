@@ -4,8 +4,15 @@ const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
 const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
+const Student = require('../models/studentModel')
 
 //--------------------- controllers : ------------------
+exports.getIndexPage = (req, res) => {
+  res.status(200).json({
+    message: 'hello this is the index page',
+  })
+}
+//------------------------:
 exports.getAllAnnounces = async (req, res) => {
   const announces = await Announce.find()
   res.status(200).json({
@@ -33,7 +40,7 @@ exports.getIndexPageProfessor = (req, res) => {
 }
 //--------------:
 exports.getProfessorLoginForm = (req, res) => {
-  res.status(200).render('login', {
+  res.status(200).render('login-enseignant', {
     layout: false,
   })
 }
@@ -75,7 +82,7 @@ exports.getIndexPageBinome = (req, res) => {
 }
 //----------------
 exports.getBinomeLoginForm = (req, res) => {
-  res.status(200).render('login', {
+  res.status(200).render('login-binome', {
     layout: false,
   })
 }
@@ -97,5 +104,42 @@ exports.getSelectedTheses = async (req, res) => {
     layout: 'binomeLayout',
     selectedTheses,
     approvedThesis,
+  })
+}
+//--------------------------   admin :
+exports.getIndexPageAdmin = (req, res) => {
+  res.status(200).render('Admin-accueil', {
+    layout: 'admin-nav-bar',
+  })
+}
+exports.getAdminLoginForm = (req, res) => {
+  res.status(200).render('login-admin', {
+    layout: false,
+  })
+}
+exports.getAddAnnounceForm = (req, res) => {
+  res.status(200).render('Admin-ajouter-annonce', {
+    layout: 'admin-nav-bar',
+  })
+}
+exports.getAddBinomeForm = async (req, res) => {
+  const students = await Student.find()
+  res.status(200).render('Admin-ajouter-binome', {
+    layout: 'admin-nav-bar',
+    students,
+  })
+}
+exports.getAddFieldForm = async (req, res) => {
+  const fields = await Field.find()
+  res.status(200).render('Admin-ajouter-domaine', {
+    layout: 'admin-nav-bar',
+    fields,
+  })
+}
+exports.getAddProfessorForm = async (req, res) => {
+  const fields = await Field.find()
+  res.status(200).render('Admin-ajouter-enseignant', {
+    layout: 'admin-nav-bar',
+    fields,
   })
 }

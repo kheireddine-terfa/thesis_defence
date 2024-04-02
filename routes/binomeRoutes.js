@@ -3,7 +3,6 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 // const studentController = require('../controllers/studentController')
 const binomeController = require('../controllers/binomeController')
-router.route('/login').post(authController.login)
 router.use(authController.protect)
 
 router.get('/thesis', binomeController.getAllTheses)

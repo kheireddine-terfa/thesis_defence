@@ -13,6 +13,34 @@
   transition: all 0.4s ease;
   background: gainsboro;
 }
+#popup-add {
+  width: 40%;
+  top: 40%;
+  left: 40%;
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  padding: 10px;
+  transition: all 0.4s ease;
+  background: rgb(204, 201, 201);
+}
+#popup-add i {
+  color: green;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+#popup-add p {
+  color: green;
+  font-size: 20px;
+}
 .popup i {
   color: red;
   font-size: 24px;
