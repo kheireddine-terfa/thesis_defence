@@ -44,11 +44,11 @@ exports.addAndSignUpBinome = async (req, res) => {
     })
   }
   // Generate JWT token
-  const token = signToekn(binome._id)
+  // const token = signToekn(binome._id)
   // Send response with token
   res.status(201).json({
     status: 'success',
-    token,
+    // token,
     binome,
   })
 }
@@ -168,7 +168,31 @@ exports.deleteAnnounce = async (req, res) => {
   })
 }
 //----------------------:
-
+exports.addAndSignUpProfessor = async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    fields,
+    nbr_of_examined_theses,
+    grade,
+  } = req.body
+  const professor = await Professor.create({
+    firstName,
+    lastName,
+    email,
+    fields,
+    nbr_of_examined_theses,
+    grade,
+    password: `${firstName}.${lastName}`,
+  })
+  // Send response with token
+  res.status(201).json({
+    status: 'success',
+    professor,
+  })
+}
+//-------------------------------
 exports.getAllProfessors = async (req, res) => {
   const professors = await Professor.find()
   res.status(200).json({

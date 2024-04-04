@@ -124,6 +124,7 @@ exports.login = async (req, res) => {
     res.status(200).json({
       status: 'success',
       token,
+      role,
     })
   } catch (err) {
     console.error(err)
@@ -149,7 +150,6 @@ exports.protect = async (req, res, next) => {
   }
   // Verification of the token:
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-
   // Determine the role based on the URL path
   let role
   const path = req.originalUrl.toLowerCase()
@@ -164,7 +164,6 @@ exports.protect = async (req, res, next) => {
   } else {
     role = 'invalid'
   }
-
   // Check if the user still exists based on the determined role
   let user
   switch (role) {
@@ -186,7 +185,6 @@ exports.protect = async (req, res, next) => {
         message: 'opps! you do not have access',
       })
   }
-
   if (!user) {
     return res.status(401).json({
       status: 'fail',

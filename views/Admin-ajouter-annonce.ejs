@@ -1,0 +1,65 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Announce</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="Admin-accueil.html">Accueil</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="Admin-liste-annonce.html">Announces</a>
+        </li>
+        <li class="breadcrumb-item active">Ajouter</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4 mt-4">Ajouter une announce</h2>
+
+          <!-- No Labels Form -->
+          <form
+            class="row g-3 needs-validation add-announce-form"
+            novalidate
+          >
+            <div class="col-md-12">
+              <label for="title"><em>Titre :</em></label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="e.g : Affichage des délais "
+                required
+              />
+              <div class="invalid-feedback">
+                Veuillez fournir un titre pour l'annonce.
+              </div>
+            </div>
+            <!-- here i changed the style from (height : 250px !important) to this , because the submit and reset button doesn't appear -->
+            <div class="col-md-12" style="min-height: 250px !important;">
+              <label for="content"><em>Contenu :</em></label>
+              <textarea class="tinymce-editor form-control" id="content" name="content">
+                    <p>Hello World!</p>
+                    <p>This is TinyMCE <strong>full</strong> editor</p>
+                </textarea
+              >
+              <!-- End TinyMCE Editor -->
+            </div>
+
+            <div class="col-md-12 text-center mt-4">
+              <button type="submit" class="btn btn-primary" id="add-announce-btn">Submit</button>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+          </form>
+          <!-- End No Labels Form -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

@@ -1,0 +1,64 @@
+<main id="main" class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h2>Selected Theses</h2>
+  
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>title</th>
+                    <th>Description</th>
+                    <th>Speciality</th>
+                    <th>Field</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (selectedTheses.length > 0 ) { %> <% selectedTheses.forEach(function(thesis , index){ %>
+
+                  <tr>
+                    <td><%= thesis.title %></td>
+                    <td><%= thesis.description %></td>
+                    <td><%= thesis.speciality.title %></td>
+                    <td><%= thesis.field.title %></td>
+                  </tr>
+                  <% }); %> <% } else { %>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h2>Approved Thesis</h2>
+  
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>thesis</th>
+                    <th>Description</th>
+                    <th>Speciality</th>
+                    <th>Field</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(approvedThesis){ %>
+                  <tr  style="background-color: rgb(87, 193, 87);">
+                    <td><%= approvedThesis.title %></td>
+                    <td><%= approvedThesis.description %></td>
+                    <td><%= approvedThesis.speciality.title %></td>
+                    <td><%= approvedThesis.field.title %></td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>

@@ -1,0 +1,41 @@
+const addProfessorBtn = document.getElementById('add-professor-btn')
+const addProfessorForm = document.querySelector('.add-professor-form')
+
+addProfessorBtn.addEventListener('click', function (e) {
+  e.preventDefault()
+  const formData = new FormData(addProfessorForm) // Get form data
+  // Convert form data to JSON object
+  const jsonData = {}
+  formData.forEach(function (value, key) {
+    jsonData[key] = value
+  })
+  fetch(`/admin/professor`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(jsonData), // Convert data to JSON string
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    })
+    .then((data) => {
+      const addPopUp = document.getElementById('popup-add')
+      const popUpContent = document.getElementById('popup-content')
+      popUpContent.textContent = 'professor added successfully ..'
+      if (addPopUp) {
+        addPopUp.style.display = 'flex'
+      }
+      setTimeout(() => {
+        addPopUp.style.display = 'none'
+        addProfessorForm.reset()
+      }, 3000)
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error adding  announce:', error)
+    })
+})

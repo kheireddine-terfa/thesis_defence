@@ -39,20 +39,24 @@ exports.addThesis = async (req, res) => {
 
 exports.updateThesis = async (req, res) => {
   const thesisId = req.params.id
-  const updatedThesis = await Thesis.findByIdAndUpdate(thesisId, req.body, {
-    new: true,
-    runValidators: true,
-  })
+  const thesis = await Thesis.findById(thesisId)
+  const { title, description, field, speciality } = req.body
+  thesis.title = title
+  thesis.description = description
+  thesis.field = field
+  thesis.speciality = speciality
+  await thesis.save()
   res.status(200).json({
     status: 'success',
     data: {
-      updatedThesis,
+      thesis,
     },
   })
 }
 //----------------------:
 
 exports.deleteThesis = async (req, res) => {
+  const professor = Professor.findById(req.user._id)
   const thesisId = req.params.id
   const thesis = await Thesis.findById(thesisId)
   if (!thesis) {
@@ -77,6 +81,8 @@ exports.deleteThesis = async (req, res) => {
     { selectedThesis: thesisId },
     { $pull: { selectedThesis: thesisId } },
   )
+  // Remove the thesis from the theses array of professor
+  await professor.updateMany({ $pull: { theses: thesisId } })
   // Delete the thesis
   await Thesis.findByIdAndDelete(thesisId)
 
@@ -106,7 +112,9 @@ exports.getProsessorTheses = async (req, res) => {
   // res.status(200).json({
   //   theses,
   // })
-  res.status(200).render('listeTheme', { layout: 'professorLayout', theses })
+  res
+    .status(200)
+    .render('Enseignant-listeTheme', { layout: 'professorLayout', theses })
 }
 //----------------------:
 
@@ -153,9 +161,9 @@ exports.getCandidacyApp = async (req, res) => {
       },
     },
   ])
-
-  res.status(200).json({
-    status: 'success',
+  // console.log(candidacyApplications)
+  res.status(200).render('Enseignant-affectertheme', {
+    layout: 'professorLayout',
     candidacyApplications,
   })
 }
@@ -195,7 +203,7 @@ exports.getSupervisedBinomes = async (req, res) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
   const supervisedBinomes = professor.supervisedBinomes
-  res.status(200).render('listeBinom', {
+  res.status(200).render('Enseignant-listeBinom', {
     layout: 'professorLayout',
     supervisedBinomes,
   })

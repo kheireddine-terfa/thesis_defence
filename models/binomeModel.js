@@ -58,7 +58,7 @@ binomeSchema.methods.correctPassword = async function (candidatePassword) {
 
 binomeSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'ApprovedThesis selectedThesis',
+    path: 'ApprovedThesis selectedThesis student1 student2',
   })
   next()
 })

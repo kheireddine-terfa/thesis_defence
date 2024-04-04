@@ -1,0 +1,82 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/professor">Home</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/professor/thesis">Thémes</a>
+        </li>
+        <li class="breadcrumb-item active">Affectation des thémes</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h2>Affectation des thémes</h2>
+
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Binôme</th>
+                  <th>Email</th>
+                  <th>théme</th>
+                  <th>Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (candidacyApplications.length > 0 ) { %> <%
+                candidacyApplications.forEach(function(application){ %>
+                <tr>
+                  <td>
+                    <%= application.userName %>
+                  </td>
+                  <td>
+                    <%= application.email %>
+                  </td>
+                  <td><%= application.selectedThesis.title %></td>
+                  <td>
+                    <!-- <i style="color: green;" class="bi bi-check-circle"></i>
+                                            <i style="color: red;" class="bi bi-x-circle"></i> -->
+                    <button
+                      class="btn btn-primary validate-btn"
+                      style="background-color: green;"
+                      data-binome-id="<%= application._id %>"
+                      data-selected-thesis-id="<%= application.selectedThesis._id %>"
+                    >
+                      <i class="bi bi-check-lg"></i>
+                    </button>
+                    <!-- <button
+                      class="btn btn-primary"
+                      style="background-color: red;"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </button> -->
+                  </td>
+                </tr>
+                <% }); %> <% } else { %>
+                <div class="text-center text-danger">no entries found</div>
+                <% } %>
+              </tbody>
+            </table>
+            <!-- <div class="row mb-3">
+                                <div class="col-lg-12" style="margin-left: 80%;">
+                                    <button
+                                        style="color: red;margin-top: 45px;border-color: red;background-color: white;margin-right: 10px;"
+                                        type="submit" class="btn btn-primary">Annuler</button>
+                                    <button
+                                        style="color:green;margin-top: 45px;border-color: green;background-color: #fff;"
+                                        type="submit" class="btn btn-primary">Valider</button>
+                                </div>
+                            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

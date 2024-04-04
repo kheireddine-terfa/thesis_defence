@@ -4,7 +4,6 @@ const authController = require('../controllers/authController')
 const professorController = require('../controllers/professorController')
 //-------------authentication:
 router.post('/signup', authController.signup)
-router.post('/login', authController.login)
 router.use(authController.protect)
 //--------------------thesis:
 router
