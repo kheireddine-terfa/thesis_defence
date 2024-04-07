@@ -1,0 +1,82 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Spécialité</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/specialities">Spécialités</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <a
+            href="/admin/speciality"
+            style="position: absolute; right: 60px;"
+            class="mt-4"
+          >
+            <button class="btn btn-success fs-5">
+              <i class="bi bi-plus-circle"></i>
+              Ajouter
+            </button>
+          </a>
+          <h3 class="mt-4">La liste des Spécialités</h3>
+          <p>
+            Vous pouver consulter, modifier et supprimer les spécialités du
+            département
+          </p>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col" width="15%">Abréviation</th>
+                <th scope="col" width="70%">Intitulé</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (specialities.length > 0 ) { %> <%
+              specialities.forEach(function(speciality){ %>
+              <tr>
+                <td scope="row">
+                  <%= speciality.abbreviation ? speciality.abbreviation : '/' %>
+                </td>
+                <td><%= speciality.title %></td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >  
+                  <a href="/admin/speciality/<%= speciality._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger deleteButtonConf"
+                    >
+                      <a href="Admin-supprimer-specialite.html">
+                        <i class="bi bi-trash text-danger"></i>
+                      </a>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %> <% } %>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

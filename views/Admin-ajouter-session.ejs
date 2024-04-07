@@ -1,0 +1,150 @@
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Session</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Accueil</a></li>
+          <li class="breadcrumb-item"><a href="/admin/sessions">Sessions</a></li>
+          <li class="breadcrumb-item active">Créer</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+              <div class="card-body">
+            <h2 class="mb-4 mt-4">Création des sessions de soutenance</h2>
+
+            <!-- No Labels Form -->
+
+            <form  class="row needs-validation add-session-form" novalidate>
+                <div class="col-md-12 mb-4">
+                    <div>
+                      <label for="academicYear"><em>Année académique</em></label>
+                      <select class="form-select form-control" aria-label="Default select example" name="academicYear" id="academicYear">
+                        <option value="2023/2024" selected>2023/2024</option>
+                        <option value="2024/2025">2024/2025</option>
+                        <option value="2025/2026">2025/2026</option>
+                        <option value="2026/2027">2026/2027</option>
+                        <option value="2027/2028">2027/2028</option>
+                        <option value="22028/2029">2028/2029</option>
+                      </select>
+                    </div>
+                </div>
+                    <!--Formulaire de session normal-->
+                    <div class="col-md-6 border-end mt-4 p-4">
+                        <h5 class="text-center"><Strong>Session Normale :</Strong></h5>
+                        <div class="mb-3">
+                            <label for="startSession"><em>Date de debut des soutenances</em></label>
+                            <input type="date" class="form-control" id="startSession" name="startSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="endSession"><em>Date de fin des soutenances</em></label>
+                            <input type="date" class="form-control" id="endSession" name="endSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="startDayHour"><em>Heure de début de journée</em></label>
+                            <input type="time" class="form-control" id="startDayHour" name="startDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDayHour"><em>Heure de fin de journée</em></label>
+                            <input type="time" class="form-control" id="endDayHour" name="endDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="thesisDefenceDuration"><em>Durée d'une soutenance (en minutes)</em></label>
+                            <input type="number" class="form-control" id="thesisDefenceDuration" name="thesisDefenceDuration" placeholder="e.g : une heure et demi : 90" required min="0" step="15">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="break"><em>Décalage entre les soutenances (en minutes)</em></label>
+                            <input type="number" class="form-control" id="break" name="break" placeholder="e.g : un quart d'heure : 15" required min="0" step="15">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- END Formulaire de session normal-->
+
+
+                    <!-- Formulaire de session de rattrapage-->
+                    <div class="col-md-6 mt-4 p-4">
+                        <h5 class="text-center"><Strong>Session de Rattrapage :</Strong></h5>
+                        <div class="mb-3">
+                            <label for="r_startSession"><em>Date de debut des soutenances</em></label>
+                            <input type="date" class="form-control" id="r_startSession" name="r_startSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="r_endSession"><em>Date de fin des soutenances</em></label>
+                            <input type="date" class="form-control" id="r_endSession" name="r_endSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="r_startDayHour"><em>Heure de début de journée</em></label>
+                            <input type="time" class="form-control" id="r_startDayHour" name="r_startDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="r_endDayHour"><em>Heure de fin de journée</em></label>
+                            <input type="time" class="form-control" id="r_endDayHour" name="r_endDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="r_thesisDefenceDuration"><em>Durée d'une soutenance (en minutes)</em></label>
+                            <input type="number" class="form-control" id="r_thesisDefenceDuration" name="r_thesisDefenceDuration" placeholder="e.g : une heure et demi : 90" required min="0" step="15">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="r_break"><em>Décalage entre les soutenances (en minutes)</em></label>
+                            <input type="number" class="form-control" id="r_break" name="r_break" placeholder="e.g : un quart d'heure : 15" required min="0" step="5">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>
+                    </div>
+                    <!--Formulaire de session normal-->
+                
+                </div>
+                    
+                              
+              <div class="text-center mb-3">
+                <button type="submit" class="btn btn-primary" id="add-session-btn">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+              
+            </form><!-- End No Labels Form --> 
+          </div>
+        </div>      
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  

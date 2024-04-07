@@ -3,18 +3,23 @@ const addAnnounceForm = document.querySelector('.add-announce-form')
 
 addBtn.addEventListener('click', function (e) {
   e.preventDefault()
-  const formData = new FormData(addAnnounceForm) // Get form data
-  // Convert form data to JSON object
-  const jsonData = {}
-  formData.forEach(function (value, key) {
-    jsonData[key] = value
-  })
+
+  const title = document.getElementById('title').value // Get title value
+  const content = tinymce.get('content').getContent() // Get content value from TinyMCE
+
+  const jsonData = {
+    title: title,
+    content: content,
+  }
+
+  console.log(JSON.stringify(jsonData))
+
   fetch(`/admin/announce`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(jsonData), // Convert data to JSON string
+    body: JSON.stringify(jsonData),
   })
     .then((response) => {
       if (!response.ok) {
@@ -35,7 +40,6 @@ addBtn.addEventListener('click', function (e) {
       }, 3000)
     })
     .catch((error) => {
-      // Handle errors
-      console.error('Error adding  announce:', error)
+      console.error('Error adding announce:', error)
     })
 })

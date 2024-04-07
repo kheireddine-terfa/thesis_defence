@@ -1,0 +1,85 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Non-Disponibilités des enseignants</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/non-availibility">
+            Non disponibilité des Enseignants
+          </a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <a
+            href="/admin/add-non-availibility"
+            style="position: absolute; right: 50px;"
+            class="mt-4"
+          >
+            <button class="btn btn-success fs-5">
+              <i class="bi bi-plus-circle"></i>
+              Ajouter
+            </button>
+          </a>
+          <h3 class="mt-4">La liste des Non-disponibilités des Enseignants</h3>
+          <p>
+            Vous pouver consulter et ajouter les non-disponibilités des
+            enseignants
+          </p>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Date de début</th>
+                <th scope="col">Date de fin</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (professorsWithAvailability.length > 0 ) { %> <% professorsWithAvailability.forEach(function(professor){ %>
+
+              <tr>
+                <td><%= `${professor.professorFirstName} ${professor.professorLastName}` %></td>
+                <td><%= professor.startDay %></td>
+                <td><%= professor.endDay %></td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                  <a href="/admin/non-availibility/<%= professor.nonAvailibility %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger deleteButtonConf"
+                    >
+                      <a href="Admin-supprimer-non-disponibilite.html">
+                        <i class="bi bi-trash text-danger"></i>
+                      </a>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %> 
+              <% } %>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

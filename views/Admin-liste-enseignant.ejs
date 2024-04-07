@@ -1,0 +1,82 @@
+ <main id="main" class="main">
+    <div class="pagetitle">      
+      <h1>Enseignant</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Accueil</a></li>
+          <li class="breadcrumb-item active"><a href="/admin/professors">Enseignants</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <a href="/admin/professor" style="position: absolute;right: 50px;" class="mt-4">
+              <button class="btn btn-success fs-5"><i class="bi bi-plus-circle"></i> Ajouter</button>
+            </a>
+            <h3 class="mt-4">La liste des enseignants </h3>
+            <p>Vous pouver consulter, modifier et supprimer tous les etudiants </p>
+
+<!-- Table with stripped rows -->
+<table class="table datatable">
+  <thead>
+    <tr>
+      <th scope="col">Nom Prenom</th>
+      <th scope="col">Email</th>
+      <th scope="col w-20%">Domaines d'expertise</th>
+      <th scope="col">Charge</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (professors.length > 0 ) { %> <% professors.forEach(function(professor, index){ %>
+    <tr>
+      <td><%= `${professor.grade}. ${professor.firstName} ${professor.lastName}` %></td>
+      <td><%= professor.email %></td>
+      <td class="p-0">
+        <div class="accordion accordion-flush" id="accordionFlushExample<%= index %>">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading<%= index %>">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= index %>" aria-expanded="false" aria-controls="flush-collapse<%= index %>">
+                Voir...
+              </button>
+            </h2>
+            <div id="flush-collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="flush-heading<%= index %>" data-bs-parent="#accordionFlushExample<%= index %>">
+              <div class="accordion-body">
+                <ul>
+                  <% if(professor.fields.length > 0) { %> <% professor.fields.forEach(function(field){ %>
+                    <li><%= field.title %></li>
+                  <% }); %> 
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td><%= professor.nbr_of_examined_theses ? professor.nbr_of_examined_theses : 'no examined binome yet' %></td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+          <a href="/admin/professor/<%= professor._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+          <button type="button" class="btn btn-outline-danger deleteButtonConf"><i class="bi bi-trash text-danger"></i></button>
+        </div>
+      </td>
+    </tr>
+    <% }); %> 
+    <% } %>
+  </tbody>
+</table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+        
+        
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+ 

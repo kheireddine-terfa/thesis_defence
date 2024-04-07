@@ -1,15 +1,15 @@
-const addBinomeBtn = document.getElementById('add-binome-btn')
-const addBinomeForm = document.querySelector('.add-binome-form')
+const addSessionBtn = document.getElementById('add-session-btn')
+const addSessionForm = document.querySelector('.add-session-form')
 
-addBinomeBtn.addEventListener('click', function (e) {
+addSessionBtn.addEventListener('click', function (e) {
   e.preventDefault()
-  const formData = new FormData(addBinomeForm) // Get form data
+  const formData = new FormData(addSessionForm) // Get form data
   // Convert form data to JSON object
   const jsonData = {}
   formData.forEach(function (value, key) {
     jsonData[key] = value
   })
-  fetch(`/admin/binome`, {
+  fetch(`/admin/session`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,14 +25,13 @@ addBinomeBtn.addEventListener('click', function (e) {
     .then((data) => {
       const addPopUp = document.getElementById('popup-add')
       const popUpContent = document.getElementById('popup-content')
-      popUpContent.textContent = `binome ${data.binome.userName} added successfully`
+      popUpContent.textContent = `session added successfully`
       if (addPopUp) {
         addPopUp.style.display = 'flex'
       }
       setTimeout(() => {
         addPopUp.style.display = 'none'
-        addBinomeForm.reset()
-        window.location.href = '/admin/binome'
+        addSessionForm.reset()
       }, 3000)
     })
     .catch((error) => {

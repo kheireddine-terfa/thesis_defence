@@ -1,0 +1,79 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Domaine</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/fields">Doamines</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <a
+            href="/admin/field"
+            style="position: absolute; right: 60px;"
+            class="mt-4"
+          >
+            <button class="btn btn-success fs-5">
+              <i class="bi bi-plus-circle"></i>
+              Ajouter
+            </button>
+          </a>
+          <h3 class="mt-4">La liste des domaines</h3>
+          <p>
+            Vous pouver consulter, modifier et supprimer les domaine des thèmes,
+            <br />
+            Un thème doit avoir un domaine,
+            <br />
+            Un Enseignant doit être relié à des domaines.
+          </p>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col" width="85%">Intitulé du Domaine</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (fields.length > 0 ) { %> <% fields.forEach(function(field){ %>
+              <tr>
+                <td scope="row"><%= field.title %></td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                  <a href="/admin/field/<%= field._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+
+                      <button
+                      type="button"
+                      class="btn btn-outline-danger deleteButtonConf"
+                    >
+                    <i  class="bi bi-trash delete-field" data-field-id="<%= field._id %>" id="delete-field-<%= field._id %>"></i>
+                      </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %> 
+              <% } %>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

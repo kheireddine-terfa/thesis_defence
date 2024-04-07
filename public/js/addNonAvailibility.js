@@ -1,15 +1,15 @@
-const addBinomeBtn = document.getElementById('add-binome-btn')
-const addBinomeForm = document.querySelector('.add-binome-form')
+const addNonAvBtn = document.getElementById('add-non-availibility-btn')
+const addNonAvForm = document.querySelector('.add-non-availibility-form')
 
-addBinomeBtn.addEventListener('click', function (e) {
+addNonAvBtn.addEventListener('click', function (e) {
   e.preventDefault()
-  const formData = new FormData(addBinomeForm) // Get form data
+  const formData = new FormData(addNonAvForm) // Get form data
   // Convert form data to JSON object
   const jsonData = {}
   formData.forEach(function (value, key) {
     jsonData[key] = value
   })
-  fetch(`/admin/binome`, {
+  fetch(`/admin/non-availibilities`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,14 +25,13 @@ addBinomeBtn.addEventListener('click', function (e) {
     .then((data) => {
       const addPopUp = document.getElementById('popup-add')
       const popUpContent = document.getElementById('popup-content')
-      popUpContent.textContent = `binome ${data.binome.userName} added successfully`
+      popUpContent.textContent = `non-availibility added successfully`
       if (addPopUp) {
         addPopUp.style.display = 'flex'
       }
       setTimeout(() => {
         addPopUp.style.display = 'none'
-        addBinomeForm.reset()
-        window.location.href = '/admin/binome'
+        addNonAvForm.reset()
       }, 3000)
     })
     .catch((error) => {

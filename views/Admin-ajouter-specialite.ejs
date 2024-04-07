@@ -1,13 +1,13 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Domaine</h1>
+    <h1>Spécialité</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="/admin">Accueil</a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/admin/fields">Domaines</a>
+          <a href="/admin/specialities">Spécialités</a>
         </li>
         <li class="breadcrumb-item active">Ajouter</li>
       </ol>
@@ -19,29 +19,42 @@
     <div class="row">
       <div class="card">
         <div class="card-body">
-          <h2 class="mb-4 mt-4">Ajouter un nouveau Domaine</h2>
+          <h2 class="mb-4 mt-4">Ajouter une nouvelle spécialité</h2>
 
           <!-- No Labels Form -->
           <form
-            class="row g-3 needs-validation add-field-form"
+            class="row g-3 needs-validation add-speciality-form"
             novalidate
           >
-            <div class="col-md-12">
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="abbreviation"
+                name="abbreviation"
+                placeholder="Abréviation, e.g : GL"
+                required
+              />
+              <div class="invalid-feedback">
+                Veuillez fournir une code de la spécialité.
+              </div>
+            </div>
+            <div class="col-md-9">
               <input
                 type="text"
                 class="form-control"
                 id="title"
                 name="title"
-                placeholder="Veuillez saisir l'intitulé du domaine"
+                placeholder="Titre, e.g : Génie Logiciel"
                 required
               />
               <div class="invalid-feedback">
-                Veuillez fournir un intitulé de domaine.
+                Veuillez fournir un le titre complet de la spécialité.
               </div>
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn btn-primary" id="add-field-btn">Submit</button>
+              <button type="submit" class="btn btn-primary" id="add-speciality-btn">Submit</button>
               <button type="reset" class="btn btn-secondary">Reset</button>
             </div>
           </form>

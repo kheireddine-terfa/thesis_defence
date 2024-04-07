@@ -84,7 +84,7 @@
         <!-- End Étudiants Nav -->
 
         <li class="nav-item">
-          <a href="/admin/announce" class="nav-link collapsed">
+          <a href="/admin/announces" class="nav-link collapsed">
             <span>
               <i class="bi bi-megaphone-fill"></i>
               Annonces
@@ -110,7 +110,7 @@
         <!-- End plannigS Nav -->
 
         <li class="nav-item">
-          <a href="Admin-liste-session.html" class="nav-link collapsed">
+          <a href="/admin/sessions" class="nav-link collapsed">
             <span>
               <i class="bi bi-calendar-range-fill"></i>
               Sessions
@@ -151,7 +151,7 @@
         <!-- End éxaminateurs Nav -->
 
         <li class="nav-item">
-          <a href="/admin/add-field-form" class="nav-link collapsed">
+          <a href="/admin/fields" class="nav-link collapsed">
             <span>
               <i class="bi bi-patch-check-fill"></i>
               Domaines
@@ -161,7 +161,7 @@
         <!-- End Domaine Nav -->
 
         <li class="nav-item">
-          <a href="Admin-liste-specialite.html" class="nav-link collapsed">
+          <a href="/admin/specialities" class="nav-link collapsed">
             <span>
               <i class="bi bi-book-fill"></i>
               Spécialités
@@ -171,7 +171,7 @@
         <!-- End Spécialités Nav -->
 
         <li class="nav-item">
-          <a href="Admin-liste-local.html" class="nav-link collapsed">
+          <a href="/admin/premises" class="nav-link collapsed">
             <span>
               <i class="bi bi-geo-alt-fill"></i>
               Locaux
@@ -199,7 +199,7 @@
             data-bs-parent="#sidebar-nav"
           >
             <li>
-              <a href="Admin-liste-etudiant.html">
+              <a href="/admin/students">
                 <i class="bi bi-circle"></i>
                 <span>Liste des étudiants</span>
                 <!--
@@ -207,11 +207,11 @@
               --></a>
             </li>
             <li>
-              <a href="/admin/add-binome-form">
+              <a href="/admin/binomes">
                 <i class="bi bi-circle"></i>
                 <span>Binômes</span>
               </a>
-            </li>
+            </li>    
           </ul>
         </li>
         <!-- End Étudiants Nav -->
@@ -234,16 +234,8 @@
             class="nav-content collapse"
             data-bs-parent="#sidebar-nav"
           >
-          <li>
-            <a href="/admin/add-professor-form">
-              <i class="bi bi-circle"></i>
-              <span>Ajouter enseignant</span>
-              <!--
-              liste des enseignants + bouttons (add/modify/delete) 
-            --></a>
-          </li>
             <li>
-              <a href="Admin-liste-enseignant.html">
+              <a href="/admin/professors">
                 <i class="bi bi-circle"></i>
                 <span>Liste des enseignants</span>
                 <!--
@@ -251,7 +243,7 @@
               --></a>
             </li>
             <li>
-              <a href="Admin-non-disponibilite.html">
+              <a href="/admin/non-availibilities">
                 <i class="bi bi-circle"></i>
                 <span>Non-disponibilités</span>
               </a>
@@ -279,13 +271,13 @@
             data-bs-parent="#sidebar-nav"
           >
             <li>
-              <a href="Admin-liste-theme-proposes.html">
+              <a href="/admin/proposed-theses">
                 <i class="bi bi-circle"></i>
                 <span>Thèmes proposés</span>
               </a>
             </li>
             <li>
-              <a href="Admin-liste-theme-affectes.html">
+              <a href="/admin/affected-theses">
                 <i class="bi bi-circle"></i>
                 <span>Thèmes affectés</span>
               </a>
@@ -319,7 +311,14 @@
     <i class="bi bi-check-circle"></i>
     <p id="popup-content">test</p>
   </div>
-
+  <div class="popup">
+    <i class="bi bi-trash"></i>
+    <h4>do you really want to delete this !</h4>
+    <div>      
+      <button type="button" class="btn btn-danger" id="delete-btn">Delete</button>
+      <button type="button" class="btn btn-secondary " id="cancel-btn">Cancel</button>
+    </div>
+  </div>
   <%- body %>
       <!-- ======= Footer ======= -->
       <footer id="footer" class="footer">
@@ -454,8 +453,24 @@
       <script src="/assets/js/youva.js"></script>
       <script src="/js/logout.js"></script>
       <script src="/js/addAnnounce.js"></script>
+      <script src="/js/deleteAnnounce.js"></script>
       <script src="/js/addBinome.js"></script>
+      <script src="/js/deleteBinome.js"></script>
       <script src="/js/addField.js"></script>
+      <script src="/js/updateField.js"></script>
+      <script src="/js/deleteField.js"></script>
       <script src="/js/addProfessor.js"></script>
+      <script src="/js/updateProfessor.js"></script>
+      <script src="/js/addStudent.js"></script>
+      <script src="/js/updateStudent.js"></script>
+      <script src="/js/addSpeciality.js"></script>
+      <script src="/js/updateSpeciality.js"></script>
+      <script src="/js/addPremise.js"></script>
+      <script src="/js/updatePremise.js"></script>
+      <script src="/js/addSession.js"></script>
+      <script src="/js/updateSession.js"></script>
+      <script src="/js/deleteSessions.js"></script>
+      <script src="/js/addNonAvailibility.js"></script>
+      <script src="/js/updateNonAv.js"></script>
     </body>
 </html>

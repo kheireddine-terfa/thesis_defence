@@ -1,15 +1,15 @@
-const addBinomeBtn = document.getElementById('add-binome-btn')
-const addBinomeForm = document.querySelector('.add-binome-form')
+const addStudentBtn = document.getElementById('add-student-btn')
+const addStudentForm = document.querySelector('.add-student-form')
 
-addBinomeBtn.addEventListener('click', function (e) {
+addStudentBtn.addEventListener('click', function (e) {
   e.preventDefault()
-  const formData = new FormData(addBinomeForm) // Get form data
+  const formData = new FormData(addStudentForm) // Get form data
   // Convert form data to JSON object
   const jsonData = {}
   formData.forEach(function (value, key) {
     jsonData[key] = value
   })
-  fetch(`/admin/binome`, {
+  fetch(`/admin/student`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,14 +25,13 @@ addBinomeBtn.addEventListener('click', function (e) {
     .then((data) => {
       const addPopUp = document.getElementById('popup-add')
       const popUpContent = document.getElementById('popup-content')
-      popUpContent.textContent = `binome ${data.binome.userName} added successfully`
+      popUpContent.textContent = `Student ${data.student.firstName} ${data.student.lastName} added successfully`
       if (addPopUp) {
         addPopUp.style.display = 'flex'
       }
       setTimeout(() => {
         addPopUp.style.display = 'none'
-        addBinomeForm.reset()
-        window.location.href = '/admin/binome'
+        addStudentForm.reset()
       }, 3000)
     })
     .catch((error) => {
