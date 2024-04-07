@@ -9,8 +9,8 @@ const Professor = require('../models/professorModel')
 
 //--------------------- controllers : ------------------
 exports.getIndexPage = (req, res) => {
-  res.status(200).json({
-    message: 'hello this is the index page',
+  res.status(200).render('login_users', {
+    layout: false,
   })
 }
 //------------------------:
