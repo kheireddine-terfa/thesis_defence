@@ -7,6 +7,7 @@ const Speciality = require('../models/specialityModel')
 const Field = require('../models/fieldModel')
 const jwt = require('jsonwebtoken')
 const Session = require('../models/sessionModel')
+const NonAvailibility = require('../models/nonAvailibilityModel')
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -54,13 +55,11 @@ exports.addAndSignUpBinome = async (req, res) => {
 }
 //----------------------:
 
-exports.getAllBinome = async (req, res) => {
+exports.getAllBinomes = async (req, res) => {
   const binomes = await Binome.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      binomes,
-    },
+  res.status(200).render('Admin-liste-binome', {
+    layout: 'Admin-nav-bar',
+    binomes,
   })
 }
 //----------------------:
@@ -195,38 +194,22 @@ exports.addAndSignUpProfessor = async (req, res) => {
 //-------------------------------
 exports.getAllProfessors = async (req, res) => {
   const professors = await Professor.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      professors,
-    },
+  res.status(200).render('admin-liste-enseignant', {
+    layout: 'admin-nav-bar',
+    professors,
   })
 }
 //----------------------:
 
 exports.getProfessor = async (req, res) => {
   const professorId = req.params.id
+  const fields = await Field.find()
   const professor = await Professor.findById(professorId)
-  res.status(200).json({
-    status: 'success',
-    data: {
-      professor,
-    },
-  })
-}
-//----------------------:
-
-exports.combineFields = (req, res, next) => {
-  const { field1, field2, field3, firstName, lastName, grade, email } = req.body
-  const fields = [field1, field2, field3]
-  req.body = {
-    firstName,
-    lastName,
-    grade,
-    email,
+  res.status(200).render('Admin-modifier-enseignant', {
+    layout: 'Admin-nav-bar',
+    professor,
     fields,
-  }
-  next()
+  })
 }
 //----------------------:
 
@@ -263,20 +246,25 @@ exports.addPremise = async (req, res) => {
   const premise = await Premise.create(req.body)
   res.status(201).json({
     status: 'success',
-    data: {
-      premise,
-    },
+    premise,
   })
 }
 //----------------------:
 
 exports.getAllPremises = async (req, res) => {
-  const premise = await Premise.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      premise,
-    },
+  const premises = await Premise.find()
+  res.status(200).render('Admin-liste-local', {
+    layout: 'Admin-nav-bar',
+    premises,
+  })
+}
+//----------------------:
+exports.getPremise = async (req, res) => {
+  const premiseId = req.params.id
+  const premise = await Premise.findById(premiseId)
+  res.status(200).render('Admin-modifier-local', {
+    layout: 'Admin-nav-bar',
+    premise,
   })
 }
 //----------------------:
@@ -290,25 +278,43 @@ exports.deletePremise = async (req, res) => {
   })
 }
 //----------------------:
-
-exports.addSpeciality = async (req, res) => {
-  const speciality = await Speciality.create(req.body)
-  res.status(201).json({
+exports.updatePremise = async (req, res) => {
+  const premiseId = req.params.id
+  const premise = await Premise.findByIdAndUpdate(premiseId, req.body, {
+    new: true,
+    runValidators: true,
+  })
+  res.status(200).json({
     status: 'success',
     data: {
-      speciality,
+      premise,
     },
   })
 }
 //----------------------:
 
+exports.addSpeciality = async (req, res) => {
+  const speciality = await Speciality.create(req.body)
+  res.status(201).json({
+    status: 'success',
+    speciality,
+  })
+}
+//----------------------:
+exports.getSpeciality = async (req, res) => {
+  const specialityId = req.params.id
+  const speciality = await Speciality.findById(specialityId)
+  res.status(200).render('Admin-modifier-specialite', {
+    layout: 'Admin-nav-bar',
+    speciality,
+  })
+}
+//----------------------:
 exports.getAllSpeciality = async (req, res) => {
   const specialities = await Speciality.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      specialities,
-    },
+  res.status(200).render('Admin-liste-specialite', {
+    layout: 'Admin-nav-bar',
+    specialities,
   })
 }
 //----------------------:
@@ -319,6 +325,24 @@ exports.deleteSpeciality = async (req, res) => {
   res.status(204).json({
     status: 'success',
     message: 'speciality successfully deleted',
+  })
+}
+//----------------------:
+exports.updateSpeciality = async (req, res) => {
+  const specialityId = req.params.id
+  const speciality = await Speciality.findByIdAndUpdate(
+    specialityId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    },
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      speciality,
+    },
   })
 }
 //----------------------:
@@ -336,11 +360,9 @@ exports.addField = async (req, res) => {
 
 exports.getAllFields = async (req, res) => {
   const fields = await Field.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      fields,
-    },
+  res.status(200).render('Admin-liste-domaine', {
+    layout: 'Admin-nav-bar',
+    fields,
   })
 }
 //----------------------:
@@ -348,11 +370,9 @@ exports.getAllFields = async (req, res) => {
 exports.getField = async (req, res) => {
   const fieldId = req.params.id
   const field = await Field.findById(fieldId)
-  res.status(200).json({
-    status: 'success',
-    data: {
-      field,
-    },
+  res.status(200).render('Admin-modifier-domaine', {
+    layout: 'Admin-nav-bar',
+    field,
   })
 }
 //----------------------:
@@ -360,6 +380,7 @@ exports.getField = async (req, res) => {
 exports.deleteField = async (req, res) => {
   const fieldId = req.params.id
   const deletedField = await Field.findByIdAndDelete(fieldId)
+  console.log(fieldId)
   res.status(204).json({
     status: 'success',
     message: 'field successfully deleted',
@@ -381,14 +402,27 @@ exports.updateField = async (req, res) => {
   })
 }
 //----------------------:
-
+exports.addAndSignUpStudent = async (req, res) => {
+  const { firstName, lastName, email, matricule, speciality } = req.body
+  const student = await Student.create({
+    firstName,
+    lastName,
+    email,
+    matricule,
+    speciality,
+    password: matricule,
+  })
+  // Send response with token
+  res.status(201).json({
+    status: 'success',
+    student,
+  })
+}
 exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      students,
-    },
+  res.status(200).render('Admin-liste-etudiant', {
+    layout: 'Admin-nav-bar',
+    students,
   })
 }
 //----------------------:
@@ -396,11 +430,11 @@ exports.getAllStudents = async (req, res) => {
 exports.getStudent = async (req, res) => {
   const studentId = req.params.id
   const student = await Student.findById(studentId)
-  res.status(200).json({
-    status: 'success',
-    data: {
-      student,
-    },
+  const specialities = await Speciality.find()
+  res.status(200).render('Admin-modifier-etudiant', {
+    layout: 'Admin-nav-bar',
+    student,
+    specialities,
   })
 }
 //----------------------:
@@ -430,33 +464,49 @@ exports.updateStudent = async (req, res) => {
 }
 //-----------------:
 exports.addSession = async (req, res) => {
-  const session = await Session.create(req.body)
+  const normalSession = await Session.create({
+    sessionType: 'normal',
+    academicYear: req.body.academicYear,
+    startSession: req.body.startSession,
+    endSession: req.body.endSession,
+    thesisDefenceDuration: req.body.thesisDefenceDuration,
+    break: req.body.break,
+    startDayHour: req.body.startDayHour,
+    endDayHour: req.body.endDayHour,
+  })
+  const retakeSession = await Session.create({
+    sessionType: 'retake',
+    academicYear: req.body.academicYear,
+    startSession: req.body.r_startSession,
+    endSession: req.body.r_endSession,
+    thesisDefenceDuration: req.body.r_thesisDefenceDuration,
+    break: req.body.break,
+    startDayHour: req.body.r_startDayHour,
+    endDayHour: req.body.r_endDayHour,
+  })
   res.status(201).json({
     status: 'success',
-    data: {
-      session,
-    },
+    normalSession,
+    retakeSession,
   })
 }
 //-----------------:
 exports.getAllSession = async (req, res) => {
-  const sessions = await Session.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      sessions,
-    },
+  const normalSession = await Session.find({ sessionType: 'normal' })
+  const retakeSession = await Session.find({ sessionType: 'retake' })
+  res.status(200).render('Admin-liste-session', {
+    layout: 'Admin-nav-bar',
+    normalSession,
+    retakeSession,
   })
 }
 //-----------------:
 exports.getSession = async (req, res) => {
   const sessionId = req.params.id
   const session = await Session.findById(sessionId)
-  res.status(200).json({
-    status: 'success',
-    data: {
-      session,
-    },
+  res.status(200).render('Admin-modifier-session', {
+    layout: 'Admin-nav-bar',
+    session,
   })
 }
 //-----------------:
@@ -483,5 +533,109 @@ exports.deleteSession = async (req, res) => {
     data: {
       deletedSession,
     },
+  })
+}
+exports.deleteAllSessions = async (req, res) => {
+  await Session.deleteMany({})
+  res.status(204).json({
+    status: 'succcess',
+    message: 'sessions has been deleted successfully',
+  })
+}
+//--------------------------
+exports.getAllNonAvailibility = async (req, res) => {
+  try {
+    const professors = await Professor.aggregate([
+      {
+        $match: {
+          nonAvailibility: { $exists: true, $not: { $size: 0 } },
+        },
+      },
+      {
+        $unwind: '$nonAvailibility',
+      },
+      {
+        $project: {
+          _id: 0,
+          professorId: '$_id',
+          professorFirstName: '$firstName',
+          professorLastName: '$lastName',
+          nonAvailibility: '$nonAvailibility',
+        },
+      },
+    ])
+    // Fetching startDay and endDay for each nonAvailibility
+    const professorsWithAvailability = await Promise.all(
+      professors.map(async (professor) => {
+        const nonAvailibility = await NonAvailibility.findById(
+          professor.nonAvailibility,
+        )
+        const startDay = nonAvailibility.startDay.toLocaleDateString('en-GB')
+        const endDay = nonAvailibility.endDay.toLocaleDateString('en-GB')
+        return {
+          ...professor,
+          startDay,
+          endDay,
+        }
+      }),
+    )
+    res.status(200).render('Admin-non-disponibilite', {
+      layout: 'Admin-nav-bar',
+      professorsWithAvailability,
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Internal server error' })
+  }
+}
+//-------------------
+exports.addNonAvailibility = async (req, res) => {
+  const nonAvailibility = await NonAvailibility.create(req.body)
+
+  const professorId = req.body.professor
+
+  const professor = await Professor.findByIdAndUpdate(
+    professorId,
+    { $push: { nonAvailibility: nonAvailibility._id } },
+    { new: true }, // Return the updated professor document
+  )
+  // Send response with updated professor
+  res.status(201).json({
+    status: 'success',
+    professor,
+  })
+}
+//------------------
+exports.getNonAvailibility = async (req, res) => {
+  const nonAvId = req.params.id
+  const nonAv = await NonAvailibility.findById(nonAvId)
+  const professor = await Professor.find({ nonAvailibility: nonAvId })
+  // first find the non availibility then find the professor that have this non availibility
+  res.status(200).render('Admin-modifier-non-disponibilite', {
+    layout: 'Admin-nav-bar',
+    nonAv,
+    professor,
+  })
+}
+exports.updateNonAvailibility = async (req, res) => {
+  const nonAvId = req.params.id
+  const nonAv = await NonAvailibility.findByIdAndUpdate(nonAvId, req.body, {
+    new: true,
+    runValidators: true,
+  })
+  res.status(200).json({
+    status: 'success',
+    nonAv,
+  })
+}
+//----------------------
+exports.getAllAffectedTheses = async (req, res) => {
+  res.status(200).render('Admin-liste-theme-affectes', {
+    layout: 'Admin-nav-bar',
+  })
+}
+exports.getAllProposedTheses = async (req, res) => {
+  res.status(200).render('Admin-liste-theme-proposes', {
+    layout: 'Admin-nav-bar',
   })
 }

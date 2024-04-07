@@ -3,7 +3,7 @@ const router = express.Router()
 const viwesController = require('../controllers/viewsController')
 const authController = require('../controllers/authController')
 
-router.route('/announce').get(viwesController.getAllAnnounces)
+router.route('/announcements').get(viwesController.getAllAnnounces)
 router.route('/premise/:id').get(viwesController.getPremise)
 //------------------ login forms:
 router.route('/professor/login').get(viwesController.getProfessorLoginForm)
@@ -30,11 +30,18 @@ router.route('/binome/selected-theses').get(viwesController.getSelectedTheses)
 router.route('/binome/profile').get(viwesController.getBinomeInfos)
 //-------------------------- admin:
 router.route('/admin').get(viwesController.getIndexPageAdmin)
+router.route('/admin/profile').get(viwesController.getAdminInfos)
 router.route('/admin/announce').get(viwesController.getAddAnnounceForm)
-router.route('/admin/add-binome-form').get(viwesController.getAddBinomeForm)
-router.route('/admin/add-field-form').get(viwesController.getAddFieldForm)
+router.route('/admin/announces').get(viwesController.getAllAnnouncesAdmin)
+router.route('/admin/binome').get(viwesController.getAddBinomeForm)
+router.route('/admin/field').get(viwesController.getAddFieldForm)
+router.route('/admin/professor').get(viwesController.getAddProfessorForm)
+router.route('/admin/student').get(viwesController.getAddStudentForm)
+router.route('/admin/speciality').get(viwesController.getAddSpecialityForm)
+router.route('/admin/premise').get(viwesController.getAddPremiseForm)
+router.route('/admin/session').get(viwesController.getAddSessionForm)
 router
-  .route('/admin/add-professor-form')
-  .get(viwesController.getAddProfessorForm)
+  .route('/admin/add-non-availibility')
+  .get(viwesController.getAddNonAvailibilityForm)
 
 module.exports = router

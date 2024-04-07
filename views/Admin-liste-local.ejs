@@ -1,0 +1,78 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Local</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/premises">Locaux</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <a
+            href="/admin/premise"
+            style="position: absolute; right: 60px;"
+            class="mt-4"
+          >
+            <button class="btn btn-success fs-5">
+              <i class="bi bi-plus-circle"></i>
+              Ajouter
+            </button>
+          </a>
+          <h3 class="mt-4">La liste des Locaux</h3>
+          <p>
+            Vous pouver consulter, modifier et supprimer les locaux disponible,
+            prêts à acccueilir des soutnances
+          </p>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col" width="85%">Nom de la salle</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (premises.length > 0 ) { %> <% premises.forEach(function(premise){ %>
+
+              <tr>
+                <td scope="row"><%= premise.title %></td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                  <a href="/admin/premise/<%= premise._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger deleteButtonConf"
+                    >
+                      <a href="Admin-supprimer-local.html">
+                        <i class="bi bi-trash text-danger"></i>
+                      </a>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %> 
+              <% } %>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

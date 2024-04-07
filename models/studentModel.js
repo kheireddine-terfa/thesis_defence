@@ -12,6 +12,12 @@ const studentSchema = new mongoose.Schema({
     ref: 'Speciality',
   },
 })
+studentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'speciality',
+  })
+  next()
+})
 //***** define pre find hook (populate) later if needed ...
 studentSchema.pre('save', async function (next) {
   //check if the password field modified or not (new or updated)

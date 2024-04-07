@@ -32,6 +32,7 @@ addBinomeBtn.addEventListener('click', function (e) {
       setTimeout(() => {
         addPopUp.style.display = 'none'
         addBinomeForm.reset()
+        window.location.href = '/admin/binome'
       }, 3000)
     })
     .catch((error) => {

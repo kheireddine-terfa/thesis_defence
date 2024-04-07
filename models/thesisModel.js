@@ -9,6 +9,10 @@ const thesisSchema = new mongoose.Schema({
     type: String,
     required: [true, 'a theme should have a description'],
   },
+  affected: {
+    type: Boolean,
+    default: false,
+  },
   speciality: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Speciality',

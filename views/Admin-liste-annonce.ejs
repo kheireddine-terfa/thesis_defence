@@ -1,0 +1,77 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Annonce</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/announces">Annonces</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <a
+            href="/admin/announce"
+            style="position: absolute; right: 60px;"
+            class="mt-4"
+          >
+            <button class="btn btn-success fs-5">
+              <i class="bi bi-plus-circle"></i>
+              Ajouter
+            </button>
+          </a>
+          <h3 class="mt-4">La liste des annonces</h3>
+          <p>Vous pouver consulter et supprimer les annonces</p>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col">Titre</th>
+                <th scope="col" width="10%">Créée le.</th>
+                <th scope="col" width="50%">Contenu</th>
+                <th scope="col" width="9%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (announces.length > 0 ) { %> <% announces.forEach(function(announce){ %>
+              <tr>
+                <td><%= announce.title %></td>
+                <td><%= announce.createdAtFormatted %></td>
+                <td>
+                  <%= announce.formattedContent %>
+                </td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger deleteButtonConf"
+                    >
+                    <i  class="bi bi-trash delete-announce" data-announce-id="<%= announce._id %>" id="delete-announce-<%= announce._id %>"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %> 
+              <% } %>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

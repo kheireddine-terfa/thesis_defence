@@ -3,12 +3,25 @@ const addProfessorForm = document.querySelector('.add-professor-form')
 
 addProfessorBtn.addEventListener('click', function (e) {
   e.preventDefault()
+
   const formData = new FormData(addProfessorForm) // Get form data
+
   // Convert form data to JSON object
   const jsonData = {}
   formData.forEach(function (value, key) {
-    jsonData[key] = value
+    if (key === 'fields') {
+      // If key is 'fields', we want to ensure it's sent as an array
+      // Retrieve existing array or initialize it if it doesn't exist
+      if (!jsonData[key]) {
+        jsonData[key] = []
+      }
+      // Add the new value to the array
+      jsonData[key].push(value)
+    } else {
+      jsonData[key] = value
+    }
   })
+
   fetch(`/admin/professor`, {
     method: 'POST',
     headers: {
@@ -25,7 +38,7 @@ addProfessorBtn.addEventListener('click', function (e) {
     .then((data) => {
       const addPopUp = document.getElementById('popup-add')
       const popUpContent = document.getElementById('popup-content')
-      popUpContent.textContent = 'professor added successfully ..'
+      popUpContent.textContent = 'Professor added successfully.'
       if (addPopUp) {
         addPopUp.style.display = 'flex'
       }
@@ -36,6 +49,6 @@ addProfessorBtn.addEventListener('click', function (e) {
     })
     .catch((error) => {
       // Handle errors
-      console.error('Error adding  announce:', error)
+      console.error('Error adding professor:', error)
     })
 })

@@ -1,0 +1,97 @@
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Session</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Accueil</a></li>
+          <li class="breadcrumb-item"><a href="/admin/sessions">Sessions</a></li>
+          <li class="breadcrumb-item active">Modifier</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+            <div class="card-body">
+            <h2 class="mb-4 mt-4">Modification d'une session de soutenance</h2>
+
+            <!-- No Labels Form -->
+
+            <form class="row needs-validation update-session-form" novalidate>
+                <h5 class="text-center mb-4"><Strong>Modification d'une session de soutenance</Strong> :</h5>
+                
+                        <div  class="col-md-6 mb-3">
+                        <label for="academicYear"><em>Année académique</em></label>
+                        <select disabled class="form-select form-control text-center" aria-label="Default select example" name="academicYear" id="academicYear">
+                            <option value="<%= session.academicYear %>" selected><%= session.academicYear %></option>
+                        </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="sessionType"><em>Type de soutenance</em></label>
+                            <input disabled value="<%= session.sessionType %>" type="text" class="form-control" id="sessionType" name="sessionType" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir un type
+                            </div>
+                        </div>
+                    
+                        <div class="mb-3 col-md-3">
+                            <label for="startSession"><em>Date de debut des soutenances</em></label>
+                            <input type="date" class="form-control" value="<%= session.startSession.toISOString().slice(0, 10) %>" id="startSession" name="startSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2 col-md-3">
+                            <label for="endSession"><em>Date de fin des soutenances</em></label>
+                            <input type="date" class="form-control" value="<%= session.endSession.toISOString().slice(0, 10) %>" id="endSession" name="endSession" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une date.
+                            </div>
+                        </div>
+                        <div class="mb-2 col-md-3">
+                            <label for="startDayHour"><em>Heure de début de journée</em></label>
+                            <input type="time" class="form-control" value="<%= session.startDayHour %>" id="startDayHour" name="startDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="mb-2 col-md-3">
+                            <label for="endDayHour"><em>Heure de fin de journée</em></label>
+                            <input type="time" class="form-control" value="<%= session.endDayHour %>" id="endDayHour" name="endDayHour" placeholder="Prenom" required>
+                            <div class="invalid-feedback">
+                            Veuillez fournir une heure.
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="mb-2 col-md-4">
+                            <label for="thesisDefenceDuration"><em>Durée d'une soutenance (en minutes)</em></label>
+                            <input type="number" class="form-control" value="<%= session.thesisDefenceDuration %>" id="thesisDefenceDuration" name="thesisDefenceDuration" placeholder="e.g : une heure et demi : 90" required min="0" step="15">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>
+                        <div class="mb-2 col-md-4">
+                            <label for="break"><em>Décalage entre les soutenances (en minutes)</em></label>
+                            <input type="number" class="form-control" value="<%= session.break %>" id="break" name="break" placeholder="e.g : un quart d'heure : 15" required min="0" step="15">
+                            <div class="invalid-feedback">
+                            Veuillez fournir une durée.
+                            </div>
+                        </div>                    
+                </div>
+                    
+                              
+              <div class="text-center mb-3">
+                <button type="submit" class="btn btn-primary" id="update-session-btn" data-session-id = "<%= session._id %>">submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+              
+            </form><!-- End No Labels Form --> 
+          </div>
+        </div>      
+      </div>
+    </section>
+
+  </main><!-- End #main -->

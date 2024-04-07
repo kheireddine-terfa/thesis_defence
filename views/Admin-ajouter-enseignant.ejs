@@ -4,10 +4,10 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="Admin-accueil.html">Accueil</a>
+          <a href="/admin">Accueil</a>
         </li>
         <li class="breadcrumb-item">
-          <a href="Admin-liste-enseignant.html">Enseignants</a>
+          <a href="/admin/professors">Enseignants</a>
         </li>
         <li class="breadcrumb-item active">Ajouter</li>
       </ol>
@@ -98,15 +98,14 @@
                 </select>
               </div>
             </div>
-
             <div class="col-md-12">
               <div>
                 <select
                   class="form-select"
                   multiple
                   aria-label="multiple select example"
-                  name="fields"
-                >
+                  name="fields" id="fields"
+                >  
                   <option selected>Domaine d'expertise</option>
                   <% if (fields.length > 0 ) { %> <%
                     fields.forEach(function(field){ %>
@@ -117,7 +116,6 @@
                 </select>
               </div>
             </div>
-
             <div class="text-center">
               <button type="submit" class="btn btn-primary" id="add-professor-btn">Submit</button>
               <button type="reset" class="btn btn-secondary">Reset</button>

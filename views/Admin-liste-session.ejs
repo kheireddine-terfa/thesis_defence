@@ -1,0 +1,133 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Session</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/admin">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/admin/sessions">Session</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <!--L'admin n'a pas encore créé de session :-->
+          <div class="text-center">
+            <h3 class="mt-4">
+              <strong>Aucune session créée pour le moment !</strong>
+            </h3>
+            <p>
+              <strong>
+                Nous vous invitons à clicker sur le boutton - Créer - pour
+                saisir
+                <br />
+                les informations des sessions de soutenance (normal &
+                rattrapage)
+              </strong>
+            </p>
+            <a href="/admin/session" class="btn btn-success">
+              Créer session
+            </a>
+          </div>
+
+          <!--End  "L'admin n'a pas encore créé de session :"-->
+
+          <!--L'admin a déjà créé de session :-->
+          <h3 class="mt-4">Les informations des sessions de soutenance</h3>
+          <p>
+            Vous pouver consulter, modifier et supprimer les session de
+            soutenance
+          </p>
+
+          <!-- Table with stripped rows -->
+          <table class="table table-striped text-center">
+            <thead>
+              <tr>
+                <th scope="col" width="30%">Session</th>
+                <th scope="col">Normale</th>
+                <th scope="col">Rattrapage</th>
+              </tr>
+            </thead>
+            <% if(retakeSession.length > 0 && normalSession.length > 0){ %>
+            <tbody>
+              <tr>
+                <th scope="row">Année académique</th>
+                <td><%= normalSession[0].academicYear %></td>
+                <td><%= retakeSession[0].academicYear %></td>
+              </tr>
+              <tr>
+                <th scope="row">Debut de session</th>
+                <td><%= normalSession[0].dateFormatted.start %></td>
+                <td><%= retakeSession[0].dateFormatted.start %></td>
+              </tr>
+              <tr>
+                <th scope="row">Fin de session</th>
+                <td><%= normalSession[0].dateFormatted.end %></td>
+                <td><%= retakeSession[0].dateFormatted.end %></td>
+              </tr>
+              <tr>
+                <th scope="row">Durée d'une soutenance (min)</th>
+                <td><%= normalSession[0].thesisDefenceDuration %></td>
+                <td><%= retakeSession[0].thesisDefenceDuration %></td>
+              </tr>
+              <tr>
+                <th scope="row">Décalage (min)</th>
+                <td><%= normalSession[0].break %></td>
+                <td><%= retakeSession[0].break %></td>
+              </tr>
+              <tr>
+                <th scope="row">Début de la journée</th>
+                <td><%= normalSession[0].startDayHour %></td>
+                <td><%= retakeSession[0].startDayHour %></td>
+              </tr>
+              <tr>
+                <th scope="row">Fin de la journée</th>
+                <td><%= normalSession[0].endDayHour %></td>
+                <td><%= retakeSession[0].endDayHour %></td>
+              </tr>
+              <tr>
+                <th scope="row">Modifier</th>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                  <a href="/admin/session/<%= normalSession[0]._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                  <a href="/admin/session/<%= retakeSession[0]._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <% } %>
+          </table>
+          <!-- End Table with stripped rows -->
+          <div style="text-align: right; margin-top: 30px;">
+            <button
+              class="btn btn-danger "
+              id="delete-session-btn"
+            >
+              Réenitialiser les sessions
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

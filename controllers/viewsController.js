@@ -5,11 +5,12 @@ const Field = require('../models/fieldModel')
 const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
 const Student = require('../models/studentModel')
+const Professor = require('../models/professorModel')
 
 //--------------------- controllers : ------------------
 exports.getIndexPage = (req, res) => {
-  res.status(200).json({
-    message: 'hello this is the index page',
+  res.status(200).render('login_users', {
+    layout: false,
   })
 }
 //------------------------:
@@ -117,9 +118,28 @@ exports.getAdminLoginForm = (req, res) => {
     layout: false,
   })
 }
+exports.getAdminInfos = async (req, res) => {
+  const user = req.user
+  res.status(200).render('Admin-users-profile', {
+    layout: 'Admin-nav-bar',
+    user,
+  })
+}
 exports.getAddAnnounceForm = (req, res) => {
   res.status(200).render('Admin-ajouter-annonce', {
     layout: 'admin-nav-bar',
+  })
+}
+exports.getAllAnnouncesAdmin = async (req, res) => {
+  const announces = await Announce.find()
+  const time = announces[0].createdAt.toDateString()
+  // console.log(time)
+  // const date = time.split('.')
+  // console.log(date)
+
+  res.status(200).render('Admin-liste-annonce', {
+    layout: 'admin-nav-bar',
+    announces,
   })
 }
 exports.getAddBinomeForm = async (req, res) => {
@@ -141,5 +161,34 @@ exports.getAddProfessorForm = async (req, res) => {
   res.status(200).render('Admin-ajouter-enseignant', {
     layout: 'admin-nav-bar',
     fields,
+  })
+}
+exports.getAddStudentForm = async (req, res) => {
+  const specialities = await Speciality.find()
+  res.status(200).render('Admin-ajouter-etudiant', {
+    layout: 'admin-nav-bar',
+    specialities,
+  })
+}
+exports.getAddSpecialityForm = (req, res) => {
+  res.status(200).render('Admin-ajouter-specialite', {
+    layout: 'admin-nav-bar',
+  })
+}
+exports.getAddPremiseForm = (req, res) => {
+  res.status(200).render('Admin-ajouter-local', {
+    layout: 'admin-nav-bar',
+  })
+}
+exports.getAddSessionForm = (req, res) => {
+  res.status(200).render('Admin-ajouter-session', {
+    layout: 'admin-nav-bar',
+  })
+}
+exports.getAddNonAvailibilityForm = async (req, res) => {
+  const professors = await Professor.find()
+  res.status(200).render('Admin-ajouter-non-disponibilite', {
+    layout: 'admin-nav-bar',
+    professors,
   })
 }

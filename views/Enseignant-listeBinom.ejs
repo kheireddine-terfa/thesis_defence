@@ -20,7 +20,7 @@
                 <% if (supervisedBinomes.length > 0 ) { %> <% supervisedBinomes.forEach(function(binome){ %>
                 <tr>
                   <td><%= binome.userName %></td>
-                  <td><%= binome.ApprovedThesis.field.title %></td>
+                  <td><%= binome.ApprovedThesis.field ? binome.ApprovedThesis.field.title : 'deleted'%></td>
                   <td><%= binome.ApprovedThesis.title %></td>
                   <td><%= binome.ApprovedThesis.speciality.title %></td>
                   <td><%= binome.ApprovedThesis.description %></td>

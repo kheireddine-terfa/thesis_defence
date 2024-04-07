@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const User = require('./userModel')
 const bcrypt = require('bcrypt')
-
 const professorSchema = new mongoose.Schema({
   grade: {
     type: String,
@@ -33,13 +32,20 @@ const professorSchema = new mongoose.Schema({
       ref: 'Binome',
     },
   ],
+  nonAvailibility: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'NonAvailibility',
+    },
+  ],
 })
 professorSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'fields theses supervisedBinomes',
+    path: 'fields theses supervisedBinomes nonAvailibility',
   })
   next()
 })
+
 professorSchema.pre('save', async function (next) {
   //check if the password field modified or not (new or updated)
   if (!this.isModified('password')) return next()
