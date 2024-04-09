@@ -197,3 +197,54 @@ exports.protect = async (req, res, next) => {
   req.role = role
   next()
 }
+//---------------------  update password :
+exports.updatePassword = async (req, res, next) => {
+  //1 get the user from collection : req.admin obtained with the protect middelware
+  const { currentPassword, newPassword, passwordConfirm } = req.body
+  let user, role
+  if (req.originalUrl === '/admin/password') {
+    role = 'admin'
+    user = await Admin.findById(req.user._id).select('+password')
+  } else if (req.originalUrl === '/professor/password') {
+    role = 'professor'
+    user = await Professor.findById(req.user._id).select('+password')
+  } else if (req.originalUrl === '/binome/password') {
+    role = 'binome'
+    user = await Binome.findById(req.user._id).select('+password')
+  } else {
+    role = 'invalid'
+    return res.status(404).json({
+      status: 'fail',
+      message: 'you are not allowed to get access from here',
+    })
+  }
+  if (!user) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'opps! you are not logged in , please login to get access ',
+    })
+  }
+  //2 check if the current password is correct :
+  if (!(await user.correctPassword(currentPassword))) {
+    return res.status(401).json({
+      status: 'fail',
+      message: 'invalid current password. try again ',
+    })
+  }
+  //3 if so update user :
+  user.password = newPassword
+  user.passwordConfirm = passwordConfirm
+  await user.save()
+  //4 log the user in :
+  const token = signToekn(user._id)
+  res.cookie('token', token, {
+    maxAge: 60 * 60 * 24 * 30 * 1000,
+    httpOnly: true,
+  })
+  res.clearCookie('token')
+  res.status(200).json({
+    status: 'success',
+    message: 'password has been updated successfully',
+    role,
+  })
+}

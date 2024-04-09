@@ -192,3 +192,23 @@ exports.getAddNonAvailibilityForm = async (req, res) => {
     professors,
   })
 }
+exports.getUpdatePasswordForm = (req, res) => {
+  if (req.originalUrl === '/admin/password') {
+    res.status(200).render('Admin-modifier-password', {
+      layout: 'Admin-nav-bar',
+    })
+  } else if (req.originalUrl === '/professor/password') {
+    res.status(200).render('Enseignant-changerMotDePasse', {
+      layout: 'professorLayout',
+    })
+  } else if (req.originalUrl === '/binome/password') {
+    res.status(200).render('Etudiant-changer-le-mot-de-passe', {
+      layout: 'binomeLayout',
+    })
+  } else {
+    res.status(404).json({
+      status: 'fail',
+      message: 'page not found',
+    })
+  }
+}

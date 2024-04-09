@@ -9,6 +9,18 @@ const userSchema = new mongoose.Schema({
     minlength: [8, 'password must have more then 8 characters'],
     select: false,
   },
+  passwordConfirm: {
+    type: String,
+    required: [true, 'please provide the password confirm'],
+    validate: {
+      validator: function (el) {
+        // this only works on save :  create new object
+        return el === this.password
+      },
+      message: 'passwords are not the same !',
+    },
+  },
+  passwordChangedAt: Date,
   email: {
     type: String,
     validate: [validator.isEmail, 'please provide a valid email'],

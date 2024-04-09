@@ -25,6 +25,7 @@ studentSchema.pre('save', async function (next) {
   // encypt the password
   this.password = await bcrypt.hash(this.password, 12)
   // delete the passwordConfirm to be no presisted in the DB (because we need it only for validation)
+  this.passwordConfirm = undefined
   next()
 })
 // instance methods:

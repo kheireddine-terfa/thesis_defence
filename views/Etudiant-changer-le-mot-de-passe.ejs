@@ -1,0 +1,60 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/binome">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">Changer le mot de passe</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section profile">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h2 style="color: #3088de; margin-bottom: 70px;">
+              Changer le mot de passe
+            </h2>
+            <form class="update-password-form">
+              <div class="row mb-3">
+                <label for="currentPassword" class="col-sm-2 col-form-label">
+                  Mot de passe actuel
+                </label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" name="currentPassword" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="newPassword" class="col-sm-2 col-form-label">
+                  Nouveau mot de passe
+                </label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" name="newPassword"/>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="passwordConfirm" class="col-sm-2 col-form-label">
+                  Confirmer le nouveau mot de passe
+                </label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control"  name="passwordConfirm"/>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-lg-12" style="margin-left: 76%;">
+                  <button type="submit" class="btn btn-primary update-password-btn" data-user-type = 'binome'>
+                    Changer le mot de passe
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->

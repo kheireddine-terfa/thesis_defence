@@ -14,7 +14,7 @@
   background: gainsboro;
 }
 #popup-add {
-  width: 40%;
+  min-width: 40%;
   top: 40%;
   left: 40%;
   position: absolute;
