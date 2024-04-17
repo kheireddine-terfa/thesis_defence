@@ -11273,3 +11273,14 @@ footer a:hover, footer a:active, footer a:focus {
   z-index: 3;
 }
 
+
+/*************annonce**************/
+
+.annonce:hover{
+  background-color: rgb(245, 245, 250);
+  transform: scale(1.02);
+  
+}
+.annonce{
+  transition: all 0.2s;
+}

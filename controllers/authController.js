@@ -199,6 +199,7 @@ exports.protect = async (req, res, next) => {
 }
 //---------------------  update password :
 exports.updatePassword = async (req, res, next) => {
+
   //1 get the user from collection : req.admin obtained with the protect middelware
   const { currentPassword, newPassword, passwordConfirm } = req.body
   let user, role
@@ -212,6 +213,7 @@ exports.updatePassword = async (req, res, next) => {
     role = 'binome'
     user = await Binome.findById(req.user._id).select('+password')
   } else {
+
     role = 'invalid'
     return res.status(404).json({
       status: 'fail',
