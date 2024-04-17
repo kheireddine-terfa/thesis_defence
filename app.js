@@ -16,7 +16,7 @@ app.use(cookieParser())
 // STATIC FILES :
 app.use(express.static(path.join(__dirname, 'public')))
 
-// TEMPLATING ENGINE :  
+// TEMPLATING ENGINE :   
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))

@@ -16,11 +16,9 @@ exports.getIndexPage = (req, res) => {
 //------------------------:
 exports.getAllAnnounces = async (req, res) => {
   const announces = await Announce.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      announces,
-    },
+  res.status(200).render('announces', {
+    layout: false,
+    announces,
   })
 }
 //---------------:
@@ -132,7 +130,7 @@ exports.getAddAnnounceForm = (req, res) => {
 }
 exports.getAllAnnouncesAdmin = async (req, res) => {
   const announces = await Announce.find()
-  const time = announces[0].createdAt.toDateString()
+  //const time = announces[0].createdAt.toDateString()
   // console.log(time)
   // const date = time.split('.')
   // console.log(date)
