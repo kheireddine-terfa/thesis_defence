@@ -24,8 +24,8 @@ app.set('views', path.join(__dirname, 'views'))
 //4) ROUTE
 app.use('/', viewRoutes)
 app.use('/admin', adminRoutes)
-app.use('/professor', professorRoutes)
-app.use('/student', studentRoutes)
+app.use('/professor', professorRoutes)  
+// app.use('/student', studentRoutes)
 app.use('/binome', binomeRoutes)
 
 // handel unhandeled route
