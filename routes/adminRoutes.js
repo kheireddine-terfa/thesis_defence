@@ -83,7 +83,7 @@ router
   .route('/non-availibility/:id')
   .get(adminController.getNonAvailibility)
   .patch(adminController.updateNonAvailibility)
-// router.route('/non-availibility').get(adminController.getNonAvailibility).delete(adminController.deleteSpeciality).patch(adminController.updateSpeciality)
+  .delete(adminController.deleteNonAvailibility)
 router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
 

@@ -28,7 +28,6 @@
           <table class="table datatable">
             <thead>
               <tr>
-                <th scope="col">Id</th>
                 <th scope="col">Enseignant</th>
                 <th scope="col">Intitulé</th>
                 <th scope="col">Description</th>
@@ -37,69 +36,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr>
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
+              <% if (professors.length > 0 ) { %> <% professors.forEach(function(professor){ %>
+                <tr style="margin: 0 auto;">
+                  <td><%= `${professor.firstName} ${professor.firstName}` %></td>
+                  <td><%= professor.thesis %></td>
+                  <td>
+                    <%= professor.description %>
+                  </td>
+                  <td><%= professor.field %></td>
+                  <td><%= professor.speciality %></td>
+                </tr>
+                <% }); %> 
+                <% } %>
             </tbody>
           </table>
-          <!-- End Table with stripped rows -->
+          <!-- End Table with stripped rows -->    
         </div>
       </div>
     </div>

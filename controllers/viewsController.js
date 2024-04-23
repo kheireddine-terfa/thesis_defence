@@ -130,7 +130,7 @@ exports.getAddAnnounceForm = (req, res) => {
 }
 exports.getAllAnnouncesAdmin = async (req, res) => {
   const announces = await Announce.find()
-//  const time = announces[0].createdAt.toDateString()
+  //const time = announces[0].createdAt.toDateString()
   // console.log(time)
   // const date = time.split('.')
   // console.log(date)

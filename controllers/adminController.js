@@ -8,6 +8,7 @@ const Field = require('../models/fieldModel')
 const jwt = require('jsonwebtoken')
 const Session = require('../models/sessionModel')
 const NonAvailibility = require('../models/nonAvailibilityModel')
+const Thesis = require('../models/thesisModel')
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -108,6 +109,19 @@ exports.updateBinome = async (req, res) => {
 
 exports.deleteBinome = async (req, res) => {
   const binomeId = req.params.id
+  const binome = await Binome.findById(binomeId)
+  // if (binome.selectedThesis.length > 0) {
+  //   return res.status(403).json({
+  //     status: 'fail',
+  //     message: 'you can not delete this! the binome has selected theses',
+  //   })
+  // }
+  if (binome.ApprovedThesis) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'you can not delete this! the binome has an approved thesis',
+    })
+  }
   const deletedBinome = await Binome.findByIdAndDelete(binomeId)
   res.status(204).json({
     status: 'success',
@@ -182,6 +196,7 @@ exports.addAndSignUpProfessor = async (req, res) => {
     email,
     fields,
     nbr_of_examined_theses,
+    charge: nbr_of_examined_theses,
     grade,
     password: `${firstName}.${lastName}`,
   })
@@ -234,7 +249,14 @@ exports.updateProfessor = async (req, res) => {
 
 exports.deleteProfessor = async (req, res) => {
   const professorId = req.params.id
-  const professor = await Professor.findByIdAndDelete(professorId)
+  const professor = await Professor.findById(professorId)
+  if (professor.theses.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'you can not delete this! the professor has theses',
+    })
+  }
+  const deltedProfessor = await Professor.findByIdAndDelete(professorId)
   res.status(204).json({
     status: 'success',
     message: 'professor deleted successfully',
@@ -271,6 +293,16 @@ exports.getPremise = async (req, res) => {
 
 exports.deletePremise = async (req, res) => {
   const premiseId = req.params.id
+  const theses = await Thesis.find({
+    premise: premiseId,
+  })
+  if (theses.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'you can not delete this! this premise is attributed to a thesis',
+    })
+  }
   const premise = await Premise.findByIdAndDelete(premiseId)
   res.status(204).json({
     status: 'success',
@@ -321,6 +353,26 @@ exports.getAllSpeciality = async (req, res) => {
 
 exports.deleteSpeciality = async (req, res) => {
   const specialityId = req.params.id
+  const students = await Student.find({
+    speciality: specialityId,
+  })
+  if (students.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'you can not perform this action! speciality is attributed to student',
+    })
+  }
+  const theses = await Thesis.find({
+    speciality: specialityId,
+  })
+  if (theses.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'you can not perform this action! speciality is attributed to thesis',
+    })
+  }
   const deletedSpeciality = await Speciality.findByIdAndDelete(specialityId)
   res.status(204).json({
     status: 'success',
@@ -379,8 +431,23 @@ exports.getField = async (req, res) => {
 
 exports.deleteField = async (req, res) => {
   const fieldId = req.params.id
+  const professors = await Professor.find({ fields: fieldId })
+  const theses = await Thesis.find({ field: fieldId })
+  if (professors.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'you can not perfome this action! this filed is attributed to professor',
+    })
+  }
+  if (theses.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'you can not perfome this action! this filed is attributed to thesis',
+    })
+  }
   const deletedField = await Field.findByIdAndDelete(fieldId)
-  console.log(fieldId)
   res.status(204).json({
     status: 'success',
     message: 'field successfully deleted',
@@ -441,6 +508,17 @@ exports.getStudent = async (req, res) => {
 
 exports.deleteStudent = async (req, res) => {
   const studentId = req.params.id
+  const binome = await Binome.findOne({
+    $or: [{ student1: studentId }, { student2: studentId }],
+  })
+
+  if (binome) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'The student is part of a binome. Remove them from the binome first.',
+    })
+  }
   const deletedStudent = await Student.findByIdAndDelete(studentId)
   res.status(204).json({
     status: 'success',
@@ -464,9 +542,17 @@ exports.updateStudent = async (req, res) => {
 }
 //-----------------:
 exports.addSession = async (req, res) => {
+  countSession = await Session.find().countDocuments()
+  if (countSession > 0) {
+    return res.status(401).json({
+      status: 'fail',
+      message:
+        'opps ! you can not add another sessions , you need to delete the existing sessions to perform this action',
+    })
+  }
   const normalSession = await Session.create({
     sessionType: 'normal',
-    academicYear: req.body.academicYear,
+    // academicYear: req.body.academicYear,
     startSession: req.body.startSession,
     endSession: req.body.endSession,
     thesisDefenceDuration: req.body.thesisDefenceDuration,
@@ -476,7 +562,7 @@ exports.addSession = async (req, res) => {
   })
   const retakeSession = await Session.create({
     sessionType: 'retake',
-    academicYear: req.body.academicYear,
+    // academicYear: req.body.academicYear,
     startSession: req.body.r_startSession,
     endSession: req.body.r_endSession,
     thesisDefenceDuration: req.body.r_thesisDefenceDuration,
@@ -494,10 +580,12 @@ exports.addSession = async (req, res) => {
 exports.getAllSession = async (req, res) => {
   const normalSession = await Session.find({ sessionType: 'normal' })
   const retakeSession = await Session.find({ sessionType: 'retake' })
+  const countSession = await Session.find().countDocuments()
   res.status(200).render('Admin-liste-session', {
     layout: 'Admin-nav-bar',
     normalSession,
     retakeSession,
+    countSession,
   })
 }
 //-----------------:
@@ -570,6 +658,7 @@ exports.getAllNonAvailibility = async (req, res) => {
         const nonAvailibility = await NonAvailibility.findById(
           professor.nonAvailibility,
         )
+
         const startDay = nonAvailibility.startDay.toLocaleDateString('en-GB')
         const endDay = nonAvailibility.endDay.toLocaleDateString('en-GB')
         return {
@@ -628,14 +717,91 @@ exports.updateNonAvailibility = async (req, res) => {
     nonAv,
   })
 }
+exports.deleteNonAvailibility = async (req, res) => {
+  const nonAvId = req.params.id
+  const nonAv = await NonAvailibility.findByIdAndDelete(nonAvId)
+  const professor = await Professor.findOneAndUpdate(
+    { nonAvailibility: nonAvId },
+    { $pull: { nonAvailibility: nonAvId } },
+    {
+      new: true,
+    },
+  )
+  res.status(204).json({
+    status: 'success',
+    message: 'non availibility deleted',
+  })
+}
 //----------------------
 exports.getAllAffectedTheses = async (req, res) => {
+  const binomes = await Binome.find({ ApprovedThesis: { $exists: true } })
   res.status(200).render('Admin-liste-theme-affectes', {
     layout: 'Admin-nav-bar',
+    binomes,
   })
 }
 exports.getAllProposedTheses = async (req, res) => {
+  const professors = await Professor.aggregate([
+    {
+      $unwind: '$theses', // Unwind the theses array
+    },
+    {
+      $lookup: {
+        from: 'theses',
+        localField: 'theses',
+        foreignField: '_id',
+        as: 'thesisDetails',
+      },
+    },
+    {
+      $unwind: '$thesisDetails', // Unwind the result of the lookup
+    },
+    {
+      $match: {
+        'thesisDetails.affected': false, // Filter out affected theses
+      },
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        thesis: '$thesisDetails.title',
+        description: '$thesisDetails.description',
+        field: '$thesisDetails.field',
+        speciality: '$thesisDetails.speciality',
+      },
+    },
+    {
+      $lookup: {
+        // Join with the Field collection to get field details
+        from: 'fields',
+        localField: 'field',
+        foreignField: '_id',
+        as: 'fieldDetails',
+      },
+    },
+    {
+      $lookup: {
+        // Join with the Speciality collection to get speciality details
+        from: 'specialities',
+        localField: 'speciality',
+        foreignField: '_id',
+        as: 'specialityDetails',
+      },
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        thesis: 1,
+        description: 1,
+        field: { $arrayElemAt: ['$fieldDetails.title', 0] }, // Extract field title from array
+        speciality: { $arrayElemAt: ['$specialityDetails.title', 0] }, // Extract speciality title from array
+      },
+    },
+  ])
   res.status(200).render('Admin-liste-theme-proposes', {
     layout: 'Admin-nav-bar',
+    professors,
   })
 }

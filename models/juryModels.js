@@ -10,6 +10,11 @@ const jurySchema = new mongoose.Schema({
     ref: 'Professor',
     required: true,
   },
+  // add reference to thesis:
+  thesis: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'thesis',
+  },
 })
 
 const Jury = mongoose.model('Jury', jurySchema)

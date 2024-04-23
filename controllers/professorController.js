@@ -4,6 +4,7 @@ const Professor = require('../models/professorModel')
 const Speciality = require('../models/specialityModel')
 const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
+const Session = require('../models/sessionModel')
 //------------------ controllers: --------------------------------
 exports.addThesis = async (req, res) => {
   const { title, description, fieldId, specialityId } = req.body
@@ -192,10 +193,35 @@ exports.validateCandidacy = async (req, res) => {
     { $push: { supervisedBinomes: binomeId } },
     { new: true },
   )
+  //5 chnage the affected attibut in thesis model :
+  const currentThesis = await Thesis.findByIdAndUpdate(thesisId, {
+    affected: true,
+  })
+  // reference the the thesis to normal session :
+  const normalSession = await Session.find({ sessionType: 'normal' })
+  if (normalSession) {
+    const updatedThesis = await Thesis.findByIdAndUpdate(
+      thesisId,
+      {
+        session: normalSession[0]._id,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    )
+  } else {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'session has not been created yet',
+    })
+  }
+
   res.status(200).json({
     status: 'success',
     updatedBinome,
     updatedProfessor,
+    currentThesis,
   })
 }
 //----------------:

@@ -22,6 +22,10 @@ validateBtns.forEach(function (validateBtn) {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
+        const thesisRow = validateBtn.closest('tr') // Find the closest ancestor <tr> element
+        if (thesisRow) {
+          thesisRow.remove() // remove row
+        }
         return response.json()
       })
       .then((data) => {
@@ -29,7 +33,8 @@ validateBtns.forEach(function (validateBtn) {
       })
       .catch((error) => {
         // Handle errors
-        console.error('Error updating thesis:', error)
+        // show error
+        console.error('Error validating thesis:', error)
       })
   })
 })

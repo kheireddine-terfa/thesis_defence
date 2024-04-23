@@ -32,9 +32,13 @@
                 rattrapage)
               </strong>
             </p>
-            <a href="/admin/session" class="btn btn-success">
+            <% if(countSession > 0) { %>
+              <a href="#" class="btn btn-success disabled-link">Créer session</a>
+            <% }else { %>
+            <a href="/admin/session" class="btn btn-success">  
               Créer session
             </a>
+            <% } %>
           </div>
 
           <!--End  "L'admin n'a pas encore créé de session :"-->
@@ -57,11 +61,11 @@
             </thead>
             <% if(retakeSession.length > 0 && normalSession.length > 0){ %>
             <tbody>
-              <tr>
+              <!-- <tr>
                 <th scope="row">Année académique</th>
                 <td><%= normalSession[0].academicYear %></td>
                 <td><%= retakeSession[0].academicYear %></td>
-              </tr>
+              </tr> -->
               <tr>
                 <th scope="row">Debut de session</th>
                 <td><%= normalSession[0].dateFormatted.start %></td>

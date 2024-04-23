@@ -42,7 +42,7 @@
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">speciality</div>
                     <div class="col-lg-9 col-md-8">
-                      <%= user.student1.speciality ? user.student1.speciality : 'not attributed yet ..'; %>
+                      <%= user.student1.speciality ? user.student1.speciality.title : 'not attributed yet ..'; %>
                     </div>
                   </div>
                   <br> <br>
@@ -68,7 +68,7 @@
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">speciality</div>
                       <div class="col-lg-9 col-md-8">
-                        <%= user.student2.speciality ? user.student2.speciality : 'not attributed yet ..'; %>
+                        <%= user.student2.speciality ? user.student2.speciality.title : 'not attributed yet ..'; %>
                       </div>
                     </div>
                     <br> <br>
