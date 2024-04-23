@@ -138,9 +138,21 @@
       </ul>
     </aside>
     <!-- End Sidebar-->
+    <div class="popup" id="popup">
+      <i class="bi bi-trash"></i>
+      <h4>do you really want to delete this !</h4>
+      <div>      
+        <button type="button" class="btn btn-danger" id="delete-btn-pp">Delete</button>
+        <button type="button" class="btn btn-secondary" id="cancel-btn-pp">Cancel</button>
+      </div>
+    </div>
     <div id="popup-add">
       <i class="bi bi-check-circle"></i>
       <p id="popup-content">test</p>
+    </div>
+    <div class="popup-error" id="popup-error">
+      <i class="bi bi-exclamation-triangle text-danger"></i>
+      <p id="popup-error-content">test</p>
     </div>
     <%- body %>
     <!-- ======= Footer ======= -->

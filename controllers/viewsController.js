@@ -130,9 +130,11 @@ exports.getAddAnnounceForm = (req, res) => {
 }
 exports.getAllAnnouncesAdmin = async (req, res) => {
   const announces = await Announce.find()
+  const flag = 'an'
   res.status(200).render('Admin-liste-annonce', {
     layout: 'admin-nav-bar',
     announces,
+    flag,
   })
 }
 exports.getAddBinomeForm = async (req, res) => {
