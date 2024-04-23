@@ -26,6 +26,12 @@ const thesisSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Field',
   },
+  //reference to session :(link to normal session after affectation)
+  session: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Session',
+  },
+  //change refrence when session is reported ..
 })
 //***** define pre find hook (populate) later if needed ...
 thesisSchema.pre(/^find/, function (next) {

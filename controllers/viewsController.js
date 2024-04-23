@@ -130,11 +130,6 @@ exports.getAddAnnounceForm = (req, res) => {
 }
 exports.getAllAnnouncesAdmin = async (req, res) => {
   const announces = await Announce.find()
-  const time = announces[0].createdAt.toDateString()
-  // console.log(time)
-  // const date = time.split('.')
-  // console.log(date)
-
   res.status(200).render('Admin-liste-annonce', {
     layout: 'admin-nav-bar',
     announces,

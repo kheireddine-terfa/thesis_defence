@@ -27,9 +27,8 @@
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Enseignant</th>
+              <tr>  
+                <!-- <th scope="col">Enseignant</th> -->
                 <th scope="col">Binôme</th>
                 <th scope="col">Intitulé</th>
                 <th scope="col">Description</th>
@@ -38,83 +37,18 @@
               </tr>
             </thead>
             <tbody>
+              <% if (binomes.length > 0 ) { %> <% binomes.forEach(function(binome){ %>
               <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
+                <td><%= binome.userName %></td>
+                <td><%= binome.ApprovedThesis.title %></td>
+                <td><%= binome.ApprovedThesis.description %></td>
                 <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  <%= binome.ApprovedThesis.field.title %>
                 </td>
-                <td>Dev Web</td>
-                <td>GL</td>
+                <td><%= binome.ApprovedThesis.speciality.title %></td>
               </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
-              <tr style="margin: 0 auto;">
-                <th scope="row">001</th>
-                <td>FARAH Zoubayr</td>
-                <td>GL01</td>
-                <td>Planification des soutenance</td>
-                <td>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </td>
-                <td>Dev Web</td>
-                <td>GL</td>
-              </tr>
+              <% }); %> 
+              <% } %>
             </tbody>
           </table>
           <!-- End Table with stripped rows -->

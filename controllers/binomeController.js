@@ -75,5 +75,6 @@ exports.getAllTheses = async (req, res) => {
     layout: 'binomeLayout',
     theses,
     isSelectedArray,
+    binome,
   })
 }

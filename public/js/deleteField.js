@@ -1,11 +1,16 @@
 const deleteFieldBtns = document.querySelectorAll('.delete-field')
 const popupF = document.getElementsByClassName('popup')[0]
+const errorPopupF = document.getElementsByClassName('popup-error')[0]
 const cancelBtnF = document.getElementById('cancel-btn')
 const deleteBtnF = document.getElementById('delete-btn')
-
-// Function to handle the delete button click event
-function deleteButtonClickHandler(e) {
-  const fieldId = e.target.getAttribute('data-field-id')
+deleteFieldBtns.forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    popupF.style.display = 'flex'
+    deleteBtnF.setAttribute('data-id', btn.getAttribute('data-field-id'))
+  })
+})
+deleteBtnF.addEventListener('click', function () {
+  const fieldId = this.getAttribute('data-id')
   fetch(`/admin/field/${fieldId}`, {
     method: 'DELETE',
     headers: {
@@ -23,34 +28,27 @@ function deleteButtonClickHandler(e) {
             fieldRow.remove() // remove row
           }
         }
-        popupF.style.display = 'none'
+        popupB.style.display = 'none'
       } else {
-        const errMsj = document.getElementById('dlt-error')
-        errMsj.style.display = 'block'
-        console.error('Failed to delete field')
-        // Hide error message after 3 seconds
-        setTimeout(function () {
-          errMsj.style.display = 'none'
-        }, 2000)
+        response.json().then((data) => {
+          console.log('Error:', data.message)
+          // Display error message to the user
+          const errorMessageElement = document.getElementById(
+            'popup-error-content',
+          )
+          errorMessageElement.textContent = data.message
+          errorPopupF.style.display = 'flex' // Show error message
+          setTimeout(() => {
+            errorPopupF.style.display = 'none'
+          }, 3000)
+        })
       }
     })
     .catch((error) => {
-      console.error('Error:', error)
+      // console.error('Error:', error)
     })
-}
-
-// Add event listeners to delete buttons
-deleteFieldBtns.forEach(function (btn) {
-  btn.addEventListener('click', function (e) {
-    popupF.style.display = 'flex'
-    deleteBtnF.addEventListener('click', function () {
-      deleteButtonClickHandler(e)
-    })
-  })
 })
-
-// Event listener for the cancel button
-cancelBtnF.addEventListener('click', function (e) {
+cancelBtnF.addEventListener('click', function () {
   const parentElement = cancelBtnF.parentElement
   if (parentElement) {
     const grandparentElement = parentElement.parentElement
@@ -58,6 +56,4 @@ cancelBtnF.addEventListener('click', function (e) {
       grandparentElement.style.display = 'none'
     }
   }
-  // Remove the click event listener from the delete button
-  deleteBtnF.removeEventListener('click', deleteButtonClickHandler)
 })
