@@ -59,6 +59,13 @@ exports.updateThesis = async (req, res) => {
 exports.deleteThesis = async (req, res) => {
   const professor = Professor.findById(req.user._id)
   const thesisId = req.params.id
+  const binomes = await Binome.find({ selectedThesis: thesisId })
+  if (binomes.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'you can not delete this! thesis is selected by binome',
+    })
+  }
   const thesis = await Thesis.findById(thesisId)
   if (!thesis) {
     return res.status(404).json({

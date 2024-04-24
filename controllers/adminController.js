@@ -58,9 +58,11 @@ exports.addAndSignUpBinome = async (req, res) => {
 
 exports.getAllBinomes = async (req, res) => {
   const binomes = await Binome.find()
+  const flag = 'bi'
   res.status(200).render('Admin-liste-binome', {
     layout: 'Admin-nav-bar',
     binomes,
+    flag,
   })
 }
 //----------------------:
@@ -109,6 +111,7 @@ exports.updateBinome = async (req, res) => {
 
 exports.deleteBinome = async (req, res) => {
   const binomeId = req.params.id
+  console.log('hereeee')
   const binome = await Binome.findById(binomeId)
   // if (binome.selectedThesis.length > 0) {
   //   return res.status(403).json({
@@ -209,9 +212,11 @@ exports.addAndSignUpProfessor = async (req, res) => {
 //-------------------------------
 exports.getAllProfessors = async (req, res) => {
   const professors = await Professor.find()
+  const flag = 'pr'
   res.status(200).render('admin-liste-enseignant', {
     layout: 'admin-nav-bar',
     professors,
+    flag,
   })
 }
 //----------------------:
@@ -275,9 +280,11 @@ exports.addPremise = async (req, res) => {
 
 exports.getAllPremises = async (req, res) => {
   const premises = await Premise.find()
+  const flag = 'pre'
   res.status(200).render('Admin-liste-local', {
     layout: 'Admin-nav-bar',
     premises,
+    flag,
   })
 }
 //----------------------:
@@ -344,9 +351,11 @@ exports.getSpeciality = async (req, res) => {
 //----------------------:
 exports.getAllSpeciality = async (req, res) => {
   const specialities = await Speciality.find()
+  const flag = 'sp'
   res.status(200).render('Admin-liste-specialite', {
     layout: 'Admin-nav-bar',
     specialities,
+    flag,
   })
 }
 //----------------------:
@@ -412,9 +421,11 @@ exports.addField = async (req, res) => {
 
 exports.getAllFields = async (req, res) => {
   const fields = await Field.find()
+  const flag = 'fi'
   res.status(200).render('Admin-liste-domaine', {
     layout: 'Admin-nav-bar',
     fields,
+    flag,
   })
 }
 //----------------------:
@@ -487,9 +498,11 @@ exports.addAndSignUpStudent = async (req, res) => {
 }
 exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
+  const flag = 'st'
   res.status(200).render('Admin-liste-etudiant', {
     layout: 'Admin-nav-bar',
     students,
+    flag,
   })
 }
 //----------------------:
@@ -581,6 +594,7 @@ exports.getAllSession = async (req, res) => {
   const normalSession = await Session.find({ sessionType: 'normal' })
   const retakeSession = await Session.find({ sessionType: 'retake' })
   const countSession = await Session.find().countDocuments()
+  const flag = 'se'
   res.status(200).render('Admin-liste-session', {
     layout: 'Admin-nav-bar',
     normalSession,
@@ -668,9 +682,11 @@ exports.getAllNonAvailibility = async (req, res) => {
         }
       }),
     )
+    const flag = 'no'
     res.status(200).render('Admin-non-disponibilite', {
       layout: 'Admin-nav-bar',
       professorsWithAvailability,
+      flag,
     })
   } catch (err) {
     console.error(err)
