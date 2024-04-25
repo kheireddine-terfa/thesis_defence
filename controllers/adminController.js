@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 const Session = require('../models/sessionModel')
 const NonAvailibility = require('../models/nonAvailibilityModel')
 const Thesis = require('../models/thesisModel')
+const Jury = require('../models/juryModels')
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -198,8 +199,6 @@ exports.addAndSignUpProfessor = async (req, res) => {
     lastName,
     email,
     fields,
-    nbr_of_examined_theses,
-    charge: nbr_of_examined_theses,
     grade,
     password: `${firstName}.${lastName}`,
   })
@@ -572,6 +571,7 @@ exports.addSession = async (req, res) => {
     break: req.body.break,
     startDayHour: req.body.startDayHour,
     endDayHour: req.body.endDayHour,
+    minCharge: req.body.minCharge,
   })
   const retakeSession = await Session.create({
     sessionType: 'retake',
@@ -582,6 +582,7 @@ exports.addSession = async (req, res) => {
     break: req.body.break,
     startDayHour: req.body.r_startDayHour,
     endDayHour: req.body.r_endDayHour,
+    minCharge: req.body.minCharge,
   })
   res.status(201).json({
     status: 'success',
@@ -618,6 +619,11 @@ exports.updateSession = async (req, res) => {
     new: true,
     runValidators: true,
   })
+  const session = await Session.findOneAndUpdate(
+    { _id: { $ne: sessionId } },
+    { minCharge: req.body.minCharge },
+    { new: true },
+  )
   await updatedSession.save()
   res.status(200).json({
     status: 'success',
@@ -819,5 +825,266 @@ exports.getAllProposedTheses = async (req, res) => {
   res.status(200).render('Admin-liste-theme-proposes', {
     layout: 'Admin-nav-bar',
     professors,
+  })
+}
+//--------------------------
+exports.getAllJuries = async (req, res) => {
+  const juries = await Jury.find()
+  res.status(200).render('Admin-liste-jury', {
+    layout: 'Admin-nav-bar',
+    juries,
+  })
+}
+// Fonction de tri personnalisée pour trier les professeurs en fonction de leur grade
+
+exports.generateJuries = async (req, res) => {
+  const theses = await Thesis.find({ affected: true })
+  const session = await Session.findOne({ sessionType: 'normal' })
+  const gradeOrder = ['PR', 'MCA', 'MCB', 'MAA', 'MAB', 'PHD']
+  const minCharge = session.minCharge
+  let member, president
+  for (const thesis of theses) {
+    //1) find the supervisor of this thesis :
+    const thesisSupervisor = await Professor.findOne({ theses: thesis })
+    //2) get all the eligible professors
+    const eligibleProfessors = await Professor.find({
+      _id: { $ne: thesisSupervisor._id },
+      fields: { $in: thesis.field },
+      nbr_of_examined_theses: { $lt: minCharge },
+    })
+    //2-1) check if the length of eligible professors greater then 2
+    if (eligibleProfessors.length >= 2) {
+      // sort professors (EP) by grade
+      eligibleProfessors.sort((a, b) => {
+        return gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade)
+      })
+      // select the president an the member of jury
+      president = eligibleProfessors[0]
+      member = eligibleProfessors[eligibleProfessors.length - 1]
+    } else {
+      //1) check if there is one professor that is :
+      //                                  _ not supervisor
+      //                                  _ in the same field
+      //                                  _ did not reach the min charge
+      if (eligibleProfessors.length === 1) {
+        //1)find the alternative professors
+        //                          _ in other field
+        //                          _ didn't reach the min charge
+        const alternativeProfessors = await Professor.find({
+          _id: { $ne: thesisSupervisor._id },
+          fields: { $nin: thesis.field },
+          nbr_of_examined_theses: { $lt: minCharge },
+        })
+
+        //1-1) check if there is an alternative professors:
+        if (alternativeProfessors.length > 0) {
+          //1) sort the alternative professors by grade :
+          alternativeProfessors.sort((a, b) => {
+            return gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade)
+          })
+          //2) select the first that is less graded then the eligible professor:
+          const alternativeProf = alternativeProfessors.find((prof) => {
+            const eligibleGradeIndex = gradeOrder.indexOf(
+              eligibleProfessors[0].grade,
+            )
+            const alternativeGradeIndex = gradeOrder.indexOf(prof.grade)
+            return alternativeGradeIndex > eligibleGradeIndex
+          })
+          //3) check if alternative professor exists :
+          if (alternativeProf) {
+            president = eligibleProfessors[0]
+            member = alternativeProf
+          } else {
+            //3-1) there is no alternative professor that is less graded then the eligible professor:
+            //1) check if the grade of alternative professor is less then the only eligible professor(OEP):
+            if (
+              gradeOrder.indexOf(eligibleProfessors[0].grade) <
+              gradeOrder.indexOf(alternativeProfessors[0].grade)
+            ) {
+              //1) if grade of OEP is greater then the alternative --> no changes : president = eligibleProfessors[0]
+              //                                                                    member = the first one in the sorted alternative professor
+              president = eligibleProfessors[0]
+              member = alternativeProfessors[0]
+            } else {
+              //2-1) else : member = eligibleProfessors[0] , president = the first one in the sorted alternative professor
+              president = alternativeProfessors[0]
+              member = eligibleProfessors[0]
+            }
+          }
+        } else {
+          //else :there is no alternative professors:
+          //1) check if there are professors in the same field but they reach the min charge ? here i think we need maxCharge
+          const alternativeProfs = await Professor.find({
+            _id: { $ne: thesisSupervisor._id },
+            fields: { $in: thesis.field },
+            nbr_of_examined_theses: { $gte: minCharge },
+          })
+          if (alternativeProfs.length > 0) {
+            //1) sort the AP in ascending order by (number of examined theses)
+            alternativeProfs.sort(
+              (a, b) => a.nbr_of_examined_theses - b.nbr_of_examined_theses,
+            )
+            //2) check if the grade of the professor that has the minimal charge is greather then the EP[0]
+            if (
+              gradeOrder.indexOf(eligibleProfessors[0].grade) <=
+              gradeOrder.indexOf(alternativeProfs[0].grade)
+            ) {
+              president = eligibleProfessors[0]
+              member = alternativeProfs[0]
+            } else {
+              president = alternativeProfs[0]
+              member = eligibleProfessors[0]
+            }
+          } else {
+            //1) else: there are no professors in the same field but they reach the min charge
+            //1-1) check if there are professors that are not in the same fields but they reach the min charge
+            const alternativeProfs = await Professor.find({
+              _id: { $ne: thesisSupervisor._id },
+              fields: { $nin: thesis.field },
+              nbr_of_examined_theses: { $gte: minCharge },
+            })
+            if (alternativeProfs.length > 0) {
+              //1) sort the AP in ascending order by (number of examined theses)
+              alternativeProfs.sort(
+                (a, b) => a.nbr_of_examined_theses - b.nbr_of_examined_theses,
+              )
+              //2) check if the grade of the professor that has the minimal charge is greather then the EP[0]
+              if (
+                gradeOrder.indexOf(eligibleProfessors[0].grade) <=
+                gradeOrder.indexOf(alternativeProfs[0].grade)
+              ) {
+                president = eligibleProfessors[0]
+                member = alternativeProfs[0]
+              } else {
+                president = alternativeProfs[0]
+                member = eligibleProfessors[0]
+              }
+            } else {
+              //1-2) else : error! ask the admin to add a professor
+              return res.status(403).json({
+                status: 'fail',
+                message:
+                  'opps ! missing alternative professor please insert one to generate the juries',
+              })
+            }
+          }
+        }
+      } else {
+        // there is no eligible professor:---> in the same field and didn't reach the min charge
+        // 1) check if there are professors from the other field and didn't reach the min charge:
+        const eligibleProfessors = await Professor.find({
+          _id: { $ne: thesisSupervisor._id },
+          fields: { $nin: thesis.field },
+          nbr_of_examined_theses: { $lt: minCharge },
+        })
+        if (eligibleProfessors.length >= 2) {
+          // sort professors (EP) by grade
+          eligibleProfessors.sort((a, b) => {
+            return gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade)
+          })
+          // select the president an the member of jury
+          president = eligibleProfessors[0]
+          member = eligibleProfessors[eligibleProfessors.length - 1]
+        } else {
+          //1) check if there is one professor that is :
+          //                                  _ not supervisor
+          //                                  _ not in the same field
+          //                                  _ did not reach the min charge
+          if (eligibleProfessors.length === 1) {
+            //1)find the alternative professors
+            //                          _ in other field
+            //                          _ reach the min charge
+            //1) check if there are professors in the same field but they reach the min charge ? here i think we need maxCharge
+            const alternativeProfs = await Professor.find({
+              _id: { $ne: thesisSupervisor._id },
+              fields: { $in: thesis.field },
+              nbr_of_examined_theses: { $gte: minCharge },
+            })
+            if (alternativeProfs.length > 0) {
+              //1) sort the AP in ascending order by (number of examined theses)
+              alternativeProfs.sort(
+                (a, b) => a.nbr_of_examined_theses - b.nbr_of_examined_theses,
+              )
+              //2) check if the grade of the professor that has the minimal charge is greather then the EP[0]
+              if (
+                gradeOrder.indexOf(eligibleProfessors[0].grade) <=
+                gradeOrder.indexOf(alternativeProfs[0].grade)
+              ) {
+                president = eligibleProfessors[0]
+                member = alternativeProfs[0]
+              } else {
+                president = alternativeProfs[0]
+                member = eligibleProfessors[0]
+              }
+            } else {
+              //1) else: there are no professors in the same field but they reach the min charge
+              //1-1) check if there are professors that are not in the same fields but they reach the min charge
+              const alternativeProfs = await Professor.find({
+                _id: { $ne: thesisSupervisor._id },
+                fields: { $nin: thesis.field },
+                nbr_of_examined_theses: { $gte: minCharge },
+              })
+              if (alternativeProfs.length > 0) {
+                //1) sort the AP in ascending order by (number of examined theses)
+                alternativeProfs.sort(
+                  (a, b) => a.nbr_of_examined_theses - b.nbr_of_examined_theses,
+                )
+                //2) check if the grade of the professor that has the minimal charge is greather then the EP[0]
+                if (
+                  gradeOrder.indexOf(eligibleProfessors[0].grade) <=
+                  gradeOrder.indexOf(alternativeProfs[0].grade)
+                ) {
+                  president = eligibleProfessors[0]
+                  member = alternativeProfs[0]
+                } else {
+                  president = alternativeProfs[0]
+                  member = eligibleProfessors[0]
+                }
+              } else {
+                //1-2) else : error! ask the admin to add a professor
+                return res.status(403).json({
+                  status: 'fail',
+                  message:
+                    'opps ! missing alternative professor please insert one to generate the juries',
+                })
+              }
+            }
+          } else {
+            //1-2) else : error! ask the admin to add a professor
+            // notes : to prevent generating juries only from other fields an they reach the min charge
+            // the admin needs to add professor that is either in the same field or not but at least he didn't reach the min charge
+            return res.status(403).json({
+              status: 'fail',
+              message:
+                'opps ! missing alternative professor please insert one to generate the juries',
+            })
+          }
+        }
+      }
+    }
+
+    // increase the number of examinated theses for the president and member.
+    president.nbr_of_examined_theses++
+    member.nbr_of_examined_theses++
+    await president.save()
+    await member.save()
+
+    //find the binome who chose this thesis
+    const binome = await Binome.findOne({
+      ApprovedThesis: thesis._id,
+    })
+    // create the jury of this thesis
+    const jury = await Jury.create({
+      professor1: president._id,
+      professor2: member._id,
+      thesis: thesis._id,
+      binome: binome._id,
+    })
+    // juries.push(jury)
+  }
+  const juries = await Jury.find()
+  res.status(200).json({
+    status: 'success',
+    juries,
   })
 }

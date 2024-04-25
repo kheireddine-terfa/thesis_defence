@@ -1,0 +1,91 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Binômes</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/admin">Accueil</a>
+          </li>
+          
+          <li class="breadcrumb-item">
+            <a href="/admin/jurys">Jurys</a>
+          </li>
+          <li class="breadcrumb-item active">Modifier</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+  
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="mb-4 mt-4">Modifier un Jury pour un thème</h2>
+  
+            <!-- No Labels Form -->
+            <form
+              class="needs-validation row g-3 add-binome-form"
+              novalidate
+            >
+              <div class="col-md-6">
+                <div>
+                  <label for="professor1"><em>Président de jury</em></label>
+                  <select
+                    class="form-select form-control"
+                    aria-label="Default select example"
+                    id="professor1"
+                    name="professor1"
+                    required
+                  >
+                    <option value="<%= jury.professor1._id %>" selected>
+                        <%= `${jury.professor1.firstName} ${jury.professor1.lastName}` %>
+                    </option>
+                    <% if (enseignants.length > 0 ) { %> <%
+                        enseignants.forEach(function(prof){ %>
+                      <option value="<%= prof._id %>">
+                        <%= `${prof.firstName} ${prof.lastName} (${prof.grade})` %>
+                      </option>
+                      <% }); %> <% } %> 
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <label for="professor2"><em>Membre de jury</em></label>
+                  <select
+                    class="form-select form-control"
+                    aria-label="Default select example"
+                    id="professor2"
+                    name="professor2"
+                    required
+                  >
+                    <option value="<%= jury.professor2._id %>" selected>
+                        <%= `${jury.professor2.firstName} ${jury.professor2.lastName}` %>
+                    </option>
+                    <% if (enseignants.length > 0 ) { %> <%
+                        enseignants.forEach(function(prof){ %>
+                      <option value="<%= prof._id %>">
+                        <%= `${prof.firstName} ${prof.lastName} (${prof.grade})` %>
+                      </option>
+                      <% }); %> <% } %> 
+                  </select>
+                </div>
+              </div>
+              
+  
+              <div>
+                <input type="text" disabled value="<%= `${jury.thesis.title}` %>">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" id="add-binome-btn">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+            </form>
+            <!-- End No Labels Form -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- End #main -->
+  

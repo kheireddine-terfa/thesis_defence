@@ -86,5 +86,9 @@ router
   .delete(adminController.deleteNonAvailibility)
 router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
-
+//----------------------jurys:
+router
+  .route('/juries')
+  .get(adminController.getAllJuries)
+  .post(adminController.generateJuries)
 module.exports = router
