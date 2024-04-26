@@ -1085,10 +1085,7 @@ exports.generateJuries = async (req, res) => {
     // juries.push(jury)
   }
   const juries = await Jury.find()
-  res.status(200).json({
-    status: 'success',
-    juries,
-  })
+  res.status(200).redirect("/admin/juries");
 }
 
 exports.getAllSlots = async (req, res) => {
@@ -1139,8 +1136,5 @@ exports.generateSlots = async(req, res) => {
   }
 
   slots = await Slot.find();
-  res.status(200).json({
-      status: 'success',
-      slots
-  });
+  res.status(200).redirect("/admin/slots");
 }
