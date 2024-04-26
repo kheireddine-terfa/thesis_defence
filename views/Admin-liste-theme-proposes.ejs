@@ -38,7 +38,7 @@
             <tbody>
               <% if (professors.length > 0 ) { %> <% professors.forEach(function(professor){ %>
                 <tr style="margin: 0 auto;">
-                  <td><%= `${professor.firstName} ${professor.firstName}` %></td>
+                  <td><%= `${professor.firstName} ${professor.lastName}` %></td>
                   <td><%= professor.thesis %></td>
                   <td>
                     <%= professor.description %>

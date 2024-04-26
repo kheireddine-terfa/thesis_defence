@@ -106,9 +106,21 @@ exports.getSelectedTheses = async (req, res) => {
   })
 }
 //--------------------------   admin :
-exports.getIndexPageAdmin = (req, res) => {
+exports.getIndexPageAdmin = async (req, res) => {
+  const studentCount = await Student.countDocuments();
+  const binomeCount = await Binome.countDocuments();
+  const profCount = await Professor.countDocuments();
+  const professorsWithThesesCount = await Professor.countDocuments({ theses: { $exists: true, $not: { $size: 0 } } });
+  const thesisAffectedCount = await Thesis.countDocuments({affected : true});
+  const thesisCount = await Thesis.countDocuments();
   res.status(200).render('Admin-accueil', {
     layout: 'admin-nav-bar',
+    studentCount,
+    binomeCount,
+    profCount,
+    professorsWithThesesCount,
+    thesisAffectedCount,
+    thesisCount,
   })
 }
 exports.getAdminLoginForm = (req, res) => {

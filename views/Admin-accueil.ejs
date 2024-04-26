@@ -29,8 +29,8 @@
                     <i class="bi bi-people"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <span class="text-success small pt-1 fw-bold">76</span>
+                    <h6><%= studentCount %></h6>
+                    <span class="text-success small pt-1 fw-bold"><%= binomeCount %></span>
                     <span class="text-muted small pt-2 ps-1">Binômes</span>
                   </div>
                 </div>
@@ -55,8 +55,8 @@
                     <i class="bi bi-briefcase"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>50</h6>
-                    <span class="text-success small pt-1 fw-bold">45</span>
+                    <h6><%= profCount %></h6>
+                    <span class="text-success small pt-1 fw-bold"><%= professorsWithThesesCount%></span>
                     <span class="text-muted small pt-2 ps-1">
                       ont proposé
                     </span>
@@ -83,9 +83,9 @@
                     <i class="bi bi-lightbulb"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>15</h6>
+                    <h6><%=thesisAffectedCount%></h6>
                     <span class="text-success small pt-1 fw-bold">
-                      / 50
+                      / <%= thesisCount %>
                     </span>
                     <span class="text-muted small pt-2 ps-1">proposés</span>
                   </div>

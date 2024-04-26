@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+
 const jurySchema = new mongoose.Schema({
   professor1: {
     type: mongoose.Schema.Types.ObjectId,

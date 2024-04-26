@@ -91,4 +91,11 @@ router
   .route('/juries')
   .get(adminController.getAllJuries)
   .post(adminController.generateJuries)
+
+//----------------------créneaux:
+router
+  .route('/slots')
+  .get(adminController.getAllSlots)
+  .post(adminController.generateSlots)
+  
 module.exports = router

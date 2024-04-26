@@ -10,6 +10,8 @@ const Session = require('../models/sessionModel')
 const NonAvailibility = require('../models/nonAvailibilityModel')
 const Thesis = require('../models/thesisModel')
 const Jury = require('../models/juryModels')
+const Slot = require('../models/slotModel');
+const moment = require('moment');
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -1087,4 +1089,58 @@ exports.generateJuries = async (req, res) => {
     status: 'success',
     juries,
   })
+}
+
+exports.getAllSlots = async (req, res) => {
+  const slots = await Slot.find()
+  res.status(200).render('Admin-liste-creneau', {
+    layout: 'Admin-nav-bar',
+    slots,
+  })
+}
+
+exports.generateSlots = async(req, res) => {
+  // Récupérer toutes les sessions de la base de données
+  const sessions = await Session.find();
+
+  // Parcourir chaque session (il y en a que deux)
+  for (const session of sessions) {
+      const slots = [];
+
+      const startDate = moment(session.startSession);
+      const endDate = moment(session.endSession);
+
+      // Parcourir tous les jours entre la date de début et la date de fin de la session
+      for (let date = startDate; date.isBefore(endDate); date.add(1, 'day')) {
+          // Exclure les vendredis
+          if (date.isoWeekday() !== 5 && date.isoWeekday() !== 6) { // 5 et 6 correspond au vendredi et samedi
+              const dayStartTime = moment(`${date.format('YYYY-MM-DD')}T${session.startDayHour}`);
+              const dayEndTime = moment(`${date.format('YYYY-MM-DD')}T${session.endDayHour}`);
+              
+              // Générer les créneaux horaires pour la journée
+              for (let slotStart = moment(dayStartTime);slotStart.isBefore(dayEndTime); slotStart.add(session.thesisDefenceDuration + session.break, 'minutes')) {
+                  const slotEnd = moment(slotStart).add(session.thesisDefenceDuration, 'minutes');
+                  
+                  // Vérifier si le créneau ne dépasse pas l'heure de fin de la journée
+                  if (slotEnd.isBefore(dayEndTime)) {
+                      slots.push({
+                          date: date.toDate(),
+                          startHour: slotStart.format('HH:mm'),
+                          endHour: slotEnd.format('HH:mm'),
+                          sessionType: session.sessionType
+                      });
+                  }
+              }
+          }
+      }
+
+      // Enregistrer les créneaux dans la base de données
+      await Slot.insertMany(slots);
+  }
+
+  slots = await Slot.find();
+  res.status(200).json({
+      status: 'success',
+      slots
+  });
 }
