@@ -38,6 +38,9 @@ const sessionSchema = new mongoose.Schema({
   nbr_thesis_per_day: {
     type: Number,
   },
+  minCharge: {
+    type: Number,
+  },
 })
 //  virtual property for dateFormatted
 sessionSchema.virtual('dateFormatted').get(function () {

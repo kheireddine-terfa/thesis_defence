@@ -7,15 +7,10 @@ const professorSchema = new mongoose.Schema({
     required: [true, 'a professor must have a grade'],
     enum: ['MCA', 'MCB', 'PR', 'PHD', 'MAA', 'MAB'],
   },
-  charge: {
-    type: Number,
-  },
+
   nbr_of_examined_theses: {
     type: Number,
-    required: [
-      true,
-      'opps you have forgot to specify the nbr_of_examined_theses field',
-    ],
+    default: 0,
   },
   fields: [
     {

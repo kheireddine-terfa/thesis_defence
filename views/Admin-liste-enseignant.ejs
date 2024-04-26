@@ -34,7 +34,7 @@
       <th scope="col">Nom Prenom</th>
       <th scope="col">Email</th>
       <th scope="col w-20%">Domaines d'expertise</th>
-      <th scope="col">Charge</th>
+      <th scope="col">nombre d'examination</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -64,7 +64,7 @@
           </div>
         </div>
       </td>
-      <td><%= professor.nbr_of_examined_theses ? professor.nbr_of_examined_theses : 'no examined binome yet' %></td>
+      <td><%= professor.nbr_of_examined_theses %></td>
       <td>
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <a href="/admin/professor/<%= professor._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
