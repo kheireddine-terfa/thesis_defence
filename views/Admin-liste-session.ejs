@@ -27,6 +27,7 @@
       <div class="card">
         <div class="card-body">
           <!--L'admin n'a pas encore créé de session :-->
+          <% if(countSession = 0) { %>
           <div class="text-center">
             <h3 class="mt-4">
               <strong>Aucune session créée pour le moment !</strong>
@@ -40,15 +41,14 @@
                 rattrapage)
               </strong>
             </p>
-            <% if(countSession > 0) { %>
-              <a href="#" class="btn btn-success disabled-link">Créer session</a>
-            <% }else { %>
+              
             <a href="/admin/session" class="btn btn-success">  
               Créer session
             </a>
-            <% } %>
+            
           </div>
-
+          
+          <% }else { %>
           <!--End  "L'admin n'a pas encore créé de session :"-->
 
           <!--L'admin a déjà créé de session :-->
@@ -137,6 +137,7 @@
               Réenitialiser les sessions
             </button>
           </div>
+          <% } %>
         </div>
       </div>
     </div>
