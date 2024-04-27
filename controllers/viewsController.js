@@ -107,12 +107,14 @@ exports.getSelectedTheses = async (req, res) => {
 }
 //--------------------------   admin :
 exports.getIndexPageAdmin = async (req, res) => {
-  const studentCount = await Student.countDocuments();
-  const binomeCount = await Binome.countDocuments();
-  const profCount = await Professor.countDocuments();
-  const professorsWithThesesCount = await Professor.countDocuments({ theses: { $exists: true, $not: { $size: 0 } } });
-  const thesisAffectedCount = await Thesis.countDocuments({affected : true});
-  const thesisCount = await Thesis.countDocuments();
+  const studentCount = await Student.countDocuments()
+  const binomeCount = await Binome.countDocuments()
+  const profCount = await Professor.countDocuments()
+  const professorsWithThesesCount = await Professor.countDocuments({
+    theses: { $exists: true, $not: { $size: 0 } },
+  })
+  const thesisAffectedCount = await Thesis.countDocuments({ affected: true })
+  const thesisCount = await Thesis.countDocuments()
   res.status(200).render('Admin-accueil', {
     layout: 'admin-nav-bar',
     studentCount,
@@ -150,7 +152,9 @@ exports.getAllAnnouncesAdmin = async (req, res) => {
   })
 }
 exports.getAddBinomeForm = async (req, res) => {
-  const students = await Student.find()
+  const students = await Student.find({
+    partOfBinome: false,
+  })
   res.status(200).render('Admin-ajouter-binome', {
     layout: 'admin-nav-bar',
     students,

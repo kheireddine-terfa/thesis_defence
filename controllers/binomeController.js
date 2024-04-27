@@ -1,4 +1,5 @@
 const Binome = require('../models/binomeModel')
+const Student = require('../models/studentModel')
 const Thesis = require('../models/thesisModel')
 //-------------------- controllers : ---------------------
 exports.nominateToThesis = async (req, res) => {
@@ -63,8 +64,11 @@ exports.cancelNominationToThesis = async (req, res) => {
 }
 //--------------------- :
 exports.getAllTheses = async (req, res) => {
-  const theses = await Thesis.find()
   const binome = await Binome.findById(req.user._id)
+  const studentId = binome.student1
+  const student = await Student.findById(studentId)
+  const speciality = student.speciality
+  const theses = await Thesis.find({ speciality: speciality })
   const selectedThesis = binome.selectedThesis
   const isSelectedArray = theses.map((thesis) =>
     selectedThesis.some(

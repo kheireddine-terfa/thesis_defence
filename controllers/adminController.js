@@ -10,8 +10,8 @@ const Session = require('../models/sessionModel')
 const NonAvailibility = require('../models/nonAvailibilityModel')
 const Thesis = require('../models/thesisModel')
 const Jury = require('../models/juryModels')
-const Slot = require('../models/slotModel');
-const moment = require('moment');
+const Slot = require('../models/slotModel')
+const moment = require('moment')
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -21,6 +21,7 @@ exports.addAndSignUpBinome = async (req, res) => {
   let stud2, binome
   const { student1, student2 } = req.body
   const stud1 = await Student.findById(student1)
+  const speciality = stud1.speciality
   if (student2) {
     stud2 = await Student.findById(student2)
   }
@@ -37,16 +38,30 @@ exports.addAndSignUpBinome = async (req, res) => {
       email: stud1.email,
       password: stud1.matricule,
     })
+    stud1.partOfBinome = true
+    await stud1.save()
   }
 
   if (stud1 && stud2) {
-    binome = await Binome.create({
-      student1: stud1,
-      student2: stud2,
-      userName: `${stud1.firstName} ${stud1.lastName} | ${stud2.firstName} ${stud2.lastName}`,
-      email: `${stud1.firstName}.${stud2.firstName}@gmail.com`,
-      password: `${stud1.matricule}${stud2.matricule}`,
-    })
+    if (stud1.speciality.toString() === stud2.speciality.toString()) {
+      binome = await Binome.create({
+        student1: stud1,
+        student2: stud2,
+        userName: `${stud1.firstName} ${stud1.lastName} | ${stud2.firstName} ${stud2.lastName}`,
+        email: `${stud1.firstName}.${stud2.firstName}@gmail.com`,
+        password: `${stud1.matricule}${stud2.matricule}`,
+      })
+      stud1.partOfBinome = true
+      stud2.partOfBinome = true
+      await stud1.save()
+      await stud2.save()
+    } else {
+      return res.status(403).json({
+        status: 'fail',
+        message:
+          'binome specialities are not the same! binome students should be in the same speciality',
+      })
+    }
   }
   // Generate JWT token
   // const token = signToekn(binome._id)
@@ -1083,9 +1098,12 @@ exports.generateJuries = async (req, res) => {
       binome: binome._id,
     })
     // juries.push(jury)
+    //add juty reference to thesis:
+    thesis.jury = jury._id
+    await thesis.save()
   }
   const juries = await Jury.find()
-  res.status(200).redirect("/admin/juries");
+  res.status(200).redirect('/admin/juries')
 }
 
 exports.getAllSlots = async (req, res) => {
@@ -1096,45 +1114,60 @@ exports.getAllSlots = async (req, res) => {
   })
 }
 
-exports.generateSlots = async(req, res) => {
+exports.generateSlots = async (req, res) => {
   // Récupérer toutes les sessions de la base de données
-  const sessions = await Session.find();
+  const sessions = await Session.find()
 
   // Parcourir chaque session (il y en a que deux)
   for (const session of sessions) {
-      const slots = [];
+    const slots = []
 
-      const startDate = moment(session.startSession);
-      const endDate = moment(session.endSession);
+    const startDate = moment(session.startSession)
+    const endDate = moment(session.endSession)
 
-      // Parcourir tous les jours entre la date de début et la date de fin de la session
-      for (let date = startDate; date.isBefore(endDate); date.add(1, 'day')) {
-          // Exclure les vendredis
-          if (date.isoWeekday() !== 5 && date.isoWeekday() !== 6) { // 5 et 6 correspond au vendredi et samedi
-              const dayStartTime = moment(`${date.format('YYYY-MM-DD')}T${session.startDayHour}`);
-              const dayEndTime = moment(`${date.format('YYYY-MM-DD')}T${session.endDayHour}`);
-              
-              // Générer les créneaux horaires pour la journée
-              for (let slotStart = moment(dayStartTime);slotStart.isBefore(dayEndTime); slotStart.add(session.thesisDefenceDuration + session.break, 'minutes')) {
-                  const slotEnd = moment(slotStart).add(session.thesisDefenceDuration, 'minutes');
-                  
-                  // Vérifier si le créneau ne dépasse pas l'heure de fin de la journée
-                  if (slotEnd.isBefore(dayEndTime)) {
-                      slots.push({
-                          date: date.toDate(),
-                          startHour: slotStart.format('HH:mm'),
-                          endHour: slotEnd.format('HH:mm'),
-                          sessionType: session.sessionType
-                      });
-                  }
-              }
+    // Parcourir tous les jours entre la date de début et la date de fin de la session
+    for (let date = startDate; date.isBefore(endDate); date.add(1, 'day')) {
+      // Exclure les vendredis
+      if (date.isoWeekday() !== 5 && date.isoWeekday() !== 6) {
+        // 5 et 6 correspond au vendredi et samedi
+        const dayStartTime = moment(
+          `${date.format('YYYY-MM-DD')}T${session.startDayHour}`,
+        )
+        const dayEndTime = moment(
+          `${date.format('YYYY-MM-DD')}T${session.endDayHour}`,
+        )
+
+        // Générer les créneaux horaires pour la journée
+        for (
+          let slotStart = moment(dayStartTime);
+          slotStart.isBefore(dayEndTime);
+          slotStart.add(
+            session.thesisDefenceDuration + session.break,
+            'minutes',
+          )
+        ) {
+          const slotEnd = moment(slotStart).add(
+            session.thesisDefenceDuration,
+            'minutes',
+          )
+
+          // Vérifier si le créneau ne dépasse pas l'heure de fin de la journée
+          if (slotEnd.isBefore(dayEndTime)) {
+            slots.push({
+              date: date.toDate(),
+              startHour: slotStart.format('HH:mm'),
+              endHour: slotEnd.format('HH:mm'),
+              sessionType: session.sessionType,
+            })
           }
+        }
       }
+    }
 
-      // Enregistrer les créneaux dans la base de données
-      await Slot.insertMany(slots);
+    // Enregistrer les créneaux dans la base de données
+    await Slot.insertMany(slots)
   }
 
-  slots = await Slot.find();
-  res.status(200).redirect("/admin/slots");
+  slots = await Slot.find()
+  res.status(200).redirect('/admin/slots')
 }

@@ -32,6 +32,10 @@ const thesisSchema = new mongoose.Schema({
     ref: 'Session',
   },
   //change refrence when session is reported ..
+  jury: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Jury',
+  },
 })
 //***** define pre find hook (populate) later if needed ...
 thesisSchema.pre(/^find/, function (next) {

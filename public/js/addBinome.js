@@ -18,7 +18,18 @@ if (addBinomeBtn) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          response.json().then((data) => {
+            console.log('Error:', data.message)
+            // Display error message to the user
+            const errorMessageElement = document.getElementById(
+              'popup-error-content',
+            )
+            errorMessageElement.textContent = data.message
+            errorPopupF.style.display = 'flex' // Show error message
+            setTimeout(() => {
+              errorPopupF.style.display = 'none'
+            }, 3000)
+          })
         }
         return response.json()
       })

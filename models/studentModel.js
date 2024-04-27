@@ -11,6 +11,10 @@ const studentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Speciality',
   },
+  partOfBinome: {
+    type: Boolean,
+    default: false,
+  },
 })
 studentSchema.pre(/^find/, function (next) {
   this.populate({
