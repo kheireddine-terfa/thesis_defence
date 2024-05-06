@@ -3,6 +3,23 @@ const addPremiseForm = document.querySelector('.add-premise-form')
 if (addPremiseBtn) {
   addPremiseBtn.addEventListener('click', function (e) {
     e.preventDefault()
+    // Check if any required fields are empty
+    const inputs = addPremiseForm.querySelectorAll('input[required]')
+    let isValid = true
+
+    inputs.forEach(function (input) {
+      if (input.value.trim() === '') {
+        isValid = false
+        input.classList.add('is-invalid')
+      } else {
+        input.classList.remove('is-invalid')
+      }
+    })
+
+    // If any required field is empty, do not proceed with API call
+    if (!isValid) {
+      return
+    }
     const formData = new FormData(addPremiseForm) // Get form data
     // Convert form data to JSON object
     const jsonData = {}

@@ -3,6 +3,13 @@ const addBinomeForm = document.querySelector('.add-binome-form')
 if (addBinomeBtn) {
   addBinomeBtn.addEventListener('click', function (e) {
     e.preventDefault()
+    // Check if the first select input is filled
+    const etudiant1 = document.getElementById('etudiant1')
+    if (etudiant1.value.trim() === '' || etudiant1.selectedIndex === 0) {
+      etudiant1.classList.add('is-invalid')
+      return // Stop further execution if the first select input is empty
+    }
+
     const formData = new FormData(addBinomeForm) // Get form data
     // Convert form data to JSON object
     const jsonData = {}

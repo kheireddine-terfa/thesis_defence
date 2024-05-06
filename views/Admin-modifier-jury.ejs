@@ -8,7 +8,7 @@
           </li>
           
           <li class="breadcrumb-item">
-            <a href="/admin/jurys">Jurys</a>
+            <a href="/admin/juries">Jurys</a>
           </li>
           <li class="breadcrumb-item active">Modifier</li>
         </ol>
@@ -24,7 +24,7 @@
   
             <!-- No Labels Form -->
             <form
-              class="needs-validation row g-3 add-binome-form"
+              class="needs-validation row g-3 update-jury-form"
               novalidate
             >
               <div class="col-md-6">
@@ -38,10 +38,10 @@
                     required
                   >
                     <option value="<%= jury.professor1._id %>" selected>
-                        <%= `${jury.professor1.firstName} ${jury.professor1.lastName}` %>
+                        <%= `${jury.professor1.firstName} ${jury.professor1.lastName} (${jury.professor1.grade})` %>
                     </option>
-                    <% if (enseignants.length > 0 ) { %> <%
-                        enseignants.forEach(function(prof){ %>
+                    <% if (professors.length > 0 ) { %> <%
+                        professors.forEach(function(prof){ %>
                       <option value="<%= prof._id %>">
                         <%= `${prof.firstName} ${prof.lastName} (${prof.grade})` %>
                       </option>
@@ -60,10 +60,10 @@
                     required
                   >
                     <option value="<%= jury.professor2._id %>" selected>
-                        <%= `${jury.professor2.firstName} ${jury.professor2.lastName}` %>
+                        <%= `${jury.professor2.firstName} ${jury.professor2.lastName} (${jury.professor2.grade})` %>
                     </option>
-                    <% if (enseignants.length > 0 ) { %> <%
-                        enseignants.forEach(function(prof){ %>
+                    <% if (professors.length > 0 ) { %> <%
+                        professors.forEach(function(prof){ %>
                       <option value="<%= prof._id %>">
                         <%= `${prof.firstName} ${prof.lastName} (${prof.grade})` %>
                       </option>
@@ -74,10 +74,11 @@
               
   
               <div>
-                <input type="text" disabled value="<%= `${jury.thesis.title}` %>">
+                <label><em>Théme :</em></label>
+                <input style="width: 500px;" type="text" disabled value="<%= `${jury.thesis.title}` %>">
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="add-binome-btn">Submit</button>
+                <button type="submit" class="btn btn-primary update-jury-btn" data-jury-id = "<%= jury._id %>">submit</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
               </div>
             </form>

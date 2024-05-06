@@ -16,7 +16,7 @@
             <!-- IF : l'admin n'a pas encore lancer l'algo de génération de jurys : -->
             <% if (juries.length === 0 ) { %>
             <div class="text-center">
-                <h3 class="mt-4">
+                <h3 class="mt-4">  
                   <strong>Vous n'avez pas encore générer la liste des examinateurs!</strong>
                 </h3>
                 <p>
@@ -24,8 +24,8 @@
                     Nous vous invitons à clicker sur le boutton - Générer - afin d'associer chaque thème à un jury
                   </strong>
                 </p>
-                <form action="/admin/juries" method="post">
-                  <button type="submit" class="btn btn-success">Générer</button>
+                <form>
+                  <button type="submit" class="btn btn-success" id="generate-juries-btn">Générer</button>
                 </form>
                 <!-- <a href="/admin/jury" class="btn btn-success">
                   Générer

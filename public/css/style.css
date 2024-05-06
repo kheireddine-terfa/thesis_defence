@@ -85,3 +85,22 @@
 .disabled-link {
   pointer-events: none;
 }
+.loader {
+  padding: 40px;
+  height: 200px;
+  width: 400px;
+  background-color: white;
+  left: 47%;
+  top: 50%;
+  position: absolute;
+  border-radius: 15px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: -1px -3px 18px -8px rgba(66, 68, 90, 1);
+  z-index: 1000;
+}
+.loader p {
+  font-weight: bold;
+}

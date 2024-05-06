@@ -3,6 +3,23 @@ const addFieldForm = document.querySelector('.add-field-form')
 if (addFieldBtn) {
   addFieldBtn.addEventListener('click', function (e) {
     e.preventDefault()
+    // Check if any required fields are empty
+    const inputs = addFieldForm.querySelectorAll('input[required]')
+    let isValid = true
+
+    inputs.forEach(function (input) {
+      if (input.value.trim() === '') {
+        isValid = false
+        input.classList.add('is-invalid')
+      } else {
+        input.classList.remove('is-invalid')
+      }
+    })
+
+    // If any required field is empty, do not proceed with API call
+    if (!isValid) {
+      return
+    }
     const formData = new FormData(addFieldForm) // Get form data
     // Convert form data to JSON object
     const jsonData = {}

@@ -31,12 +31,22 @@ const thesisSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Session',
   },
-  //change refrence when session is reported ..
+  //reference to binome :
+  binome: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Binome',
+  },
+  //reference to professor :
+  professor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Professor',
+  },
   jury: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Jury',
   },
 })
+// i need to populate the professor , jury , and binome
 //***** define pre find hook (populate) later if needed ...
 thesisSchema.pre(/^find/, function (next) {
   this.populate({

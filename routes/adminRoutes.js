@@ -88,6 +88,10 @@ router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
 //----------------------jurys:
 router
+  .route('/jury/:id')
+  .get(adminController.getJury)
+  .patch(adminController.updateJury)
+router
   .route('/juries')
   .get(adminController.getAllJuries)
   .post(adminController.generateJuries)
@@ -97,5 +101,9 @@ router
   .route('/slots')
   .get(adminController.getAllSlots)
   .post(adminController.generateSlots)
-  
+
+router
+  .route('/planning')
+  .get(adminController.getAllPlanning)
+  .post(adminController.generatePlanning)
 module.exports = router

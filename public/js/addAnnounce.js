@@ -3,6 +3,23 @@ const addAnnounceForm = document.querySelector('.add-announce-form')
 if (addBtn) {
   addBtn.addEventListener('click', function (e) {
     e.preventDefault()
+    // Check if any required fields are empty
+    const inputs = addAnnounceForm.querySelectorAll('input[required]')
+    let isValid = true
+
+    inputs.forEach(function (input) {
+      if (input.value.trim() === '') {
+        isValid = false
+        input.classList.add('is-invalid')
+      } else {
+        input.classList.remove('is-invalid')
+      }
+    })
+
+    // If any required field is empty, do not proceed with API call
+    if (!isValid) {
+      return
+    }
 
     const title = document.getElementById('title').value // Get title value
     const content = tinymce.get('content').getContent() // Get content value from TinyMCE

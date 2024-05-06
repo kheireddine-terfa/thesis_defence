@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const updateStudentForms = document.querySelectorAll('.update-student-form')
-  if (updateStudentForms.length) {
+  if (updateStudentForms.length > 0) {
     updateStudentForms.forEach(function (updateStudentForm) {
       updateStudentForm.addEventListener('submit', function (event) {
         event.preventDefault() // Prevent the default form submission behavior

@@ -1,26 +1,26 @@
 const mongoose = require('mongoose')
 
 const thesisDefenceSchema = new mongoose.Schema({
-  date: {
-    // --- i can define it as a virtual property
-    type: Date,
-    required: true,
-  },
-  startHour: {
-    type: Date,
-    required: true,
-  },
-  endHour: {
-    type: Date,
-    required: true,
-  },
-  theme: {
+  thesis: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Thesis',
-    required: [true, 'thesis defence must have a theme'],
+  },
+  slot: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Slot',
+  },
+  premise: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Premise',
   },
 })
-
+// populate attributs :
+thesisDefenceSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'thesis premise slot',
+  })
+  next()
+})
 const ThesisDefence = mongoose.model('ThesisDefence', thesisDefenceSchema)
 
 module.exports = ThesisDefence
