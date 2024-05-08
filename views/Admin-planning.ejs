@@ -1,0 +1,125 @@
+<main id="main" class="main">
+    <div class="pagetitle">      
+      <h1>Plannings</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Accueil</a></li>
+          <li class="breadcrumb-item active"><a href="/admin/planning">Plannings</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <!--
+        normal_defences
+        retake_defences
+    -->
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <!-- IF : l'admin n'a pas encore lancer l'algo de génération de planning : -->
+            <% if ((normal_defences.length === 0 ) && (retake_defences.length === 0 )) { %>
+            <div class="text-center">
+                <h3 class="mt-4">  
+                  <strong>Vous n'avez pas encore générer le planning des soutenance!</strong>
+                </h3>
+                <p>
+                  <strong>
+                    Nous vous invitons à clicker sur le boutton - Générer - afin d'associer chaque thème à une salle et un créneau
+                  </strong>
+                </p>
+                <form>
+                  <button type="submit" class="btn btn-success" id="generate-juries-btn">Générer</button>
+                </form>
+            </div>
+            
+            <% } else { %>
+            <!-- ELSE (les planning existent) -->
+            <h3 class="mt-4">Les plannings </h3>
+            <p>Vous pouver consulter et modifier les plannings de soutenance de la session normal et celles du rattrapage </p>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="normal-tab" data-bs-toggle="tab" data-bs-target="#normal" type="button" role="tab" aria-controls="normal" aria-selected="true">Session normale</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#retake" type="button" role="tab" aria-controls="retake" aria-selected="false">Session rattrapage</button>
+                </li>
+            </ul>
+              <div class="tab-content pt-2" id="myTabContent">
+                <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="normal-tab">
+                    <!--planning normal-->
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Thème</th>
+                                <!-- <th scope="col">Binôme</th> -->
+                                <th scope="col">Date</th>
+                                <th scope="col">Créneau</th>
+                                <th scope="col w-20%">Salle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- data qui contient tous les jurys : jurys -->
+                            <% if (normal_defences.length > 0 ) { %> <% normal_defences.forEach(function(n_defence){ %>
+                            
+                            <tr>
+                                <td><%= `${n_defence.thesis.title}`%></td>
+                                <!-- <td>`${n_defence.thesis.binome.student1.lastName} ${n_defence.thesis.binome.student1.firstName} | ${n_defence.thesis.binome.student2.lastName} ${n_defence.thesis.binome.student2.firstName}`</td> -->
+                                <td><%= n_defence.slot.dateFormatted %></td>
+                                <td><%= `${n_defence.slot.startHour} - ${n_defence.slot.endHour}` %></td>
+                                <td><%= `${n_defence.premise.title}` %></td>
+                            </tr>
+                            <% }); %> 
+                            <% }else{ %>
+                                Pas de soutenance pour cette session
+                            <% } %>
+                        </tbody>
+                    </table>
+
+
+
+
+                    <!--END planning normal-->
+                </div>
+                <div class="tab-pane fade" id="retake" role="tabpanel" aria-labelledby="retake-tab">
+                    <!--planning rattrapage-->
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Thème</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Créneau</th>
+                                <th scope="col w-20%">Salle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- data qui contient tous les jurys : jurys -->
+                            <% if (retake_defences.length > 0 ) { %> <% retake_defences.forEach(function(r_defence){ %>
+                            
+                            <tr>
+                                <td><%= `${r_defence.thesis.title}`%></td>
+                                <td><%= r_defence.slot.dateFormatted %></td>
+                                <td><%= `${r_defence.slot.startHour} - ${r_defence.slot.endHour}` %></td>
+                                <td><%= `${r_defence.premise.title}` %></td>
+                            </tr>
+                            <% }); %> 
+                            <% }else{ %>
+                                Pas de soutenance pour cette session
+                            <% } %>
+                        </tbody>
+                    </table>
+
+                    <!-- END planning rattrapage-->
+                </div>
+              </div><!-- End Default Tabs -->
+              <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+ 
