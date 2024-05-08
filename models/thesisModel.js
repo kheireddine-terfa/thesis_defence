@@ -45,6 +45,10 @@ const thesisSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Jury',
   },
+  affectedToPlanning: {
+    type: Boolean,
+    default: false,
+  },
 })
 // i need to populate the professor , jury , and binome
 //***** define pre find hook (populate) later if needed ...

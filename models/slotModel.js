@@ -7,7 +7,7 @@ const slotSchema = new mongoose.Schema({
     required: true,
     set: function (value) {
       // Utiliser Moment.js pour formater la date
-      return moment(value).format();
+      return moment(value).format()
     },
   },
   startHour: {
@@ -20,14 +20,18 @@ const slotSchema = new mongoose.Schema({
   },
   sessionType: {
     type: String,
-    required : true,
+    required: true,
   },
-});
-
-slotSchema.virtual('dateFormatted').get(function () {
-  const dateFormat =  moment(this.date).locale('fr').format('dddd DD/MM/YYYY');
-  return `${dateFormat}`;
+  nbr_thesis: {
+    type: Number,
+    default: 0,
+  },
 })
 
-const Slot = mongoose.model('Slot', slotSchema);
-module.exports = Slot;
+slotSchema.virtual('dateFormatted').get(function () {
+  const dateFormat = moment(this.date).locale('fr').format('dddd DD/MM/YYYY')
+  return `${dateFormat}`
+})
+
+const Slot = mongoose.model('Slot', slotSchema)
+module.exports = Slot
