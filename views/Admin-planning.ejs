@@ -1,0 +1,79 @@
+<main id="main" class="main">
+    <div class="pagetitle">      
+      <h1>Plannings</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Accueil</a></li>
+          <li class="breadcrumb-item active"><a href="/admin/planning">Plannings</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <!--
+        normal_defences
+    -->
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <!-- IF : l'admin n'a pas encore lancer l'algo de génération de jurys : -->
+            <% if (juries.length === 0 ) { %>
+            <div class="text-center">
+                <h3 class="mt-4">  
+                  <strong>Vous n'avez pas encore générer la liste des examinateurs!</strong>
+                </h3>
+                <p>
+                  <strong>
+                    Nous vous invitons à clicker sur le boutton - Générer - afin d'associer chaque thème à un jury
+                  </strong>
+                </p>
+                <form>
+                  <button type="submit" class="btn btn-success" id="generate-juries-btn">Générer</button>
+                </form>
+                <!-- <a href="/admin/jury" class="btn btn-success">
+                  Générer
+                </a> -->
+            </div>
+            
+            <% } else { %>
+            <!-- ELSE (les jurys existent) -->
+
+            <h3 class="mt-4">La liste des jurys </h3>
+            <p>Vous pouver consulter et modifier les examinateur de chaque thème </p>
+
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+            <thead>
+                <tr>
+                <th scope="col">Président (Grade)</th>
+                <th scope="col">Membre (Grade)</th>
+                <th scope="col w-20%">thème</th>
+                <th scope="col">binome</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- data qui contient tous les jurys : jurys -->
+                <% if (juries.length > 0 ) { %> <% juries.forEach(function(jury){ %>
+                  <tr>
+                <td><%= `${jury.professor1.lastName}. ${jury.professor1.firstName} | ${jury.professor1.grade}` %></td>
+                <td><%= `${jury.professor2.lastName}. ${jury.professor2.firstName} | ${jury.professor2.grade}` %></td>
+                <td><%= `${jury.thesis.title}` %></td>
+                <td><%= `${jury.binome.userName}` %></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <a href="/admin/jury/<%= jury._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+                    </div>
+                </td>
+                </tr>
+                <% }); %> 
+                <% } } %>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+ 
