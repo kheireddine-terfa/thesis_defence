@@ -1281,15 +1281,16 @@ exports.getAllPlanning = async (req, res) => {
 
 exports.generatePlanning = async (req, res) => {
   try {
-    // Step 1: Fetch all the available slots and premises
-    const slots = await Slot.find()
+    //----------- Step 1: fetch all the available slots and premises
+    const slots = await Slot.find({ sessionType: 'normal' })
     const premises = await Premise.find()
 
-    // Step 2: Fetch all the theses with their professors and juries
-    const theses = await Thesis.find({ affected: true }).populate(
-      'professor binome jury',
-    )
-    // Step 3: Generate non-availabilities array for each thesis
+    //----------- Step 2:fetch all the theses with their professors and juries
+    const theses = await Thesis.find({
+      affected: true,
+      affectedToPlanning: false,
+    }).populate('professor jury')
+    //------------ Step 3: Generate non-availabilities array for each thesis
     const thesisNonAvailabilities = theses.map((thesis) => {
       const nonAvailabilities = []
       nonAvailabilities.push(...thesis.professor.nonAvailibility) // Non-availabilities of supervisor
@@ -1297,19 +1298,64 @@ exports.generatePlanning = async (req, res) => {
         nonAvailabilities.push(...thesis.jury.professor1.nonAvailibility) // Non-availabilities of jury member 1
         nonAvailabilities.push(...thesis.jury.professor2.nonAvailibility) // Non-availabilities of jury member 2
       }
-      return { thesisId: thesis._id, nonAvailabilities }
+      return {
+        thesisId: thesis._id,
+        nonAvailabilities,
+        affectedToPlanning: thesis.affectedToPlanning,
+      }
     })
-    console.log(thesisNonAvailabilities)
-    const planning = []
+    //------------ Step 4 : iterate slots: assign theses to slots
+    let affectedLength = theses.length
+    console.log(affectedLength)
+    for (const slot of slots) {
+      if (affectedLength <= 0) break // If all theses are assigned, exit the loop
+      if (slot.nbr_thesis >= 2) continue // If the slot is full, skip to the next slot
 
+      for (const thesis of thesisNonAvailabilities) {
+        if (affectedLength <= 0 || slot.nbr_thesis >= 2) break // Exit loop if all theses are assigned or the slot is full
+
+        if (!thesis.affectedToPlanning) {
+          const thesisId = thesis.thesisId
+          const nonAvailabilities = thesis.nonAvailabilities
+          const slotDate = slot.date
+
+          // Check if the slot falls between any non-availability
+          const slotFallsBetweenNonAvailability = nonAvailabilities.some(
+            (nonAvailability) => {
+              const startDay = new Date(nonAvailability.startDay)
+              const endDay = new Date(nonAvailability.endDay)
+              return slotDate >= startDay && slotDate < endDay
+            },
+          )
+
+          if (!slotFallsBetweenNonAvailability) {
+            const thesisDefence = await ThesisDefence.create({
+              thesis: thesisId,
+              slot: slot._id,
+            })
+
+            slot.nbr_thesis++
+            await slot.save()
+            await Thesis.findByIdAndUpdate(
+              thesisId,
+              { affectedToPlanning: true },
+              { new: true },
+            )
+            affectedLength--
+          }
+        }
+      }
+    }
+    // ----------- Step 5 : iterate premises : assign the premises to thesis defence (soutenance) * in progress..
+    const planning = await ThesisDefence.find()
     res.status(200).json({
+      length: planning.length,
       status: 'success',
-      data: {
-        planning,
-      },
+      message: 'Thesis defence documents created successfully.',
+      planning,
     })
   } catch (err) {
-    console.error(err)
+    console.error('Error creating thesis defence documents:', err)
     res.status(500).json({
       status: 'error',
       message: 'An error occurred while generating planning.',
