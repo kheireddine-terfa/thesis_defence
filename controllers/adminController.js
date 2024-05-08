@@ -1272,11 +1272,19 @@ exports.generateSlots = async (req, res) => {
 }
 //------------------------------------
 exports.getAllPlanning = async (req, res) => {
-  const planning = await ThesisDefence.find()
-  res.status(200).json({
-    status: 'success',
-    planning,
+  const normal_defences = await ThesisDefence.find()
+  // await ThesisDefence.find({
+  //   'slot.sessionType': 'normal'
+  // });
+  const retake_defences = await ThesisDefence.find(
+    { 'slot.sessionType': 'retake' }
+  )
+  res.status(200).render('Admin-planning', {
+    layout: 'admin-nav-bar',
+    normal_defences,
+    retake_defences
   })
+  
 }
 
 exports.generatePlanning = async (req, res) => {

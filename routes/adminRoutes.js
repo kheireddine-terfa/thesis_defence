@@ -102,8 +102,12 @@ router
   .get(adminController.getAllSlots)
   .post(adminController.generateSlots)
 
+
+//--------------------planning:
 router
   .route('/planning')
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
+
+
 module.exports = router
