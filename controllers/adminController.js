@@ -1465,8 +1465,6 @@ exports.generatePlanning = async (req, res) => {
     })
   }
 }
-
-//---------------Juba Générate Planning :-------------
 exports.resetPlanning = async (req, res) => {
   // remove all ThesisDefence
   await ThesisDefence.deleteMany({})
@@ -1479,3 +1477,5 @@ exports.resetPlanning = async (req, res) => {
     message: 'ThesisDefence reset successfully..',
   })
 }
+//---------------Juba Générate Planning :-------------
+
