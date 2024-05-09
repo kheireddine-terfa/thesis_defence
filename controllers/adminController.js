@@ -598,7 +598,7 @@ exports.addSession = async (req, res) => {
   }
   const normalSession = await Session.create({
     sessionType: 'normal',
-    // academicYear: req.body.academicYear,
+    slot_nbr_theses: req.body.slot_nbr_theses,
     startSession: req.body.startSession,
     endSession: req.body.endSession,
     thesisDefenceDuration: req.body.thesisDefenceDuration,
@@ -609,7 +609,7 @@ exports.addSession = async (req, res) => {
   })
   const retakeSession = await Session.create({
     sessionType: 'retake',
-    // academicYear: req.body.academicYear,
+    slot_nbr_theses: req.body.slot_nbr_theses,
     startSession: req.body.r_startSession,
     endSession: req.body.r_endSession,
     thesisDefenceDuration: req.body.r_thesisDefenceDuration,
@@ -655,7 +655,10 @@ exports.updateSession = async (req, res) => {
   })
   const session = await Session.findOneAndUpdate(
     { _id: { $ne: sessionId } },
-    { minCharge: req.body.minCharge },
+    {
+      minCharge: req.body.minCharge,
+      slot_nbr_theses: req.body.slot_nbr_theses,
+    },
     { new: true },
   )
   await updatedSession.save()
@@ -1198,7 +1201,18 @@ exports.updateJury = async (req, res) => {
     })
   }
 }
-
+exports.resetJuries = async (req, res) => {
+  // remove all juries
+  await Jury.deleteMany({})
+  // set the number of examined theses to 0 for each professor
+  await Professor.updateMany({}, { $set: { nbr_of_examined_theses: 0 } })
+  // remove the jury reference from theses
+  await Thesis.updateMany({}, { $unset: { jury: 1 } })
+  res.status(201).json({
+    status: 'success',
+    message: 'juries reset successfully..',
+  })
+}
 // Function to update the examined theses count for a professor
 async function updateExaminedThesesCount(professorId, incrementBy) {
   await Professor.findByIdAndUpdate(professorId, {
@@ -1276,15 +1290,14 @@ exports.getAllPlanning = async (req, res) => {
   // await ThesisDefence.find({
   //   'slot.sessionType': 'normal'
   // });
-  const retake_defences = await ThesisDefence.find(
-    { 'slot.sessionType': 'retake' }
-  )
+  const retake_defences = await ThesisDefence.find({
+    'slot.sessionType': 'retake',
+  })
   res.status(200).render('Admin-planning', {
     layout: 'admin-nav-bar',
     normal_defences,
-    retake_defences
+    retake_defences,
   })
-  
 }
 
 exports.generatePlanning = async (req, res) => {
@@ -1298,6 +1311,33 @@ exports.generatePlanning = async (req, res) => {
       affected: true,
       affectedToPlanning: false,
     }).populate('professor jury')
+    //--------------- HANDLING ERRORS CASES :-----------------
+    //--------------------------------------------------------
+    // Check if there are premises available
+    if (premises.length === 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message:
+          'No premises available. Please add premises before generating the planning.',
+      })
+    }
+    // Check if there are slots available
+    if (slots.length === 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message:
+          'No slots available. Please generate slots before generating the planning.',
+      })
+    }
+    // Check if there are theses available
+    if (theses.length === 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message:
+          'No slots theses. Please check affected theses before generating the planning.',
+      })
+    }
+    //----------------------------------------------------------------------
     //------------ Step 3: Generate non-availabilities array for each thesis
     const thesisNonAvailabilities = theses.map((thesis) => {
       const nonAvailabilities = []
@@ -1310,19 +1350,25 @@ exports.generatePlanning = async (req, res) => {
         thesisId: thesis._id,
         nonAvailabilities,
         affectedToPlanning: thesis.affectedToPlanning,
+        supervisor: thesis.professor,
+        juryMember1: thesis.jury.professor1,
+        juryMember2: thesis.jury.professor2,
       }
     })
     //------------ Step 4 : iterate slots: assign theses to slots
     let affectedLength = theses.length
-    console.log(affectedLength)
+    let assignedTheses = new Set() // Set to keep track of assigned theses
     for (const slot of slots) {
       if (affectedLength <= 0) break // If all theses are assigned, exit the loop
       if (slot.nbr_thesis >= 2) continue // If the slot is full, skip to the next slot
 
       for (const thesis of thesisNonAvailabilities) {
-        if (affectedLength <= 0 || slot.nbr_thesis >= 2) break // Exit loop if all theses are assigned or the slot is full
-
-        if (!thesis.affectedToPlanning) {
+        if (affectedLength <= 0) break // If all theses are assigned, exit the loop
+        if (slot.nbr_thesis >= 2) break // If the slot is full, skip to the next slot
+        if (
+          thesis.affectedToPlanning === false &&
+          !assignedTheses.has(thesis.thesisId)
+        ) {
           const thesisId = thesis.thesisId
           const nonAvailabilities = thesis.nonAvailabilities
           const slotDate = slot.date
@@ -1343,6 +1389,7 @@ exports.generatePlanning = async (req, res) => {
             })
 
             slot.nbr_thesis++
+            assignedTheses.add(thesisId) // Add the assigned thesis to the set
             await slot.save()
             await Thesis.findByIdAndUpdate(
               thesisId,
@@ -1354,7 +1401,36 @@ exports.generatePlanning = async (req, res) => {
         }
       }
     }
-    // ----------- Step 5 : iterate premises : assign the premises to thesis defence (soutenance) * in progress..
+    //----------------------------------------------
+    const thesesDefence = await ThesisDefence.find()
+    let premiseIndex = 0
+    // ----------- Step 5 : iterate thesesDefence : assign the premises to thesis defence
+    for (const thesisDef of thesesDefence) {
+      if (premiseIndex >= premises.length) {
+        // Reset the premise index if it exceeds the length of premises
+        premiseIndex = 0
+      }
+
+      const premise = premises[premiseIndex]
+
+      // Check if the current premise is already assigned to a ThesisDefence with the same slot
+      const existingThesisDefWithSameSlotAndPremise = await ThesisDefence.findOne(
+        {
+          slot: thesisDef.slot,
+          premise: premise._id,
+        },
+      )
+
+      if (!existingThesisDefWithSameSlotAndPremise) {
+        // If no ThesisDefence document exists with the same slot and premise, assign the premise
+        thesisDef.premise = premise._id
+        await thesisDef.save()
+        premiseIndex++ // Move to the next premise
+      } else {
+        // If there is a ThesisDefence with the same slot and premise, move to the next premise without assigning
+        premiseIndex++
+      }
+    }
     const planning = await ThesisDefence.find()
     res.status(200).json({
       length: planning.length,
@@ -1369,4 +1445,16 @@ exports.generatePlanning = async (req, res) => {
       message: 'An error occurred while generating planning.',
     })
   }
+}
+exports.resetPlanning = async (req, res) => {
+  // remove all Thesis Defence
+  await ThesisDefence.deleteMany({})
+  // theses :
+  await Thesis.updateMany({}, { $set: { affectedToPlanning: false } })
+  // slots  :
+  await Slot.updateMany({}, { $set: { nbr_thesis: 0 } })
+  res.status(201).json({
+    status: 'success',
+    message: 'planning reset successfully',
+  })
 }

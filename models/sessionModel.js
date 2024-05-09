@@ -41,6 +41,9 @@ const sessionSchema = new mongoose.Schema({
   minCharge: {
     type: Number,
   },
+  slot_nbr_theses: {
+    type: Number,
+  },
 })
 //  virtual property for dateFormatted
 sessionSchema.virtual('dateFormatted').get(function () {

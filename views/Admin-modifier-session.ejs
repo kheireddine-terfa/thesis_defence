@@ -27,6 +27,10 @@
                         <label for="minCharge"><em>La charge minimale</em></label>
                         <input  value="<%= session.minCharge %>" type="number" class="form-control" id="minCharge" name="minCharge" placeholder="la charge minimale" required>
                         </div>
+                        <div  class="col-md-6 mb-3">
+                          <label for="slot_nbr_theses"><em>Nombre de thèmes maximal</em></label>
+                          <input  value="<%= session.slot_nbr_theses %>" type="number" class="form-control" id="slot_nbr_theses" name="slot_nbr_theses" placeholder="nombre de thèmes maximal" required>
+                          </div>
                         <div class="mb-3 col-md-6">
                             <label for="sessionType"><em>Type de soutenance</em></label>
                             <input disabled value="<%= session.sessionType %>" type="text" class="form-control" id="sessionType" name="sessionType" placeholder="Prenom" required>

@@ -95,6 +95,7 @@ router
   .route('/juries')
   .get(adminController.getAllJuries)
   .post(adminController.generateJuries)
+  .delete(adminController.resetJuries)
 
 //----------------------créneaux:
 router
@@ -102,12 +103,11 @@ router
   .get(adminController.getAllSlots)
   .post(adminController.generateSlots)
 
-
 //--------------------planning:
 router
   .route('/planning')
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
-
+  .delete(adminController.resetPlanning)
 
 module.exports = router

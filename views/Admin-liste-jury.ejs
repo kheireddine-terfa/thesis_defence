@@ -1,3 +1,11 @@
+<div class="popup" id="popup">
+  <i class="bi bi-trash"></i>
+  <h4>do you really want to delete this !</h4>
+  <div>      
+    <button type="button" class="btn btn-danger" id="delete-btn-ju">Delete</button>
+    <button type="button" class="btn btn-secondary" id="cancel-btn-ju">Cancel</button>
+  </div>
+</div>
 <main id="main" class="main">
     <div class="pagetitle">      
       <h1>Jurys</h1>
@@ -66,7 +74,18 @@
                 <% }); %> 
                 <% } } %>
             </tbody>
+            
             </table>
+            <% if (juries.length > 0 ){ %>
+            <div style="text-align: right; margin-top: 30px;">
+              <button
+                class="btn btn-danger "
+                id="delete-juries-btn"
+              >
+                Réenitialiser les jurys
+              </button>
+            </div>
+            <% } %>
           </div>
         </div>
       </div>
