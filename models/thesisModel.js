@@ -58,6 +58,17 @@ thesisSchema.pre(/^find/, function (next) {
   })
   next()
 })
+thesisSchema.pre(/^findOne/, function (next) {
+  this.populate('professor jury')
+  this.populate({
+    path: 'jury',
+    populate: {
+      path: 'professor1 professor2',
+      model: 'Professor',
+    },
+  })
+  next()
+})
 thesisSchema.pre('remove', { document: true, query: false }, async function (
   next,
 ) {

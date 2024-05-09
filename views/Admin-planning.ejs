@@ -1,3 +1,11 @@
+<div class="popup" id="popup">
+  <i class="bi bi-trash"></i>
+  <h4>do you really want to delete this !</h4>
+  <div>      
+    <button type="button" class="btn btn-danger" id="delete-btn-pl">Delete</button>
+    <button type="button" class="btn btn-secondary" id="cancel-btn-pl">Cancel</button>
+  </div>
+</div>
 <main id="main" class="main">
     <div class="pagetitle">      
       <h1>Plannings</h1>
@@ -28,7 +36,7 @@
                   </strong>
                 </p>
                 <form>
-                  <button type="submit" class="btn btn-success" id="generate-juries-btn">Générer</button>
+                  <button type="submit" class="btn btn-success" id="generate-planning-btn">Générer</button>
                 </form>
             </div>
             
@@ -114,6 +122,14 @@
                     <!-- END planning rattrapage-->
                 </div>
               </div><!-- End Default Tabs -->
+              <div style="text-align: right; margin-top: 30px;">
+                <button
+                  class="btn btn-danger "
+                  id="delete-planning-btn"
+                >
+                  Réenitialiser le palnning
+                </button>
+              </div>   
               <% } %>
           </div>
         </div>

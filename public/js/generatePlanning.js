@@ -1,8 +1,8 @@
-const generateBtn = document.getElementById('generate-juries-btn')
-if (generateBtn) {
-  generateBtn.addEventListener('click', (e) => {
+const generatePlanningBtn = document.getElementById('generate-planning-btn')
+if (generatePlanningBtn) {
+  generatePlanningBtn.addEventListener('click', (e) => {
     e.preventDefault()
-    fetch(`/admin/juries`, {
+    fetch(`/admin/planning`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,17 +25,17 @@ if (generateBtn) {
         } else {
           const loader = document.getElementById('loader')
           const loaderContent = document.getElementById('loader-content')
-          loaderContent.textContent = 'generating juries... please wait'
+          loaderContent.textContent = 'generating planning... please wait'
           loader.style.display = 'flex'
           setTimeout(() => {
             loader.style.display = 'none'
-            window.location.href = '/admin/juries'
+            window.location.href = '/admin/planning'
           }, 3000)
         }
       })
       .then((data) => {})
       .catch((error) => {
-        console.error('Error adding announce:', error)
+        console.error('Error generating planning:', error)
       })
   })
 }

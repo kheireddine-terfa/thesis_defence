@@ -1391,31 +1391,96 @@ exports.generatePlanning = async (req, res) => {
           const thesisId = thesis.thesisId
           const nonAvailabilities = thesis.nonAvailabilities
           const slotDate = slot.date
+          const thesisMembers = [
+            thesis.supervisor._id,
+            thesis.juryMember1._id,
+            thesis.juryMember2._id,
+          ]
+          //check if there is a thesisDefence with this slot :
+          const currentThesisDefence = await ThesisDefence.find({
+            slot: slot._id,
+          })
+          console.log(currentThesisDefence.length)
+          if (currentThesisDefence.length > 0) {
+            for (const thesisD of currentThesisDefence) {
+              const existingThesis = await Thesis.findOne({
+                _id: thesisD.thesis,
+              })
+              const existingSupervisor = existingThesis.professor._id
+              const existingJuryMember1 = existingThesis.jury.professor1._id
+              const existingJuryMember2 = existingThesis.jury.professor2._id
 
-          // Check if the slot falls between any non-availability
-          const slotFallsBetweenNonAvailability = nonAvailabilities.some(
-            (nonAvailability) => {
-              const startDay = new Date(nonAvailability.startDay)
-              const endDay = new Date(nonAvailability.endDay)
-              return slotDate >= startDay && slotDate < endDay
-            },
-          )
+              const existingThesisMembers = [
+                existingSupervisor,
+                existingJuryMember1,
+                existingJuryMember2,
+              ]
+              // Check if the supervisor or any jury member of thesisMembers is in conflicts with existing thesis defense members
+              const conflict = existingThesisMembers.some((member) => {
+                return thesisMembers
+                  .map((id) => id.toString())
+                  .includes(member.toString())
+              })
+              if (conflict) {
+                // Handle conflict by skipping the current slot
+                console.log(
+                  `Conflict found with thesis defense: ${thesisD._id}`,
+                )
+                continue
+              } else {
+                // Check if the slot falls between any non-availability
+                const slotFallsBetweenNonAvailability = nonAvailabilities.some(
+                  (nonAvailability) => {
+                    const startDay = new Date(nonAvailability.startDay)
+                    const endDay = new Date(nonAvailability.endDay)
+                    return slotDate >= startDay && slotDate < endDay
+                  },
+                )
 
-          if (!slotFallsBetweenNonAvailability) {
-            const thesisDefence = await ThesisDefence.create({
-              thesis: thesisId,
-              slot: slot._id,
-            })
+                if (!slotFallsBetweenNonAvailability) {
+                  const thesisDefence = await ThesisDefence.create({
+                    thesis: thesisId,
+                    slot: slot._id,
+                  })
 
-            slot.nbr_thesis++
-            assignedTheses.add(thesisId) // Add the assigned thesis to the set
-            await slot.save()
-            await Thesis.findByIdAndUpdate(
-              thesisId,
-              { affectedToPlanning: true },
-              { new: true },
+                  slot.nbr_thesis++
+                  assignedTheses.add(thesisId) // Add the assigned thesis to the set
+                  await slot.save()
+                  await Thesis.findByIdAndUpdate(
+                    thesisId,
+                    { affectedToPlanning: true },
+                    { new: true },
+                  )
+                  affectedLength--
+                }
+              }
+            }
+          } else {
+            // Check if the slot falls between any non-availability
+            const slotFallsBetweenNonAvailability = nonAvailabilities.some(
+              (nonAvailability) => {
+                const startDay = new Date(nonAvailability.startDay)
+                const endDay = new Date(nonAvailability.endDay)
+                return slotDate >= startDay && slotDate < endDay
+              },
             )
-            affectedLength--
+
+            if (!slotFallsBetweenNonAvailability) {
+              const thesisDefence = await ThesisDefence.create({
+                thesis: thesisId,
+                slot: slot._id,
+              })
+
+              slot.nbr_thesis++
+              assignedTheses.add(thesisId) // Add the assigned thesis to the set
+              await slot.save()
+              await Thesis.findByIdAndUpdate(
+                thesisId,
+                { affectedToPlanning: true },
+                { new: true },
+              )
+              affectedLength--
+            }
           }
         }
       }
@@ -1478,4 +1543,3 @@ exports.resetPlanning = async (req, res) => {
   })
 }
 //---------------Juba Générate Planning :-------------
-
