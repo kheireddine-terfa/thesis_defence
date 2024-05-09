@@ -672,6 +672,24 @@ exports.updateSession = async (req, res) => {
 //-----------------:
 exports.deleteSession = async (req, res) => {
   const sessionId = req.params.id
+  const juries = await Jury.find()
+
+  if (juries.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'opps ! you cannot perform this action , there are juries generated',
+    })
+  }
+  const theses = await Thesis.find({ session: { $exists: true } })
+
+  if (theses.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'opps ! you cannot perform this action , there are theses assigned to this session',
+    })
+  }
   const deletedSession = await Session.findByIdAndDelete(sessionId)
   res.status(204).json({
     status: 'success',
@@ -1286,13 +1304,14 @@ exports.generateSlots = async (req, res) => {
 }
 //------------------------------------
 exports.getAllPlanning = async (req, res) => {
-  const normal_defences = await ThesisDefence.find()
-  // await ThesisDefence.find({
-  //   'slot.sessionType': 'normal'
-  // });
-  const retake_defences = await ThesisDefence.find({
-    'slot.sessionType': 'retake',
-  })
+  const defences = await ThesisDefence.find().populate('slot')
+  const normal_defences = defences.filter(
+    (elm) => elm.slot.sessionType === 'normal',
+  )
+  const retake_defences = defences.filter(
+    (elm) => elm.slot.sessionType === 'retake',
+  )
+
   res.status(200).render('Admin-planning', {
     layout: 'admin-nav-bar',
     normal_defences,
@@ -1446,15 +1465,17 @@ exports.generatePlanning = async (req, res) => {
     })
   }
 }
+
+//---------------Juba Générate Planning :-------------
 exports.resetPlanning = async (req, res) => {
-  // remove all Thesis Defence
+  // remove all ThesisDefence
   await ThesisDefence.deleteMany({})
-  // theses :
-  await Thesis.updateMany({}, { $set: { affectedToPlanning: false } })
-  // slots  :
+  //slots
   await Slot.updateMany({}, { $set: { nbr_thesis: 0 } })
+  // remove the jury reference from theses
+  await Thesis.updateMany({}, { $set: { affectedToPlanning: false } })
   res.status(201).json({
     status: 'success',
-    message: 'planning reset successfully',
+    message: 'ThesisDefence reset successfully..',
   })
 }
