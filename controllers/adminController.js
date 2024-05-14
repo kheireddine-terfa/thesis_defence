@@ -1324,7 +1324,9 @@ exports.generatePlanning = async (req, res) => {
     //----------- Step 1: fetch all the available slots and premises
     const slots = await Slot.find({ sessionType: 'normal' })
     const premises = await Premise.find()
-
+    //----------fetch the maximal number of thesis that can be presented at the same time:
+    const session = await Session.find({ sessionType: 'normal' })
+    const max = session.slot_nbr_theses
     //----------- Step 2:fetch all the theses with their professors and juries
     const theses = await Thesis.find({
       affected: true,
@@ -1379,11 +1381,11 @@ exports.generatePlanning = async (req, res) => {
     let assignedTheses = new Set() // Set to keep track of assigned theses
     for (const slot of slots) {
       if (affectedLength <= 0) break // If all theses are assigned, exit the loop
-      if (slot.nbr_thesis >= 2) continue // If the slot is full, skip to the next slot
+      if (slot.nbr_thesis >= max) continue // If the slot is full, skip to the next slot
 
       for (const thesis of thesisNonAvailabilities) {
         if (affectedLength <= 0) break // If all theses are assigned, exit the loop
-        if (slot.nbr_thesis >= 2) break // If the slot is full, skip to the next slot
+        if (slot.nbr_thesis >= max) break // If the slot is full, skip to the next slot
         if (
           thesis.affectedToPlanning === false &&
           !assignedTheses.has(thesis.thesisId)
@@ -1400,7 +1402,7 @@ exports.generatePlanning = async (req, res) => {
           const currentThesisDefence = await ThesisDefence.find({
             slot: slot._id,
           })
-          console.log(currentThesisDefence.length)
+          // console.log(currentThesisDefence.length)
           if (currentThesisDefence.length > 0) {
             for (const thesisD of currentThesisDefence) {
               const existingThesis = await Thesis.findOne({
@@ -1423,9 +1425,9 @@ exports.generatePlanning = async (req, res) => {
               })
               if (conflict) {
                 // Handle conflict by skipping the current slot
-                console.log(
-                  `Conflict found with thesis defense: ${thesisD._id}`,
-                )
+                // console.log(
+                //   `Conflict found with thesis defense: ${thesisD._id}`,
+                // )
                 continue
               } else {
                 // Check if the slot falls between any non-availability

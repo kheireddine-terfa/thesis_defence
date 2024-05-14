@@ -1,0 +1,50 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Soutenance</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/binome">Accueil</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="/binome/thesis-defence">Ma Soutenance</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="mt-4">Ma Soutenance</h3>
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col">Encadrant</th>
+                <th scope="col">Theme</th>
+                <th scope="col">Jury</th>
+                <th scope="col">Créneau</th>
+                <th scope="col">Local</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (thesisDefence) { %>
+              <tr>
+                <td><%= `${thesis.professor.firstName} | ${thesis.professor.lastName}` %></td>
+                <td><%= thesis.title %></td>
+                <td><%= `${thesis.jury.professor1.firstName}  ${thesis.jury.professor1.lastName} | ${thesis.jury.professor2.firstName}  ${thesis.jury.professor2.lastName}` %></td>
+                <td><%= `${thesisDefence.slot.dateFormatted} - ${thesisDefence.slot.startHour} - ${thesisDefence.slot.endHour}` %></td>
+                <td><%= `${thesisDefence.premise.title}` %></td>
+              </tr>
+              <% }; %> 
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
