@@ -1,0 +1,74 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Etudiant</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/admin">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/admin/students">Etudiants</a>
+          </li>
+          <li class="breadcrumb-item active">Importer</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+  
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="mb-4 mt-4">Importer fichier étudiants</h2>
+  
+            <!-- No Labels Form -->
+            <form class="row g-3" id="upload-students-form">
+                <div class="col-md-12">
+                    <input
+                        type="file"
+                        class="form-control"
+                        id="studentsFile"
+                        name="studentsFile"
+                        accept=".xlsx, .xls"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        Veuillez fournir un fichier Excel.
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" id="upload-students-btn">Upload</button>
+                </div>
+            </form>
+            <!-- End No Labels Form -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('upload-students-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData();
+        const fileField = document.querySelector('input[type="file"]');
+
+        formData.append('studentsFile', fileField.files[0]);
+
+        fetch('/admin/students/uploadForm', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('Étudiants ajoutés avec succès!');
+            } else {
+                alert('Erreur: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  </script>
+  <!-- End #main -->
+  

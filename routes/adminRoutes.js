@@ -3,6 +3,8 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 const adminController = require('../controllers/adminController')
 const viewsController = require('../controllers/viewsController')
+const studentController = require('../controllers/studentController');
+const upload = require('../middlewares/upload') // Importer le middleware de téléchargement
 //-----------------------------authentication:
 
 router.post('/signup', authController.signup)
@@ -32,6 +34,12 @@ router
   .get(adminController.getStudent)
   .delete(adminController.deleteStudent)
   .patch(adminController.updateStudent)
+
+
+router.route('/students/uploadForm')
+  .get(adminController.uploadStudentForm)
+  .post(upload.single('studentsFile'), adminController.uploadStudents)
+
 //-----------------------------professor:
 router.route('/professor').post(adminController.addAndSignUpProfessor)
 router.route('/professors').get(adminController.getAllProfessors)

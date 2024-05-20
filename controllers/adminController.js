@@ -13,6 +13,8 @@ const Jury = require('../models/juryModels')
 const Slot = require('../models/slotModel')
 const ThesisDefence = require('../models/thesisDefenceModel')
 const moment = require('moment')
+const XLSX = require('xlsx');
+
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET)
@@ -586,6 +588,60 @@ exports.updateStudent = async (req, res) => {
     },
   })
 }
+//------------formulaire d'insertion du fichier excel
+exports.uploadStudentForm = async (req, res) => {
+  res.status(200).render('Admin-ajouter-etudiants-import', {
+    layout: 'Admin-nav-bar'
+  })
+}
+
+//----------------- improter étudiants depuis excel:
+exports.uploadStudents = async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ status: 'fail', message: 'No file uploaded' });
+    }
+
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet);
+
+    if (data.length === 0) {
+      return res.status(400).json({ status: 'fail', message: 'Empty file uploaded' });
+    }
+
+    const students = await Promise.all(data.map(async row => {
+      if (!row.firstName || !row.lastName || !row.email || !row.matricule || !row.specialityName) {
+        throw new Error('Missing required fields in the Excel file');
+      }
+
+      const speciality = await Speciality.findOne({ abbreviation: row.specialityName });
+      if (!speciality) {
+        throw new Error(`Speciality ${row.specialityName} not found`);
+      }
+
+      return {
+        firstName: row.firstName,
+        lastName: row.lastName,
+        email: row.email,
+        matricule: row.matricule,
+        speciality: speciality._id,
+        password: row.matricule,
+      };
+    }));
+
+    await Student.insertMany(students);
+
+    res.status(201).json({ status: 'success', message: 'Students uploaded successfully' });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
+};
 //-----------------:
 exports.addSession = async (req, res) => {
   countSession = await Session.find().countDocuments()
