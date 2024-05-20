@@ -302,6 +302,69 @@ exports.deleteProfessor = async (req, res) => {
     message: 'professor deleted successfully',
   })
 }
+
+//------------formulaire d'insertion du fichier excel profs
+exports.uploadProfessorForm = async (req, res) => {
+  res.status(200).render('Admin-ajouter-enseignants-import', {
+    layout: 'Admin-nav-bar'
+  })
+}
+
+//----------------- improter enseignants depuis excel:
+exports.uploadProfessors = async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ status: 'fail', message: 'No file uploaded' });
+    }
+
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet);
+
+    if (data.length === 0) {
+      return res.status(400).json({ status: 'fail', message: 'Empty file uploaded' });
+    }
+
+    const profs = await Promise.all(data.map(async row => {
+    if (!row.firstName || !row.lastName || !row.email || !row.grade || !row.fields) {
+      throw new Error('Champs manquants dans le fichier Excel ! ');
+    }
+
+    const fieldTitles = row.fields.split(',').map(field => field.trim());
+    const fields = await Field.find({ title: { $in: fieldTitles } });
+
+    if (fields.length !== fieldTitles.length) {
+      throw new Error('Domaine non existant : Veuillez vérifier les domaines ou en créer un');
+    }
+    const pwd = row.firstName+'.'+row.lastName
+
+
+
+    return {
+      firstName: row.firstName,
+      lastName: row.lastName,
+      email: row.email,
+      grade: row.grade,
+      fields: fields,
+      password : pwd
+    };
+  }));
+
+
+    await Professor.insertMany(profs);
+
+    res.status(201).json({ status: 'success', message: 'Professorss uploaded successfully' });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
+};
+
+
 //----------------------:
 
 exports.addPremise = async (req, res) => {

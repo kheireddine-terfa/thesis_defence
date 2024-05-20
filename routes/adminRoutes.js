@@ -35,7 +35,7 @@ router
   .delete(adminController.deleteStudent)
   .patch(adminController.updateStudent)
 
-
+//pour l'insertion avec excel:
 router.route('/students/uploadForm')
   .get(adminController.uploadStudentForm)
   .post(upload.single('studentsFile'), adminController.uploadStudents)
@@ -49,6 +49,11 @@ router
   .get(adminController.getProfessor)
   .delete(adminController.deleteProfessor)
   .patch(adminController.updateProfessor)
+
+  //pour l'insertion avec excel:
+router.route('/professors/uploadForm')
+  .get(adminController.uploadProfessorForm)
+  .post(upload.single('profsFile'), adminController.uploadProfessors)
 //-----------------------------binome:
 router.route('/binome').post(adminController.addAndSignUpBinome)
 router.route('/binomes').get(adminController.getAllBinomes)
