@@ -14,6 +14,7 @@ const Slot = require('../models/slotModel')
 const ThesisDefence = require('../models/thesisDefenceModel')
 const moment = require('moment')
 const XLSX = require('xlsx');
+const path = require('path')
 
 //--------- sign token function : -------------------------------
 const signToekn = (id) => {
@@ -309,6 +310,12 @@ exports.uploadProfessorForm = async (req, res) => {
     layout: 'Admin-nav-bar'
   })
 }
+//-----------télécharger le fichier excel model
+exports.downloadProfessorFile = async (req, res) => {
+  const file = path.join(__dirname, '../public/templates/fichier_modele_enseignants.xlsx');
+  res.download(file, 'fichier_modele_enseignants.xlsx');
+}
+
 
 //----------------- improter enseignants depuis excel:
 exports.uploadProfessors = async (req, res) => {
@@ -657,6 +664,13 @@ exports.uploadStudentForm = async (req, res) => {
     layout: 'Admin-nav-bar'
   })
 }
+
+//----------------telecharger le fichier modele
+exports.downloadStudentFile = async (req, res) => {
+  const file = path.join(__dirname, '../public/templates/fichier_modele_etudiants.xlsx');
+  res.download(file, 'fichier_modele_etudiants.xlsx');
+}
+
 
 //----------------- improter étudiants depuis excel:
 exports.uploadStudents = async (req, res) => {

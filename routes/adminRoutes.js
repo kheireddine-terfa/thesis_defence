@@ -39,6 +39,9 @@ router
 router.route('/students/uploadForm')
   .get(adminController.uploadStudentForm)
   .post(upload.single('studentsFile'), adminController.uploadStudents)
+//pour le téléchargement du fichier excel modele 
+router.route('/students/templateUpload')
+  .get(adminController.downloadStudentFile);
 
 //-----------------------------professor:
 router.route('/professor').post(adminController.addAndSignUpProfessor)
@@ -54,6 +57,10 @@ router
 router.route('/professors/uploadForm')
   .get(adminController.uploadProfessorForm)
   .post(upload.single('profsFile'), adminController.uploadProfessors)
+  //pour le téléchargement du fichier modele 
+router.route('/professors/templateUpload')
+  .get(adminController.downloadProfessorFile);
+
 //-----------------------------binome:
 router.route('/binome').post(adminController.addAndSignUpBinome)
 router.route('/binomes').get(adminController.getAllBinomes)
