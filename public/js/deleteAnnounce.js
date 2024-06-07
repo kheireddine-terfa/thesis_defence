@@ -5,7 +5,7 @@ const deleteBtn = document.getElementById('delete-btn-an')
 if (deleteAnnounceBtns.length > 0) {
   deleteAnnounceBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      popup.style.display = 'flex'
+      popup.classList.add('show');
       deleteBtn.setAttribute('data-id', this.getAttribute('data-announce-id'))
     })
   })
@@ -56,7 +56,7 @@ if (cancelBtn) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

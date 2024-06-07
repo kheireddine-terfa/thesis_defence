@@ -1677,7 +1677,7 @@ exports.generatePlanning = async (req, res) => {
     console.error('Error creating thesis defence documents:', err)
     res.status(500).json({
       status: 'error',
-      message: 'An error occurred while generating planning.',
+      message: 'Erreur lors de la génération du planning, nous vous invitons à vérifier que toutes les étapes qui précèdent le planning sont faites.',
     })
   }
 }

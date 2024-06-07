@@ -6,7 +6,7 @@ const deleteBtnB = document.getElementById('delete-btn-bi')
 if (deleteBinomeBtns.length > 0) {
   deleteBinomeBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupB.style.display = 'flex'
+      popupB.classList.add('show');
       deleteBtnB.setAttribute('data-id', this.getAttribute('data-binome-id'))
     })
   })
@@ -61,7 +61,7 @@ if (cancelBtnB) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

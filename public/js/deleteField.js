@@ -6,7 +6,7 @@ const deleteBtnF = document.getElementById('delete-btn-fi')
 if (deleteFieldBtns.length > 0) {
   deleteFieldBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupF.style.display = 'flex'
+      popupF.classList.add('show');
       deleteBtnF.setAttribute('data-id', this.getAttribute('data-field-id'))
     })
   })
@@ -61,7 +61,7 @@ if (cancelBtnF) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

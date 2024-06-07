@@ -44,12 +44,12 @@ if (addPremiseBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `premise ${data.premise.title} added successfully`
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addPremiseForm.reset()
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         // Handle errors

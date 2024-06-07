@@ -49,12 +49,12 @@ if (addBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = 'announce added successfully ..'
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addAnnounceForm.reset()
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         console.error('Error adding announce:', error)

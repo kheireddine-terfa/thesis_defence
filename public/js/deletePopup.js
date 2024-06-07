@@ -7,7 +7,7 @@ const errorPopupP = document.getElementsByClassName('popup-error')[0]
 if (deleteThesisBtns.length > 0) {
   deleteThesisBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popup.style.display = 'flex'
+      popup.classList.add('show');
       deleteBtn.setAttribute('data-id', this.getAttribute('data-thesis-id'))
     })
   })
@@ -62,7 +62,7 @@ if (cancelBtn) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

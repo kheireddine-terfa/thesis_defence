@@ -5,7 +5,7 @@ const deleteBtnSe = document.getElementById('delete-btn-se')
 if (btnSe) {
   btnSe.addEventListener('click', function (e) {
     e.preventDefault()
-    popupSe.style.display = 'flex'
+    popupSe.classList.add('show');
     deleteBtnSe.addEventListener('click', function () {
       fetch(`/admin/sessions`, {
         method: 'DELETE',
@@ -39,7 +39,7 @@ if (cancelBtnSe) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })
