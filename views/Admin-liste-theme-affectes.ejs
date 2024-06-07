@@ -34,6 +34,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Domaine</th>
                 <th scope="col">Spécialité</th>
+                <th scope="col">Repport</th>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +47,14 @@
                   <%= binome.ApprovedThesis.field.title %>
                 </td>
                 <td><%= binome.ApprovedThesis.speciality.title %></td>
+                <td>
+                  <% if (binome.ApprovedThesis.session.sessionType == 'normal') { %>
+                    <a href="/admin/affected-theses/report/<%= binome.ApprovedThesis._id %>" class="btn btn-light">Reporter</a>
+                  <% } else { %>
+                    <span class="text-warning">Reportée</span>
+                  <% } %>
+                </td>
+                
               </tr>
               <% }); %> 
               <% } %>
