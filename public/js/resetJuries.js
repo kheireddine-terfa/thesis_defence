@@ -18,13 +18,18 @@ if (btnJu) {
             popupJu.style.display = 'none'
             window.location.href = '/admin/juries'
           } else {
-            const errMsj = document.getElementById('dlt-error')
-            errMsj.style.display = 'block'
-            console.error('Failed to delete session')
-            // Hide error message after 3 seconds
-            setTimeout(function () {
-              errMsj.style.display = 'none'
-            }, 2000)
+            response.json().then((data) => {
+              console.log('Error:', data.message)
+              // Display error message to the user
+              const errorMessageElement = document.getElementById(
+                'popup-error-content',
+              )
+              errorMessageElement.textContent = data.message
+              errorPopupPr.style.display = 'flex' // Show error message
+              setTimeout(() => {
+                errorPopupPr.style.display = 'none'
+              }, 3000)
+            })
           }
         })
         .catch((error) => {

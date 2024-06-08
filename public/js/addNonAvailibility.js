@@ -44,10 +44,10 @@ if (addNonAvBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `non-availibility added successfully`
         if (addPopUp) {
-          addPopUp.classList.add('show');
+          addPopUp.classList.add('show')
         }
         setTimeout(() => {
-          addPopUp.classList.remove('show');
+          addPopUp.classList.remove('show')
           addNonAvForm.reset()
         }, 1000)
       })
