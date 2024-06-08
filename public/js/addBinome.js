@@ -45,13 +45,13 @@ if (addBinomeBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `binome ${data.binome.userName} added successfully`
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addBinomeForm.reset()
           window.location.href = '/admin/binome'
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         // Handle errors

@@ -6,7 +6,7 @@ const deleteBtnPr = document.getElementById('delete-btn-pr')
 if (deleteProfessorBtns.length > 0) {
   deleteProfessorBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupPr.style.display = 'flex'
+      popupPr.classList.add('show');
       deleteBtnPr.setAttribute(
         'data-id',
         this.getAttribute('data-professor-id'),
@@ -63,7 +63,7 @@ if (cancelBtnPr) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

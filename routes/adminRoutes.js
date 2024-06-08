@@ -106,6 +106,8 @@ router
   .delete(adminController.deleteNonAvailibility)
 router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
+//report de session :
+router.get('/affected-theses/report/:id', adminController.reporterThesis)
 //----------------------jurys:
 router
   .route('/jury/:id')

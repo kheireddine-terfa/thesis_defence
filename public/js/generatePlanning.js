@@ -17,10 +17,11 @@ if (generatePlanningBtn) {
               'popup-error-content',
             )
             errorMessageElement.textContent = data.message
-            errorPopupSt.style.display = 'flex' // Show error message
+            const popupEr =  document.getElementById('popup-error');
+            popupEr.classList.add('show'); // Show error message
             setTimeout(() => {
-              errorPopupSt.style.display = 'none'
-            }, 3000)
+              popupEr.classList.remove('show');
+            }, 4000)
           })
         } else {
           const loader = document.getElementById('loader')

@@ -122,7 +122,7 @@ exports.getProsessorTheses = async (req, res) => {
   // })
   res
     .status(200)
-    .render('Enseignant-listeTheme', { layout: 'professorLayout', theses })
+    .render('Enseignant-listeTheme', { layout: 'professorLayout',theses })
 }
 //----------------------:
 

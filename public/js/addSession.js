@@ -45,12 +45,12 @@ if (addSessionBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `session added successfully`
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addSessionForm.reset()
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         // Handle errors

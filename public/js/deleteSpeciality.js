@@ -6,7 +6,7 @@ const deleteBtnS = document.getElementById('delete-btn-sp')
 if (deleteSpecialityBtns.length > 0) {
   deleteSpecialityBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupS.style.display = 'flex'
+      popupS.classList.add('show');
       deleteBtnS.setAttribute(
         'data-id',
         this.getAttribute('data-speciality-id'),
@@ -63,7 +63,7 @@ if (cancelBtnS) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

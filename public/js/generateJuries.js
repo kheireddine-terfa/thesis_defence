@@ -17,10 +17,11 @@ if (generateBtn) {
               'popup-error-content',
             )
             errorMessageElement.textContent = data.message
-            errorPopupSt.style.display = 'flex' // Show error message
+            const popupError = document.getElementById('popup-error');
+            popupError.classList.add('show');
             setTimeout(() => {
-              errorPopupSt.style.display = 'none'
-            }, 3000)
+              popupError.classList.remove('show');
+            }, 4000)
           })
         } else {
           const loader = document.getElementById('loader')
@@ -30,7 +31,7 @@ if (generateBtn) {
           setTimeout(() => {
             loader.style.display = 'none'
             window.location.href = '/admin/juries'
-          }, 3000)
+          }, 5000)
         }
       })
       .then((data) => {})

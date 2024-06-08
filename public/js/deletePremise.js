@@ -6,7 +6,7 @@ const deleteBtnP = document.getElementById('delete-btn-p')
 if (deletePremiseBtns.length > 0) {
   deletePremiseBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupP.style.display = 'flex'
+      popupP.classList.add('show');
       deleteBtnP.setAttribute('data-id', this.getAttribute('data-premise-id'))
     })
   })
@@ -60,7 +60,7 @@ if (cancelBtnP) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })
