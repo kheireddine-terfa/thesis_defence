@@ -103,7 +103,7 @@
   color: rgb(207, 0, 0);
   font-size: 30px;
   padding: 3px 15px;
-  text-shadow: 0 4px 8px rgba(248, 248, 248, 0.421), 0 6px 20px rgba(243, 243, 243, 0.19); /* Exemple d'ombre */
+  text-shadow: 0 4px 8px rgba(248, 248, 248, 0.421), 0 6px 20px rgba(243, 243, 243, 0.327); /* Exemple d'ombre */
 }
 #selected-t {
   display: none;
@@ -118,7 +118,7 @@
   padding: 40px;
   height: 200px;
   width: 400px;
-  background: linear-gradient(to bottom, rgba(255, 0, 0, 0.563), rgba(255, 230, 0, 0.637));
+  background: linear-gradient(to bottom, rgb(220, 220, 220), rgb(255, 255, 255));
   left: 47%;
   top: 50%;
   position: absolute;
