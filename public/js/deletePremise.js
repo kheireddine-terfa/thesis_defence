@@ -10,7 +10,7 @@ if (deletePremiseBtns.length > 0) {
       deleteBtnP.setAttribute('data-id', this.getAttribute('data-premise-id'))
     })
   })
-}
+} 
 if (deleteBtnP) {
   deleteBtnP.addEventListener('click', function () {
     let premiseId = this.getAttribute('data-id')
@@ -22,7 +22,7 @@ if (deleteBtnP) {
         },
       })
         .then((response) => {
-          popupP.classList.add('show');
+          popupP.classList.remove('show');
           if (response.ok) {
             const deletePremiseIcon = document.getElementById(
               'delete-premise-' + premiseId,
