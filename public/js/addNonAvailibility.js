@@ -34,22 +34,31 @@ if (addNonAvBtn) {
       body: JSON.stringify(jsonData), // Convert data to JSON string
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
+        if (response.ok) {
+          const addPopUp = document.getElementById('popup-add')
+          const popUpContent = document.getElementById('popup-content')
+          popUpContent.textContent = `non-availibility added successfully`
+          if (addPopUp) {
+            addPopUp.style.display = 'flex'
+          }
+          setTimeout(() => {
+            addPopUp.style.display = 'none'
+            addNonAvForm.reset()
+          }, 3000)
+        } else {
+          response.json().then((data) => {
+            console.log('Error:', data.message)
+            // Display error message to the user
+            const errorMessageElement = document.getElementById(
+              'popup-error-content',
+            )
+            errorMessageElement.textContent = data.message
+            errorPopupPr.style.display = 'flex' // Show error message
+            setTimeout(() => {
+              errorPopupPr.style.display = 'none'
+            }, 3000)
+          })
         }
-        return response.json()
-      })
-      .then((data) => {
-        const addPopUp = document.getElementById('popup-add')
-        const popUpContent = document.getElementById('popup-content')
-        popUpContent.textContent = `non-availibility added successfully`
-        if (addPopUp) {
-          addPopUp.style.display = 'flex'
-        }
-        setTimeout(() => {
-          addPopUp.style.display = 'none'
-          addNonAvForm.reset()
-        }, 3000)
       })
       .catch((error) => {
         // Handle errors

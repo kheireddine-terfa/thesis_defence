@@ -59,8 +59,11 @@ binomeSchema.methods.correctPassword = async function (candidatePassword) {
 
 binomeSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'ApprovedThesis selectedThesis student1 student2',
-  })
+    path: 'ApprovedThesis',
+    populate: [
+      { path: 'session', model: 'Session' },
+    ],
+  }).populate('selectedThesis student1 student2')
   next()
 })
 const Binome = mongoose.model('Binome', binomeSchema)

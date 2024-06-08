@@ -62,6 +62,8 @@
                             <tr>
                                 <th scope="col">Thème</th>
                                 <!-- <th scope="col">Binôme</th> -->
+                                <th scope="col">Encadrant</th>
+                                <th scope="col">Jury</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Créneau</th>
                                 <th scope="col w-20%">Salle</th>
@@ -73,6 +75,8 @@
                             
                             <tr>
                                 <td><%= `${n_defence.thesis.title}`%></td>
+                                <td><%= `${n_defence.thesis.professor.firstName}  ${n_defence.thesis.professor.lastName}`%></td>
+                                <td><%= `${n_defence.thesis.jury.professor1.firstName} ${n_defence.thesis.jury.professor1.lastName} | ${n_defence.thesis.jury.professor2.firstName} ${n_defence.thesis.jury.professor2.lastName}`%></td>
                                 <!-- <td>`${n_defence.thesis.binome.student1.lastName} ${n_defence.thesis.binome.student1.firstName} | ${n_defence.thesis.binome.student2.lastName} ${n_defence.thesis.binome.student2.firstName}`</td> -->
                                 <td><%= n_defence.slot.dateFormatted %></td>
                                 <td><%= `${n_defence.slot.startHour} - ${n_defence.slot.endHour}` %></td>
@@ -84,10 +88,6 @@
                             <% } %>
                         </tbody>
                     </table>
-
-
-
-
                     <!--END planning normal-->
                 </div>
                 <div class="tab-pane fade" id="retake" role="tabpanel" aria-labelledby="retake-tab">
@@ -97,6 +97,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">Thème</th>
+                                <th scope="col">Encadrant</th>
+                                <th scope="col">Jury</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Créneau</th>
                                 <th scope="col w-20%">Salle</th>
@@ -108,6 +110,8 @@
                             
                             <tr>
                                 <td><%= `${r_defence.thesis.title}`%></td>
+                                <td><%= `${r_defence.thesis.professor.firstName}  ${r_defence.thesis.professor.lastName}`%></td>
+                                <td><%= `${r_defence.thesis.jury.professor1.firstName} ${r_defence.thesis.jury.professor1.lastName} | ${r_defence.thesis.jury.professor2.firstName} ${r_defence.thesis.jury.professor2.lastName}`%></td>
                                 <td><%= r_defence.slot.dateFormatted %></td>
                                 <td><%= `${r_defence.slot.startHour} - ${r_defence.slot.endHour}` %></td>
                                 <td><%= `${r_defence.premise.title}` %></td>

@@ -21,6 +21,24 @@ thesisDefenceSchema.pre(/^find/, function (next) {
   })
   next()
 })
+// Populate attributes:
+thesisDefenceSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'thesis',
+    populate: [
+      { path: 'professor', model: 'Professor' },
+      {
+        path: 'jury',
+        populate: [
+          { path: 'professor1', model: 'Professor' },
+          { path: 'professor2', model: 'Professor' },
+        ],
+      },
+    ],
+  }).populate('slot premise')
+
+  next()
+})
 const ThesisDefence = mongoose.model('ThesisDefence', thesisDefenceSchema)
 
 module.exports = ThesisDefence
