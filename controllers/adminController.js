@@ -1042,28 +1042,35 @@ exports.deleteNonAvailibility = async (req, res) => {
 }
 //----------------------
 exports.getAllAffectedTheses = async (req, res) => {
-  const binomes = await Binome.find({ 'ApprovedThesis': { $exists: true } })
-    .populate({
-      path: 'ApprovedThesis',
-      populate: {
-        path: 'session',
-        model: 'Session'
-      }
-    })
+  const binomes = await Binome.find({
+    ApprovedThesis: { $exists: true },
+  }).populate({
+    path: 'ApprovedThesis',
+    populate: {
+      path: 'session',
+      model: 'Session',
+    },
+  })
+
+  const NSession = await Session.findOne({ sessionType: 'normal' })
+
   res.status(200).render('Admin-liste-theme-affectes', {
     layout: 'Admin-nav-bar',
     binomes,
+    NSession,
   })
 }
-//report de session 
+//report de session
 exports.reporterThesis = async (req, res) => {
-  const thesis = await Thesis.findById(req.params.id).populate('session')
-  thesis.session = await Session.findOne({ sessionType: 'retake' })
-  await thesis.save();
+  const sessionR = await Session.findOne({ sessionType: 'retake' })
+  const thesisToPostpone = await Thesis.findOneAndUpdate(
+    { _id: req.params.id },
+    { session: sessionR._id },
+    { new: true }, // Retourne le document mis à jour
+  )
 
-  res.redirect('Admin-liste-theme-affectes');
+  res.redirect('Admin-liste-theme-affectes')
 }
-
 
 exports.getAllProposedTheses = async (req, res) => {
   const professors = await Professor.aggregate([
@@ -2032,7 +2039,8 @@ exports.generatePlanning = async (req, res) => {
     console.error('Error creating thesis defence documents:', err)
     res.status(500).json({
       status: 'error',
-      message: 'Erreur lors de la génération du planning, nous vous invitons à vérifier que toutes les étapes qui précèdent le planning sont faites.',
+      message:
+        'Erreur lors de la génération du planning, nous vous invitons à vérifier que toutes les étapes qui précèdent le planning sont faites.',
     })
   }
 }
