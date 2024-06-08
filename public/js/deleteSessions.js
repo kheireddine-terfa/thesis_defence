@@ -14,8 +14,8 @@ if (btnSe) {
         },
       })
         .then((response) => {
+          popupSe.classList.remove('show'); 
           if (response.ok) {
-            popupSe.style.display = 'none'
             window.location.href = '/admin/sessions'
           } else {
             response.json().then((data) => {
@@ -25,9 +25,10 @@ if (btnSe) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupPr.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupPr.style.display = 'none'
+                errPopup.classList.remove('show'); 
               }, 3000)
             })
           }

@@ -25,6 +25,7 @@ if (deleteBtnS) {
         },
       })
         .then((response) => {
+          popupS.classList.remove('show');
           if (response.ok) {
             const deleteSpecialityIcon = document.getElementById(
               'delete-speciality-' + specialityId,
@@ -35,7 +36,6 @@ if (deleteBtnS) {
                 specialityRow.remove() // remove row
               }
             }
-            popupS.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -44,9 +44,10 @@ if (deleteBtnS) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupS.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupS.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }

@@ -14,7 +14,6 @@ if (deleteFieldBtns.length > 0) {
 if (deleteBtnF) {
   deleteBtnF.addEventListener('click', function () {
     let fieldId = this.getAttribute('data-id')
-    console.log('**********' + fieldId)
     if (fieldId) {
       fetch(`/admin/field/${fieldId}`, {
         method: 'DELETE',
@@ -23,6 +22,7 @@ if (deleteBtnF) {
         },
       })
         .then((response) => {
+          popupB.classList.remove('show');
           if (response.ok) {
             const deleteFieldIcon = document.getElementById(
               'delete-field-' + fieldId,
@@ -33,7 +33,6 @@ if (deleteBtnF) {
                 fieldRow.remove() // remove row
               }
             }
-            popupB.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -42,9 +41,10 @@ if (deleteBtnF) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupF.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupF.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }

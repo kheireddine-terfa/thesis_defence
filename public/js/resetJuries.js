@@ -5,7 +5,7 @@ const deleteBtnJu = document.getElementById('delete-btn-ju')
 if (btnJu) {
   btnJu.addEventListener('click', function (e) {
     e.preventDefault()
-    popupJu.style.display = 'flex'
+    popupJu.classList.add('show');
     deleteBtnJu.addEventListener('click', function () {
       fetch(`/admin/juries`, {
         method: 'DELETE',
@@ -14,8 +14,8 @@ if (btnJu) {
         },
       })
         .then((response) => {
+          popupJu.classList.remove('show');
           if (response.ok) {
-            popupJu.style.display = 'none'
             window.location.href = '/admin/juries'
           } else {
             response.json().then((data) => {
@@ -25,9 +25,10 @@ if (btnJu) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupPr.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error');
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupPr.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }
@@ -44,7 +45,7 @@ if (cancelBtnJu) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })
