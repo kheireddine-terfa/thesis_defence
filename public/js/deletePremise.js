@@ -22,6 +22,7 @@ if (deleteBtnP) {
         },
       })
         .then((response) => {
+          popupP.classList.add('show');
           if (response.ok) {
             const deletePremiseIcon = document.getElementById(
               'delete-premise-' + premiseId,
@@ -32,7 +33,6 @@ if (deleteBtnP) {
                 premiseRow.remove() // remove row
               }
             }
-            popupP.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -41,9 +41,10 @@ if (deleteBtnP) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupP.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupP.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }

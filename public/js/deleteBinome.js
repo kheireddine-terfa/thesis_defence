@@ -14,7 +14,6 @@ if (deleteBinomeBtns.length > 0) {
 if (deleteBtnB) {
   deleteBtnB.addEventListener('click', function () {
     let binomeId = this.getAttribute('data-id')
-    console.log('**********' + binomeId)
     if (binomeId) {
       fetch(`/admin/binome/${binomeId}`, {
         method: 'DELETE',
@@ -23,6 +22,7 @@ if (deleteBtnB) {
         },
       })
         .then((response) => {
+          popupB.classList.remove('show');
           if (response.ok) {
             const deleteBinomeIcon = document.getElementById(
               'delete-binome-' + binomeId,
@@ -33,7 +33,6 @@ if (deleteBtnB) {
                 binomeRow.remove() // remove row
               }
             }
-            popupB.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -42,9 +41,10 @@ if (deleteBtnB) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupB.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupB.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }

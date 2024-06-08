@@ -5,7 +5,7 @@ const deleteBtnPl = document.getElementById('delete-btn-pl')
 if (btnPl) {
   btnPl.addEventListener('click', function (e) {
     e.preventDefault()
-    popupPl.style.display = 'flex'
+    popupPl.classList.add('show');
     deleteBtnPl.addEventListener('click', function () {
       fetch(`/admin/planning`, {
         method: 'DELETE',
@@ -15,7 +15,7 @@ if (btnPl) {
       })
         .then((response) => {
           if (response.ok) {
-            popupPl.style.display = 'none'
+            popupPl.classList.remove('show')
             window.location.href = '/admin/planning'
           } else {
             const errMsj = document.getElementById('dlt-error')
@@ -39,7 +39,7 @@ if (cancelBtnPl) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

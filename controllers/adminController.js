@@ -1050,16 +1050,23 @@ exports.getAllAffectedTheses = async (req, res) => {
         model: 'Session'
       }
     })
+  
+  const NSession = await Session.findOne({ sessionType: 'normal' })
+  
   res.status(200).render('Admin-liste-theme-affectes', {
     layout: 'Admin-nav-bar',
     binomes,
+    NSession,
   })
 }
 //report de session 
 exports.reporterThesis = async (req, res) => {
-  const thesis = await Thesis.findById(req.params.id).populate('session')
-  thesis.session = await Session.findOne({ sessionType: 'retake' })
-  await thesis.save();
+  const sessionR  = await Session.findOne({ sessionType: 'retake' })
+  const thesisToPostpone = await Thesis.findOneAndUpdate(
+    { _id: req.params.id },
+    { session: sessionR._id },
+    { new: true }  // Retourne le document mis à jour
+  );
 
   res.redirect('Admin-liste-theme-affectes');
 }

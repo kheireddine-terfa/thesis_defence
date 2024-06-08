@@ -22,6 +22,7 @@ if (deleteBtnSt) {
         },
       })
         .then((response) => {
+          popupSt.classList.remove('show');
           if (response.ok) {
             const deleteStudentIcon = document.getElementById(
               'delete-student-' + studentId,
@@ -32,7 +33,6 @@ if (deleteBtnSt) {
                 studentRow.remove() // remove row
               }
             }
-            popupSt.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -41,9 +41,10 @@ if (deleteBtnSt) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupSt.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupSt.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }
