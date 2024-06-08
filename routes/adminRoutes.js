@@ -131,5 +131,8 @@ router
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
   .delete(adminController.resetPlanning)
+//export du planning
+router.get('/exportDefences', adminController.exportDefences)
+
 
 module.exports = router

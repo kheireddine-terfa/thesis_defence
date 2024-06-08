@@ -2059,3 +2059,72 @@ exports.resetPlanning = async (req, res) => {
   })
 }
 //---------------Juba Générate Planning :-------------
+
+
+
+//------------------Export planning : -----------------
+
+exports.exportDefences = async (req, res) => {
+  try {
+    // Récupérer toutes les données de soutenance
+    const defences = await ThesisDefence.find()
+      .populate('thesis')
+      .populate({ 
+        path: 'thesis', 
+        populate: {
+          path: 'binome professor jury field'
+        }
+      })
+      .populate('slot')
+      .populate('premise');
+      
+    const normalDef = defences.filter(d => d.slot.sessionType === 'normal');
+    const retakeDef = defences.filter(d => d.slot.sessionType === 'retake');
+
+    const dataN = normalDef.map(defence => ({
+      'Binôme': defence.thesis.binome.userName,
+      'Thème': defence.thesis.title,
+      'Encadrant': `${defence.thesis.professor.firstName} ${defence.thesis.professor.lastName}`,
+      'Jury': `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName} | ${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`,
+      'Date': defence.slot.dateFormatted, // Assurez-vous que `dateFormatted` est bien calculé ou formaté
+      'Créneau': `${defence.slot.startHour} - ${defence.slot.endHour}`,
+      'Salle': defence.premise.title
+    }));
+
+    const dataR = retakeDef.map(defence => ({
+      'Binôme': defence.thesis.binome.userName,
+      'Thème': defence.thesis.title,
+      'Encadrant': `${defence.thesis.professor.firstName} ${defence.thesis.professor.lastName}`,
+      'Jury': `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName} | ${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`,
+      'Date': defence.slot.dateFormatted, // Assurez-vous que `dateFormatted` est bien calculé ou formaté
+      'Créneau': `${defence.slot.startHour} - ${defence.slot.endHour}`,
+      'Salle': defence.premise.title
+    }));
+    
+
+    // Création du workbook et de la sheet
+    const workbook = XLSX.utils.book_new();
+    const normalWorksheet = XLSX.utils.json_to_sheet(dataN);
+    const retakeWorksheet = XLSX.utils.json_to_sheet(dataR);
+
+    XLSX.utils.book_append_sheet(workbook, normalWorksheet, "Session Normales");
+    XLSX.utils.book_append_sheet(workbook, retakeWorksheet, "Session Rattrapage");
+
+    // Définition des options de téléchargement
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="Soutenances.xlsx"');
+    res.send(buffer);
+
+
+
+  } catch (error) {
+    res.status(500).json({
+      status: 'fail',
+      message: 'Failed to export defences: ' + error.message
+    });
+  }
+};
+
+
+
