@@ -135,8 +135,5 @@ router
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
   .delete(adminController.resetPlanning)
-router
-  .route('/planning/:id')
-  .get(adminController.getThesisDefence)
-  .patch(adminController.updateThesisDefence)
+
 module.exports = router

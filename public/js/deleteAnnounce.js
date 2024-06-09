@@ -14,7 +14,6 @@ if (deleteAnnounceBtns.length > 0) {
 if (deleteBtn) {
   deleteBtn.addEventListener('click', function deleteHandler() {
     let announceId = this.getAttribute('data-id')
-    console.log('**********' + announceId)
     if (announceId) {
       fetch(`/admin/announce/${announceId}`, {
         method: 'DELETE',
@@ -23,6 +22,7 @@ if (deleteBtn) {
         },
       })
         .then((response) => {
+          popup.classList.remove('show');
           if (response.ok) {
             const deleteAnnounceIcon = document.getElementById(
               'delete-announce-' + announceId,
@@ -33,14 +33,14 @@ if (deleteBtn) {
                 announceRow.remove() // remove row
               }
             }
-            popup.style.display = 'none'
           } else {
             const errMsj = document.getElementById('dlt-error')
-            errMsj.style.display = 'block'
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show');
             console.error('Failed to delete announce')
             // Hide error message after 3 seconds
             setTimeout(function () {
-              errMsj.style.display = 'none'
+              errPopup.classList.remove('show');
             }, 2000)
           }
         })
