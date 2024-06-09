@@ -131,9 +131,14 @@ router
 
 //--------------------planning:
 router
+  .route('/planning/:id')
+  .get(adminController.getThesisDefence)
+  .patch(adminController.updateThesisDefence)
+router
   .route('/planning')
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
   .delete(adminController.resetPlanning)
-
+//export du planning
+router.get('/exportDefences', adminController.exportDefences)
 module.exports = router
