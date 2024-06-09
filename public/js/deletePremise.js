@@ -6,11 +6,11 @@ const deleteBtnP = document.getElementById('delete-btn-p')
 if (deletePremiseBtns.length > 0) {
   deletePremiseBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupP.classList.add('show');
+      popupP.classList.add('show')
       deleteBtnP.setAttribute('data-id', this.getAttribute('data-premise-id'))
     })
   })
-} 
+}
 if (deleteBtnP) {
   deleteBtnP.addEventListener('click', function () {
     let premiseId = this.getAttribute('data-id')
@@ -22,7 +22,7 @@ if (deleteBtnP) {
         },
       })
         .then((response) => {
-          popupP.classList.remove('show');
+          popupP.classList.remove('show')
           if (response.ok) {
             const deletePremiseIcon = document.getElementById(
               'delete-premise-' + premiseId,
@@ -42,9 +42,9 @@ if (deleteBtnP) {
               )
               errorMessageElement.textContent = data.message
               const errPopup = document.getElementById('popup-error')
-              errPopup.classList.add('show'); // Show error message
+              errPopup.classList.add('show') // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show');
+                errPopup.classList.remove('show')
               }, 3000)
             })
           }
@@ -61,7 +61,7 @@ if (cancelBtnP) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

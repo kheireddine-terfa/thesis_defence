@@ -76,7 +76,8 @@
                                 <th scope="col">Jury</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Créneau</th>
-                                <th scope="col w-20%">Salle</th>
+                                <th scope="col">Salle</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,6 +93,8 @@
                                 <td><%= n_defence.slot.dateFormatted %></td>
                                 <td><%= `${n_defence.slot.startHour} - ${n_defence.slot.endHour}` %></td>
                                 <td><%= `${n_defence.premise.title}` %></td>
+                                <td> <a href="/admin/planning/<%= n_defence._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+                                </td>
                             </tr>
                             <% }); %> 
                             <% }else{ %>
@@ -113,7 +116,8 @@
                                 <th scope="col">Jury</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Créneau</th>
-                                <th scope="col w-20%">Salle</th>
+                                <th scope="col">Salle</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,6 +132,8 @@
                                 <td><%= r_defence.slot.dateFormatted %></td>
                                 <td><%= `${r_defence.slot.startHour} - ${r_defence.slot.endHour}` %></td>
                                 <td><%= `${r_defence.premise.title}` %></td>
+                                <td> <a href="/admin/planning/<%= r_defence._id %>"><button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button></a>
+                                </td>
                             </tr>
                             <% }); %> 
                             <% }else{ %>
