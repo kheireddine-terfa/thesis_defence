@@ -44,12 +44,12 @@ if (addStudentBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `Student ${data.student.firstName} ${data.student.lastName} added successfully`
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addStudentForm.reset()
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         // Handle errors

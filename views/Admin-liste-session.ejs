@@ -27,7 +27,7 @@
       <div class="card">
         <div class="card-body">
           <!--L'admin n'a pas encore créé de session :-->
-          <% if(countSession = 0) { %>
+          <% if(countSession == 0) { %>
           <div class="text-center">
             <h3 class="mt-4">
               <strong>Aucune session créée pour le moment !</strong>
@@ -73,6 +73,11 @@
                 <th scope="row">La charge minimale</th>
                 <td><%= normalSession[0].minCharge %></td>
                 <td><%= retakeSession[0].minCharge %></td>
+              </tr>
+              <tr>
+                <th scope="row">Nombre de thèmes maximal</th>
+                <td><%= normalSession[0].slot_nbr_theses %></td>
+                <td><%= retakeSession[0].slot_nbr_theses %></td>
               </tr>
               <tr>
                 <th scope="row">Debut de session</th>

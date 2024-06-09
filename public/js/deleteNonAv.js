@@ -5,7 +5,7 @@ const deleteBtnN = document.getElementById('delete-btn-no')
 if (deleteNonAvBtns.length > 0) {
   deleteNonAvBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupN.style.display = 'flex'
+      popupN.classList.add('show');
       deleteBtnN.setAttribute('data-id', this.getAttribute('data-nonAv-id'))
     })
   })
@@ -13,7 +13,6 @@ if (deleteNonAvBtns.length > 0) {
 if (deleteBtnN) {
   deleteBtnN.addEventListener('click', function () {
     let nonAvId = this.getAttribute('data-id')
-    console.log('**********' + nonAvId)
     if (nonAvId) {
       fetch(`/admin/non-availibility/${nonAvId}`, {
         method: 'DELETE',
@@ -22,6 +21,7 @@ if (deleteBtnN) {
         },
       })
         .then((response) => {
+          popupN.classList.remove('show');
           if (response.ok) {
             const deleteNonAvIcon = document.getElementById(
               'delete-nonAv-' + nonAvId,
@@ -32,14 +32,16 @@ if (deleteBtnN) {
                 nonAvRow.remove() // remove row
               }
             }
-            popupN.style.display = 'none'
           } else {
             const errMsj = document.getElementById('dlt-error')
             errMsj.style.display = 'block'
             console.error('Failed to delete non availibility')
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show'); // Show error message
+            
             // Hide error message after 3 seconds
             setTimeout(function () {
-              errMsj.style.display = 'none'
+              errPopup.classList.remove('show');
             }, 2000)
           }
         })
@@ -55,7 +57,7 @@ if (cancelBtnN) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

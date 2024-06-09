@@ -13,8 +13,11 @@ app.use(express.urlencoded({ extended: true }))
 //---- body parser : reading data from body into req.body
 app.use(express.json({ limit: '10kb' })) // the result of post request is undefined without this statment -- i mean middelware
 app.use(cookieParser())    
+
+
 // STATIC FILES :
 app.use(express.static(path.join(__dirname, 'public')))
+
 
 // TEMPLATING ENGINE :   
 app.use(expressLayouts)

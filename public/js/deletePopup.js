@@ -7,7 +7,7 @@ const errorPopupP = document.getElementsByClassName('popup-error')[0]
 if (deleteThesisBtns.length > 0) {
   deleteThesisBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popup.style.display = 'flex'
+      popup.classList.add('show');
       deleteBtn.setAttribute('data-id', this.getAttribute('data-thesis-id'))
     })
   })
@@ -23,6 +23,7 @@ if (deleteBtn) {
         },
       })
         .then((response) => {
+          popup.classList.remove('show'); 
           if (response.ok) {
             const deleteThesisIcon = document.getElementById(
               'delete-thesis-' + thesisId,
@@ -33,7 +34,6 @@ if (deleteBtn) {
                 thesisRow.remove() // remove row
               }
             }
-            popup.style.display = 'none'
           } else {
             popup.style.display = 'none'
             response.json().then((data) => {
@@ -43,9 +43,10 @@ if (deleteBtn) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupP.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupP.style.display = 'none'
+                errPopup.classList.remove('show'); 
               }, 3000)
             })
           }
@@ -62,7 +63,7 @@ if (cancelBtn) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

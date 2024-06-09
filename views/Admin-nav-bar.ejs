@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Planification - Admin</title>
+    <title>Gestion des soutenances - Admin</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -41,7 +41,7 @@
     <link href="/assets/css/style.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
 
-
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <!-- =======================================================
   * Template Name: NiceAdmin - v2.1.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -58,6 +58,7 @@
         style="width: 100%;"
       >
         <i class="bi bi-list toggle-sidebar-btn"></i>
+      
         <a href="/admin" class="logo d-flex align-items-center">
           <svg height="56" viewBox="0 0 56 56" width="56">
             <path
@@ -317,11 +318,11 @@
     <p id="popup-content">test</p>
   </div>
   <div class="popup-error" id="popup-error">
-    <i class="bi bi-exclamation-triangle text-danger"></i>
+    <i class="bi bi-exclamation-triangle"></i>
     <p id="popup-error-content">test</p>
   </div>
   <div class="loader" id="loader">
-    <p>generating juries..  please wait</p>
+    <p id="loader-content"></p>
     <div class="spinner-grow text-dark" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -487,6 +488,12 @@
       <script src="/js/deleteNonAv.js"></script>
       <script src="/js/updatePassword.js"></script>
       <script src="/js/generateJuries.js"></script>
+      <script src="/js/generatePlanning.js"></script>
       <script src="/js/updateJury.js"></script>
+      <script src="/js/ajout-non-dispo.js"></script>
+      <script src="/js/resetJuries.js"></script>
+      <script src="/js/resetPlanning.js"></script>
+      <script src="/js/affichagePlanning.js"></script>
+
     </body>
 </html>

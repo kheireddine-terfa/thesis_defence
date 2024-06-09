@@ -122,7 +122,7 @@ exports.getProsessorTheses = async (req, res) => {
   // })
   res
     .status(200)
-    .render('Enseignant-listeTheme', { layout: 'professorLayout', theses })
+    .render('Enseignant-listeTheme', { layout: 'professorLayout',theses })
 }
 //----------------------:
 
@@ -203,8 +203,8 @@ exports.validateCandidacy = async (req, res) => {
   //5 chnage the affected attibut in thesis model :
   const currentThesis = await Thesis.findByIdAndUpdate(thesisId, {
     affected: true,
-    binome : binomeId,
-    professor:professorId
+    binome: binomeId,
+    professor: professorId,
   })
   // reference the the thesis to normal session :
   const normalSession = await Session.find({ sessionType: 'normal' })

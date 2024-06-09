@@ -1,22 +1,22 @@
-const btnSe = document.getElementById('delete-session-btn')
-const popupSe = document.getElementsByClassName('popup')[0]
-const cancelBtnSe = document.getElementById('cancel-btn-se')
-const deleteBtnSe = document.getElementById('delete-btn-se')
-if (btnSe) {
-  btnSe.addEventListener('click', function (e) {
+const btnJu = document.getElementById('delete-juries-btn')
+const popupJu = document.getElementsByClassName('popup')[0]
+const cancelBtnJu = document.getElementById('cancel-btn-ju')
+const deleteBtnJu = document.getElementById('delete-btn-ju')
+if (btnJu) {
+  btnJu.addEventListener('click', function (e) {
     e.preventDefault()
-    popupSe.classList.add('show');
-    deleteBtnSe.addEventListener('click', function () {
-      fetch(`/admin/sessions`, {
+    popupJu.classList.add('show');
+    deleteBtnJu.addEventListener('click', function () {
+      fetch(`/admin/juries`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       })
         .then((response) => {
-          popupSe.classList.remove('show'); 
+          popupJu.classList.remove('show');
           if (response.ok) {
-            window.location.href = '/admin/sessions'
+            window.location.href = '/admin/juries'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -25,10 +25,10 @@ if (btnSe) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              const errPopup = document.getElementById('popup-error')
+              const errPopup = document.getElementById('popup-error');
               errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show'); 
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }
@@ -39,9 +39,9 @@ if (btnSe) {
     })
   })
 }
-if (cancelBtnSe) {
-  cancelBtnSe.addEventListener('click', function () {
-    const parentElement = cancelBtnSe.parentElement
+if (cancelBtnJu) {
+  cancelBtnJu.addEventListener('click', function () {
+    const parentElement = cancelBtnJu.parentElement
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {

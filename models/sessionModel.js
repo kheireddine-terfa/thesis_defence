@@ -7,10 +7,6 @@ const sessionSchema = new mongoose.Schema({
     enum: ['normal', 'retake'],
     required: true,
   },
-  // academicYear: {
-  //   type: String,
-  //   required: true,
-  // }, deleted
   startSession: {
     type: Date,
     required: true,
@@ -39,6 +35,9 @@ const sessionSchema = new mongoose.Schema({
     type: Number,
   },
   minCharge: {
+    type: Number,
+  },
+  slot_nbr_theses: {
     type: Number,
   },
 })

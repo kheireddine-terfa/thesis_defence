@@ -6,11 +6,11 @@ const deleteBtnP = document.getElementById('delete-btn-p')
 if (deletePremiseBtns.length > 0) {
   deletePremiseBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupP.style.display = 'flex'
+      popupP.classList.add('show');
       deleteBtnP.setAttribute('data-id', this.getAttribute('data-premise-id'))
     })
   })
-}
+} 
 if (deleteBtnP) {
   deleteBtnP.addEventListener('click', function () {
     let premiseId = this.getAttribute('data-id')
@@ -22,6 +22,7 @@ if (deleteBtnP) {
         },
       })
         .then((response) => {
+          popupP.classList.remove('show');
           if (response.ok) {
             const deletePremiseIcon = document.getElementById(
               'delete-premise-' + premiseId,
@@ -32,7 +33,6 @@ if (deleteBtnP) {
                 premiseRow.remove() // remove row
               }
             }
-            popupP.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -41,9 +41,10 @@ if (deleteBtnP) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupP.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupP.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }
@@ -60,7 +61,7 @@ if (cancelBtnP) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

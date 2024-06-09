@@ -3,6 +3,8 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 const adminController = require('../controllers/adminController')
 const viewsController = require('../controllers/viewsController')
+const studentController = require('../controllers/studentController');
+const upload = require('../middlewares/upload') // Importer le middleware de téléchargement
 //-----------------------------authentication:
 
 router.post('/signup', authController.signup)
@@ -32,6 +34,15 @@ router
   .get(adminController.getStudent)
   .delete(adminController.deleteStudent)
   .patch(adminController.updateStudent)
+
+//pour l'insertion avec excel:
+router.route('/students/uploadForm')
+  .get(adminController.uploadStudentForm)
+  .post(upload.single('studentsFile'), adminController.uploadStudents)
+//pour le téléchargement du fichier excel modele 
+router.route('/students/templateUpload')
+  .get(adminController.downloadStudentFile);
+
 //-----------------------------professor:
 router.route('/professor').post(adminController.addAndSignUpProfessor)
 router.route('/professors').get(adminController.getAllProfessors)
@@ -41,6 +52,15 @@ router
   .get(adminController.getProfessor)
   .delete(adminController.deleteProfessor)
   .patch(adminController.updateProfessor)
+
+  //pour l'insertion avec excel:
+router.route('/professors/uploadForm')
+  .get(adminController.uploadProfessorForm)
+  .post(upload.single('profsFile'), adminController.uploadProfessors)
+  //pour le téléchargement du fichier modele 
+router.route('/professors/templateUpload')
+  .get(adminController.downloadProfessorFile);
+
 //-----------------------------binome:
 router.route('/binome').post(adminController.addAndSignUpBinome)
 router.route('/binomes').get(adminController.getAllBinomes)
@@ -86,6 +106,8 @@ router
   .delete(adminController.deleteNonAvailibility)
 router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
+//report de session :
+router.get('/affected-theses/report/:id', adminController.reporterThesis)
 //----------------------jurys:
 router
   .route('/jury/:id')
@@ -95,6 +117,7 @@ router
   .route('/juries')
   .get(adminController.getAllJuries)
   .post(adminController.generateJuries)
+  .delete(adminController.resetJuries)
 
 //----------------------créneaux:
 router
@@ -102,12 +125,14 @@ router
   .get(adminController.getAllSlots)
   .post(adminController.generateSlots)
 
-
 //--------------------planning:
 router
   .route('/planning')
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
+  .delete(adminController.resetPlanning)
+//export du planning
+router.get('/exportDefences', adminController.exportDefences)
 
 
 module.exports = router

@@ -6,7 +6,7 @@ const deleteBtnPr = document.getElementById('delete-btn-pr')
 if (deleteProfessorBtns.length > 0) {
   deleteProfessorBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupPr.style.display = 'flex'
+      popupPr.classList.add('show');
       deleteBtnPr.setAttribute(
         'data-id',
         this.getAttribute('data-professor-id'),
@@ -25,6 +25,7 @@ if (deleteBtnPr) {
         },
       })
         .then((response) => {
+          popupPr.classList.remove('show');
           if (response.ok) {
             const deleteProfessorIcon = document.getElementById(
               'delete-professor-' + professorId,
@@ -35,7 +36,6 @@ if (deleteBtnPr) {
                 professorRow.remove() // remove row
               }
             }
-            popupPr.style.display = 'none'
           } else {
             response.json().then((data) => {
               console.log('Error:', data.message)
@@ -44,9 +44,10 @@ if (deleteBtnPr) {
                 'popup-error-content',
               )
               errorMessageElement.textContent = data.message
-              errorPopupPr.style.display = 'flex' // Show error message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show'); // Show error message
               setTimeout(() => {
-                errorPopupPr.style.display = 'none'
+                errPopup.classList.remove('show');
               }, 3000)
             })
           }
@@ -63,7 +64,7 @@ if (cancelBtnPr) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.style.display = 'none'
+        grandparentElement.classList.remove('show');
       }
     }
   })

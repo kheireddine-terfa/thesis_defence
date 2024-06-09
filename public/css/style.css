@@ -1,80 +1,109 @@
 .popup {
-  width: 40%;
-  top: 100px;
-  left: 40%;
-  position: absolute;
-  z-index: 111;
-  display: none;
+  position: fixed; /* Fixed positioning relative to the viewport */
+  top: 50%; /* Position the top edge of the element at the middle of the screen */
+  left: 50%; /* Position the left edge of the element at the middle of the screen */
+  transform: translate(-50%, -50%) scale(0.8); /* Shift the element back by half its own width and height to center it */
+  width: 40%; /* Width can be adjusted as needed */
+  display: flex;
+  visibility: hidden;
+  text-align: center;
+  opacity: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  color: rgb(42, 42, 42);
+  border-radius: 5px;
+  background: linear-gradient(to bottom, rgba(255, 252, 252, 0.944), rgba(255, 148, 148, 0.904));
   padding: 10px;
-  transition: all 0.4s ease;
-  background: gainsboro;
+  z-index: 111; /* Make sure it's above other content */
+  box-shadow: 0 4px 8px rgba(72, 72, 72, 0.596); /* Exemple d'ombre */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.5s;
 }
+
+.popup.show {
+  visibility: visible;
+  opacity: 1; /* Fully opaque */
+  transform: translate(-50%, -50%) scale(1); /* Return to normal size */
+}
+
 #popup-add {
-  min-width: 40%;
-  top: 40%;
-  left: 40%;
-  position: absolute;
-  z-index: 1000;
-  display: none;
-  /* display: flex; */
+  position: fixed; /* Fixed positioning relative to the viewport */
+  top: 50%; /* Position the top edge of the element at the middle of the screen */
+  left: 50%; /* Position the left edge of the element at the middle of the screen */
+  transform: translate(-50%, -50%) scale(0.8); /* Shift the element back by half its own width and height to center it */
+  width: 40%; /* Width can be adjusted as needed */
+  display: flex;
+  visibility: hidden;
+  text-align: center;
+  opacity: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  color: rgb(42, 42, 42);
+  border-radius: 5px;
+  background: linear-gradient(to bottom, rgba(236, 248, 236, 0.944), rgba(164, 255, 180, 0.832));
   padding: 10px;
-  transition: all 0.4s ease;
-  background: rgb(204, 201, 201);
+  z-index: 111; /* Make sure it's above other content */
+  box-shadow: 0 4px 8px rgba(72, 72, 72, 0.596); /* Exemple d'ombre */
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+#popup-add.show {
+  visibility: visible;
+  opacity: 1; /* Fully opaque */
+  transform: translate(-50%, -50%) scale(1); /* Return to normal size */
 }
 #popup-error {
-  min-width: 40%;
-  top: 40%;
-  left: 40%;
-  position: absolute;
-  z-index: 1000;
-  display: none;
-  /* display: flex; */
+  position: fixed; /* Fixed positioning relative to the viewport */
+  top: 50%; /* Position the top edge of the element at the middle of the screen */
+  left: 50%; /* Position the left edge of the element at the middle of the screen */
+  transform: translate(-50%, -50%) scale(0.8); /* Shift the element back by half its own width and height to center it */
+  width: 40%; /* Width can be adjusted as needed */
+  display: flex;
+  visibility: hidden;
+  text-align: center;
+  opacity: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  background: linear-gradient(to bottom, rgba(250, 2, 2, 0.944), rgba(171, 0, 0, 0.904));
   padding: 10px;
-  transition: all 0.4s ease;
-  background: rgb(176, 69, 69);
+  z-index: 111; /* Make sure it's above other content */
+  box-shadow: 0 4px 8px rgba(122, 36, 36, 0.596); /* Exemple d'ombre */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.5s;
+}
+#popup-error.show{
+  visibility: visible;
+  opacity: 1; /* Fully opaque */
+  transform: translate(-50%, -50%) scale(1.2); /* Return to normal size */
 }
 #popup-add i {
-  color: green;
-  font-size: 24px;
+  color: rgb(51, 113, 51);
+  font-size: 40px;
   font-weight: bold;
   padding: 5px 10px;
   border-radius: 50%;
-  background-color: white;
 }
 #popup-error i {
-  color: red;
-  font-size: 24px;
+  color: rgb(255, 255, 255);
+  font-size: 35px;
   font-weight: bold;
   padding: 5px 10px;
-  border-radius: 50%;
-  background-color: white;
 }
 #popup-add p {
-  color: green;
+  color: rgb(24, 34, 23);
   font-size: 20px;
 }
 #popup-error p {
   color: white;
-  font-size: 20px;
+  font-size: 15px;
 }
 .popup i {
-  color: red;
-  font-size: 24px;
+  color: rgb(207, 0, 0);
+  font-size: 30px;
   padding: 3px 15px;
-  background-color: white;
-  border-radius: 7px;
+  text-shadow: 0 4px 8px rgba(248, 248, 248, 0.421), 0 6px 20px rgba(243, 243, 243, 0.327); /* Exemple d'ombre */
 }
 #selected-t {
   display: none;
@@ -89,7 +118,7 @@
   padding: 40px;
   height: 200px;
   width: 400px;
-  background-color: white;
+  background: linear-gradient(to bottom, rgb(220, 220, 220), rgb(255, 255, 255));
   left: 47%;
   top: 50%;
   position: absolute;

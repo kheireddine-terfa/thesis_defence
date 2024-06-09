@@ -44,12 +44,12 @@ if (addSpecialityBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `speciality ${data.speciality.title} added successfully`
         if (addPopUp) {
-          addPopUp.style.display = 'flex'
+          addPopUp.classList.add('show');
         }
         setTimeout(() => {
-          addPopUp.style.display = 'none'
+          addPopUp.classList.remove('show');
           addSpecialityForm.reset()
-        }, 3000)
+        }, 1000)
       })
       .catch((error) => {
         // Handle errors

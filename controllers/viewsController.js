@@ -6,6 +6,7 @@ const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
 const Student = require('../models/studentModel')
 const Professor = require('../models/professorModel')
+const ThesisDefence = require('../models/thesisDefenceModel')
 
 //--------------------- controllers : ------------------
 exports.getIndexPage = (req, res) => {
@@ -103,6 +104,17 @@ exports.getSelectedTheses = async (req, res) => {
     layout: 'binomeLayout',
     selectedTheses,
     approvedThesis,
+  })
+}
+//-----------------:
+exports.getMyThesisDefence = async (req, res) => {
+  const thesis = await Thesis.findOne({ binome: req.user._id })
+  const thesisId = thesis._id
+  const thesisDefence = await ThesisDefence.findOne({ thesis: thesisId })
+  res.status(200).render('Etudiant-pages-soutenance', {
+    layout: 'binomeLayout',
+    thesisDefence,
+    thesis,
   })
 }
 //--------------------------   admin :
