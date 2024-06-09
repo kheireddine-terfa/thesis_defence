@@ -5,6 +5,8 @@ const authController = require('../controllers/authController')
 const binomeController = require('../controllers/binomeController')
 router.use(authController.protect)
 
+router.route('/defence').get(binomeController.getDefence)
+
 router.get('/thesis', binomeController.getAllTheses)
 // nominate to thesis :
 // router.route('/thesis-nominate').post(studentController.nominateToThesis)

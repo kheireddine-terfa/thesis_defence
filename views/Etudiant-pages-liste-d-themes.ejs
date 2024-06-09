@@ -1,6 +1,16 @@
 <main id="main" class="main">
   <div class="pagetitle">
     <h1>Liste Des Thémes</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/binome">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="/binome/thesis">Liste Des Thémes</a>
+        </li>
+      </ol>
+    </nav>
   </div>
   <!-- End Page Title -->
 
@@ -20,7 +30,7 @@
               </tr>
             </thead>
             <% if(binome.ApprovedThesis){ %>
-              <p style="margin: 10px auto; text-align: center; font-weight: bold;"> Congractulations, you have chosen your thesis 🎉</p>
+              <p style="margin: 10px auto; text-align: center; font-weight: bold;"> Félicitations, vous avez choisi votre thèse 🎉</p>
             <% } else { %>
             <tbody>
               <% if (theses.length > 0 ) { %> <% theses.forEach(function(thesis , index){ %>

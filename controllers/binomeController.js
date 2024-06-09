@@ -81,4 +81,12 @@ exports.getAllTheses = async (req, res) => {
     isSelectedArray,
     binome,
   })
+}  
+
+exports.getDefence = async (req, res) => {
+  
+  res.status(200).render('binome-soutenance', {
+    layout: 'binomeLayout',
+    // myDefence   
+  })
 }
