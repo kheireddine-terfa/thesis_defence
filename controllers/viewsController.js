@@ -111,7 +111,12 @@ exports.getMyThesisDefence = async (req, res) => {
   const thesis = await Thesis.findOne({ binome: req.user._id })
   const thesisId = thesis._id
   const thesisDefence = await ThesisDefence.findOne({ thesis: thesisId })
-  res.status(200).render('Etudiant-pages-soutenance', {
+
+  const binome =  await Binome.findById(req.user._id)
+  
+  // const thesis = await Thesis.findById(binome.ApprovedThesis._id).populate('professor')
+  // const thesisId = thesis._id
+  res.status(200).render('binome-soutenance', {
     layout: 'binomeLayout',
     thesisDefence,
     thesis,

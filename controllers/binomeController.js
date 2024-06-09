@@ -86,6 +86,7 @@ exports.getAllTheses = async (req, res) => {
 
 exports.getDefence = async (req, res) => {
   const binome =  await Binome.findById(req.user._id)
+  
   const thesis = await Thesis.findById(binome.ApprovedThesis._id).populate('professor')
   // const thesisId = thesis._id
   const thesisDefence = await ThesisDefence.findOne({ thesis: thesis._id })
