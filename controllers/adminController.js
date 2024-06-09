@@ -1624,43 +1624,89 @@ exports.updateThesisDefence = async (req, res) => {
   const slotId = req.body.slot
   const premiseId = req.body.premise
   const thesisDefenceId = req.params.id
-  const slotConflict = await ThesisDefence.findOne({ slot: slotId })
-  const premiseConflict = await ThesisDefence.findOne({ premise: premiseId })
+  const currentThesisDefence = await ThesisDefence.findById(thesisDefenceId)
+  const selectedThesisDefence = await ThesisDefence.findOne({ slot: slotId })
+  const thesisMembers = [
+    currentThesisDefence.thesis.professor._id.toString(),
+    currentThesisDefence.thesis.jury.professor1._id.toString(),
+    currentThesisDefence.thesis.jury.professor2._id.toString(),
+  ]
   const session = await Session.findOne({ sessionType: 'normal' })
   const max = session.slot_nbr_theses
   const slot = await Slot.findById(slotId)
   const slotNbrTheses = slot.nbr_thesis
+
   if (slotNbrTheses > max) {
     return res.status(403).json({
       status: 'fail',
       message:
-        'the slot has exceed the max number of theses allowed! please select another slot',
+        'the slot has exceeded the max number of theses allowed! please select another slot',
     })
   }
-  if (slotConflict) {
-    return res.status(403).json({
-      status: 'fail',
-      message: 'there is a conflict ! please change your selection of slot',
-    })
+  if (!(currentThesisDefence.slot._id.toString() === slotId.toString())) {
+    if (selectedThesisDefence) {
+      if (selectedThesisDefence.slot._id.toString() === slotId.toString()) {
+        // Check if there is a conflict with the supervisor and juries in the same slot:
+        const checkSlotThesisDefence = await ThesisDefence.find({
+          slot: slotId,
+        })
+        const checkSlotMembers = []
+        checkSlotThesisDefence.forEach((thesisD) => {
+          checkSlotMembers.push(thesisD.thesis.professor._id.toString())
+          checkSlotMembers.push(thesisD.thesis.jury.professor1._id.toString())
+          checkSlotMembers.push(thesisD.thesis.jury.professor2._id.toString())
+        })
+        console.log(thesisMembers)
+        console.log(checkSlotMembers)
+        // Check for conflicts
+        const conflictExists = thesisMembers.some((member) =>
+          checkSlotMembers.includes(member),
+        )
+        if (conflictExists) {
+          return res.status(403).json({
+            status: 'fail',
+            message:
+              'there is a conflict with the supervisor or jury members in the same slot!',
+          })
+        }
+        const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+          thesisDefenceId,
+          { slot: slotId, premise: premiseId },
+          { new: true },
+        )
+        slot.nbr_thesis++
+        await slot.save()
+      } else {
+        const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+          thesisDefenceId,
+          { slot: slotId, premise: premiseId },
+          { new: true },
+        )
+        slot.nbr_thesis++
+        await slot.save()
+      }
+    } else {
+      const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+        thesisDefenceId,
+        { slot: slotId, premise: premiseId },
+        { new: true },
+      )
+      slot.nbr_thesis++
+      await slot.save()
+    }
+  } else {
+    const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+      thesisDefenceId,
+      { slot: slotId, premise: premiseId },
+      { new: true },
+    )
   }
-  if (premiseConflict) {
-    return res.status(403).json({
-      status: 'fail',
-      message: 'there is a conflict ! please change your selection of premise',
-    })
-  }
-  const thesisDefence = await ThesisDefence.findByIdAndUpdate(
-    thesisDefenceId,
-    { slot: slotId, premise: premiseId },
-    { new: true },
-  )
-  slot.nbr_thesis++
-  await slot.save()
   res.status(200).json({
     status: 'success',
     message: 'planning updated successfully',
   })
 }
+
 // exports.generatePlanning = async (req, res) => {
 //   try {
 //     //----------- Step 1: fetch all the available slots and premises
@@ -1890,7 +1936,13 @@ exports.generatePlanning = async (req, res) => {
     }
 
     const max = normalSession.slot_nbr_theses // Assuming both sessions have the same max
-
+    // Function to shuffle an array (Fisher-Yates shuffle)
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+      }
+    }
     // Function to generate planning for a session type
     const generatePlanningForSession = async (sessionType) => {
       // Step 2: Fetch available slots and theses for the session type
@@ -1901,7 +1953,8 @@ exports.generatePlanning = async (req, res) => {
         session:
           sessionType === 'normal' ? normalSession._id : retakeSession._id,
       }).populate('professor jury')
-
+      // Shuffle the theses array to introduce randomness
+      shuffleArray(theses)
       // Handle error cases
       if (premises.length === 0) {
         return {
