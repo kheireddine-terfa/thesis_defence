@@ -1,45 +1,128 @@
 <main id="main" class="main">
   <section class="section">
+    <div class="pagetitle">
+    <h1> Thémes</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/professor">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">Mes Soutenances</li>
+      </ol>
+    </nav>
+    </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h2>Mes soutenances</h2>
+            <h2>La liste des Soutenances</h2>
+            <p>Vous pouvez consulter les soutenances dont vous êtes concernés, en tant qu'encadrant ou en tant qu'examinateur</p>
 
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Date</th>
-                  <th>Locale</th>
-                  <th>Binôme</th>
-                  <th>Intitulé</th>
-                  <th>Spécialité</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>01</td>
-                  <td>12/06/2024</td>
-                  <td>B8S11</td>
-                  <td>
-                    Amroud Fares
-                    <br />
-                    Aiche Youva
-                  </td>
-                  <td>Planification des soutenances</td>
-                  <td>GL</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+            <!-- --------------------------------------------------------- -->
+            
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="normal-tab" data-bs-toggle="tab" data-bs-target="#normal" type="button" role="tab" aria-controls="normal" aria-selected="true">En tant qu'Encadrant</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#retake" type="button" role="tab" aria-controls="retake" aria-selected="false">En tant qu'Examinateur</button>
+              </li>
+            </ul>
+            <div class="tab-content pt-2" id="myTabContent">
+              <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="normal-tab">
+                  <!--en tant que ENCADRANT-->
+                  <!-- Table with stripped rows -->
+                  <table class="table datatable">
+                      <thead>
+                          <tr>
+                              <th scope="col">Thème</th>
+                              <!-- <th scope="col">Binôme</th> -->
+                              <th scope="col">Binome</th>
+                              <th scope="col">Jury</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Créneau</th>
+                              <th scope="col w-20%">Salle</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- data qui contient tous les jurys : jurys -->
+                          <% if (filteredDefences.length > 0 ) { %> <% filteredDefences.forEach(function(defence){ %>
+                          
+                          <tr>
+                              <td><%= `${defence.thesis.title}`%></td>
+                              <td><%= `${defence.thesis.jury.binome.userName}`%></td>
+                              <td><%= `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName} | ${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`%></td>
+                              <!-- <td>`${defence.thesis.binome.student1.lastName} ${defence.thesis.binome.student1.firstName} | ${defence.thesis.binome.student2.lastName} ${defence.thesis.binome.student2.firstName}`</td> -->
+                              <td><%= defence.slot.dateFormatted %></td>
+                              <td><%= `${defence.slot.startHour} - ${defence.slot.endHour}` %></td>
+                              <td><%= `${defence.premise.title}` %></td>
+                          </tr>
+                          <% }); %>
+                          <% } %>
+                      </tbody>
+                  </table>
+                  <!--END en tant que ENCADRANT-->
+              </div>
+              <div class="tab-pane fade" id="retake" role="tabpanel" aria-labelledby="retake-tab">
+                  <!--en tant que JURY-->
+                  <!-- Table with stripped rows -->
+                  
+                  <table class="table datatable">
+                      <thead>
+                          <tr>
+                              <th scope="col">Poste</th>
+                              <th scope="col">Thème</th>
+                              <th scope="col">Binôme</th>
+                              <th scope="col">Encadrant</th>
+                              <th scope="col">Co-examminateur</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Créneau</th>
+                              <th scope="col w-20%">Salle</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- data qui contient tous les jurys : jurys -->
+                          <% if (defencesSupervesorPresident.length > 0 ) { %> <% defencesSupervesorPresident.forEach(function(defence){ %>
+                          
+                          <tr>
+                              <td>President</td>
+                              <td><%= `${defence.thesis.title}`%></td>
+                              <td><%= `${defence.thesis.jury.binome.userName}`%></td>
+                              <td><%= `${defence.thesis.professor.firstName}  ${defence.thesis.professor.lastName}`%></td>
+                              <td><%= `${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`%></td>
+                              <td><%= defence.slot.dateFormatted %></td>
+                              <td><%= `${defence.slot.startHour} - ${defence.slot.endHour}` %></td>
+                              <td><%= `${defence.premise.title}` %></td>
+                          </tr>
+                          <% });} %> 
+
+                          <% if (defencesSupervesorMember.length > 0 ) { %> <% defencesSupervesorMember.forEach(function(defence){ %>
+                          
+                            <tr>
+                                <td>Membre</td>
+                                <td><%= `${defence.thesis.title}`%></td>
+                                <td><%= `${defence.thesis.jury.binome.userName}`%></td>
+                                <td><%= `${defence.thesis.professor.firstName}  ${defence.thesis.professor.lastName}`%></td>
+                                <td><%= `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName}`%></td>
+                                <td><%= defence.slot.dateFormatted %></td>
+                                <td><%= `${defence.slot.startHour} - ${defence.slot.endHour}` %></td>
+                                <td><%= `${defence.premise.title}` %></td>
+                            </tr>
+                          <% });} %> 
+                          
+                          </tbody>
+                          
+                  </table>
+                  
+
+                  <!-- END en tant que JURY-->
+              </div>
+            </div><!-- End Default Tabs -->
+
+
+
+
+            <!-- -------------------- ---------------------------------------->
           </div>
         </div>
       </div>

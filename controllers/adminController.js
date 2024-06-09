@@ -1573,6 +1573,13 @@ exports.generateSlots = async (req, res) => {
 //------------------------------------
 exports.getAllPlanning = async (req, res) => {
   const defences = await ThesisDefence.find()
+    .populate({
+      path: 'thesis',
+      populate: {
+        path: 'professor jury binome',
+        populate: {path: 'professor1 professor2'}
+      }
+    });
   const normal_defences = defences.filter(
     (elm) => elm.slot.sessionType === 'normal',
   )
@@ -2024,12 +2031,7 @@ exports.generatePlanning = async (req, res) => {
     // Generate planning for both normal and retake sessions
     const normalPlanning = await generatePlanningForSession('normal')
     const retakePlanning = await generatePlanningForSession('retake')
-    console.log('---------------------')
-    console.log(normalPlanning)
-    console.log('---------------------')
-    console.log('---------------------')
-    console.log(retakePlanning)
-    console.log('---------------------')
+  
     // Return combined result
     res.status(200).json({
       normalPlanning,

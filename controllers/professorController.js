@@ -5,6 +5,7 @@ const Speciality = require('../models/specialityModel')
 const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
 const Session = require('../models/sessionModel')
+const thesisDefence = require('../models/thesisDefenceModel')
 //------------------ controllers: --------------------------------
 exports.addThesis = async (req, res) => {
   const { title, description, fieldId, specialityId } = req.body
@@ -241,5 +242,41 @@ exports.getSupervisedBinomes = async (req, res) => {
   res.status(200).render('Enseignant-listeBinom', {
     layout: 'professorLayout',
     supervisedBinomes,
+  })
+}
+
+exports.getDefences = async (req, res) => {
+  const professorId = req.user._id
+  
+  const defencesEncadrant = await thesisDefence.find()
+  .populate({
+    path: 'thesis',
+    populate: {
+      path: 'professor jury binome',
+      populate: {path: 'professor1 professor2'}
+    }
+  });
+
+  const filteredDefences = defencesEncadrant.filter(defence => {
+    return defence.thesis.professor && defence.thesis.professor._id.toString() === professorId.toString()
+  });
+
+  console.log(filteredDefences.map(d => d.thesis.binome));  // Afficher les informations du binome pour vérification
+
+  const defencesSupervesorPresident = defencesEncadrant.filter(defence => {
+    return defence.thesis.jury.professor1 && defence.thesis.jury.professor1._id.toString() === professorId.toString()
+  });
+
+  const defencesSupervesorMember = defencesEncadrant.filter(defence => {
+    return defence.thesis.jury.professor2 && defence.thesis.jury.professor2._id.toString() === professorId.toString()
+  });
+
+
+  res.status(200).render('Enseignant-consulterSoutenance', {
+    layout: 'professorLayout',
+    filteredDefences,
+    defencesSupervesorPresident,
+    defencesSupervesorMember,
+    
   })
 }

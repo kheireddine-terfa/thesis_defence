@@ -19,7 +19,7 @@ if (deleteBtnN) {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
+      }) 
         .then((response) => {
           popupN.classList.remove('show');
           if (response.ok) {
@@ -33,10 +33,13 @@ if (deleteBtnN) {
               }
             }
           } else {
-            const errMsj = document.getElementById('dlt-error')
-            errMsj.style.display = 'block'
+            
             console.error('Failed to delete non availibility')
             const errPopup = document.getElementById('popup-error')
+            const errContent = document.getElementById('popup-error-content')
+            errContent.textContent = "vous ne pouvez pas supprimer cette non-disponibilité du moment qu'il y a un planning existant";
+
+
             errPopup.classList.add('show'); // Show error message
             
             // Hide error message after 3 seconds
