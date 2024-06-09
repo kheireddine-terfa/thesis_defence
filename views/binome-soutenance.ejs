@@ -1,54 +1,62 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Ma Soutenance</h1>
+    <h1>Soutenance</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/binome">Accueil</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="/binome/thesis-defence">Ma Soutenance</a>
+        </li>
+      </ol>
+    </nav>
   </div>
   <!-- End Page Title -->
-  <style></style>
 
-  <section class="section">
-    <div class="col-lg-12">
+  <section class="section dashboard">
+    <div class="row">
       <div class="card">
         <div class="card-body">
+          <h3 class="mt-4">Ma Soutenance</h3>
+          <!-- Table with stripped rows -->
+          
+          <% if (thesis) { %>
+            <% if (!thesisDefence) { %>
+              <p style="margin: 10px auto; text-align: center; font-weight: bold;"> Oups, votre soutenance n'est pas encore programmée</p>
+            <% }; %> 
           <table class="table datatable">
             <thead>
               <tr>
-                <th scope="col">binôme</th>
-                <th scope="col">Théme</th>
+                <th scope="col">Encadrant</th>
+                <th scope="col">Theme</th>
+                <th scope="col">Description</th>
+                <% if (thesisDefence) { %>
                 <th scope="col">Jury</th>
-                <th scope="col">Local</th>
                 <th scope="col">Créneau</th>
+                <th scope="col">Local</th>
+                <% }; %> 
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <div>Nom Prénom</div>
-                  <div>Nom Prénom</div>
-                </td>
-                <td>
-                  <div>planification des soutenance</div>
-                </td>
-
-                <td>
-                  <div>Président du jury</div>
-                  <div>Examinateur 1</div>
-                  <div>Examinateur 2</div>
-                  <div>Encadrant</div>
-                </td>
-                <td>
-                  <div>Salle</div>
-                </td>
-                <td>
-                  <div>Date du créneau</div>
-                  <div>Heure de début</div>
-                  <div>Heure de fin</div>
-                </td>
+                <td><%= `${thesis.professor.firstName} | ${thesis.professor.lastName}` %></td>
+                <td><%= thesis.title %></td>
+                <td><%= thesis.description %></td>
+                <% if (thesisDefence) { %>
+                <td><%= `${thesis.jury.professor1.firstName}  ${thesis.jury.professor1.lastName} | ${thesis.jury.professor2.firstName}  ${thesis.jury.professor2.lastName}` %></td>
+                <td><%= `${thesisDefence.slot.dateFormatted} - ${thesisDefence.slot.startHour} - ${thesisDefence.slot.endHour}` %></td>
+                <td><%= `${thesisDefence.premise.title}` %></td>
+                <% }; %> 
               </tr>
             </tbody>
           </table>
+          <!-- End Table with stripped rows -->
+          <% }else{ %>
+              <p style="margin: 10px auto; text-align: center; font-weight: bold;"> Oups, Vous n'avez pas encore un thème</p>
+          <% }; %>
         </div>
       </div>
     </div>
   </section>
 </main>
-<!-- End #main -->

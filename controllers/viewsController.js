@@ -104,7 +104,7 @@ exports.getSelectedTheses = async (req, res) => {
     layout: 'binomeLayout',
     selectedTheses,
     approvedThesis,
-  })
+  }) 
 }
 //-----------------:
 exports.getMyThesisDefence = async (req, res) => {

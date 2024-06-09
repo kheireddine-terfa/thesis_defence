@@ -35,7 +35,7 @@ router.route('/binome').get(viwesController.getIndexPageBinome)
 router.route('/binome/theses').get(viwesController.getSelectedTheses)
 router.route('/binome/profile').get(viwesController.getBinomeInfos)
 router.route('/binome/password').get(viwesController.getUpdatePasswordForm)
-router.route('/binome/thesis-defence').get(viwesController.getMyThesisDefence)
+// router.route('/binome/thesis-defence').get(viwesController.getMyThesisDefence)
 //-------------------------- admin:
 router.route('/admin').get(viwesController.getIndexPageAdmin)
 router.route('/admin/profile').get(viwesController.getAdminInfos)

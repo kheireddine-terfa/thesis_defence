@@ -1,6 +1,7 @@
 const Binome = require('../models/binomeModel')
 const Student = require('../models/studentModel')
 const Thesis = require('../models/thesisModel')
+const ThesisDefence = require('../models/thesisDefenceModel')
 //-------------------- controllers : ---------------------
 exports.nominateToThesis = async (req, res) => {
   const thesisId = req.body.thesisId
@@ -80,13 +81,17 @@ exports.getAllTheses = async (req, res) => {
     theses,
     isSelectedArray,
     binome,
-  })
+  }) 
 }  
 
 exports.getDefence = async (req, res) => {
-  
+  const binome =  await Binome.findById(req.user._id)
+  const thesis = await Thesis.findById(binome.ApprovedThesis._id).populate('professor')
+  // const thesisId = thesis._id
+  const thesisDefence = await ThesisDefence.findOne({ thesis: thesis._id })
   res.status(200).render('binome-soutenance', {
     layout: 'binomeLayout',
-    // myDefence   
+    thesisDefence,
+    thesis,
   })
 }
