@@ -950,7 +950,17 @@ exports.getAllNonAvailibility = async (req, res) => {
 //-------------------
 exports.addNonAvailibility = async (req, res) => {
   const { startDay, endDay, professor: professorId } = req.body
+  // Parse the start and end dates
+  const startDate = new Date(startDay)
+  const endDate = new Date(endDay)
 
+  // Check if the start date exceeds the end date
+  if (startDate > endDate) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Start date cannot be after end date',
+    })
+  }
   // Fetch the professor document using the provided ID
   const professor = await Professor.findById(professorId)
 
@@ -1062,14 +1072,23 @@ exports.getAllAffectedTheses = async (req, res) => {
 }
 //report de session
 exports.reporterThesis = async (req, res) => {
+  const planning = await ThesisDefence.find()
+  if (planning.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'you cannot perform this action ! planning is already generated',
+    })
+  }
   const sessionR = await Session.findOne({ sessionType: 'retake' })
   const thesisToPostpone = await Thesis.findOneAndUpdate(
     { _id: req.params.id },
     { session: sessionR._id },
     { new: true }, // Retourne le document mis à jour
   )
-
-  res.redirect('Admin-liste-theme-affectes')
+  res.status(200).json({
+    status: 'success',
+    message: 'thesis delayed successfully',
+  })
 }
 
 exports.getAllProposedTheses = async (req, res) => {
@@ -1586,7 +1605,41 @@ exports.getAllPlanning = async (req, res) => {
     retake_defences,
   })
 }
-
+//------------------------------------
+exports.getThesisDefence = async (req, res) => {
+  const thesisDefenceId = req.params.id
+  const thesisDefence = await ThesisDefence.findById(thesisDefenceId)
+  const sessionId = thesisDefence.thesis.session
+  const session = await Session.findById(sessionId)
+  const slots = await Slot.find({ sessionType: session.sessionType })
+  res.status(200).render('Admin-update-planning', {
+    layout: 'Admin-nav-bar',
+    thesisDefence,
+    slots,
+  })
+}
+exports.updateThesisDefence = async (req, res) => {
+  const slotId = req.body.slot
+  const thesisDefenceId = req.params.id
+  const isConflict = await ThesisDefence.findOne({ slot: slotId })
+  if (isConflict) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'there is another thesis defence attached to this slot ! please change the slot without conflicts',
+    })
+  }
+  const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+    thesisDefenceId,
+    { slot: slotId },
+    { new: true },
+  )
+  res.status(200).json({
+    status: 'success',
+    message: 'planning updated successfully',
+    thesisDefence,
+  })
+}
 // exports.generatePlanning = async (req, res) => {
 //   try {
 //     //----------- Step 1: fetch all the available slots and premises
@@ -1703,7 +1756,7 @@ exports.getAllPlanning = async (req, res) => {
 //                   (nonAvailability) => {
 //                     const startDay = new Date(nonAvailability.startDay)
 //                     const endDay = new Date(nonAvailability.endDay)
-//                     return slotDate >= startDay && slotDate < endDay
+//                     return slotDate >= startDay && slotDate <= endDay
 //                   },
 //                 )
 
@@ -1731,7 +1784,7 @@ exports.getAllPlanning = async (req, res) => {
 //               (nonAvailability) => {
 //                 const startDay = new Date(nonAvailability.startDay)
 //                 const endDay = new Date(nonAvailability.endDay)
-//                 return slotDate >= startDay && slotDate < endDay
+//                 return slotDate >= startDay && slotDate <= endDay
 //               },
 //             )
 
@@ -1927,7 +1980,7 @@ exports.generatePlanning = async (req, res) => {
                     (nonAvailability) => {
                       const startDay = new Date(nonAvailability.startDay)
                       const endDay = new Date(nonAvailability.endDay)
-                      return slotDate >= startDay && slotDate < endDay
+                      return slotDate >= startDay && slotDate <= endDay
                     },
                   )
 
@@ -1955,7 +2008,7 @@ exports.generatePlanning = async (req, res) => {
                 (nonAvailability) => {
                   const startDay = new Date(nonAvailability.startDay)
                   const endDay = new Date(nonAvailability.endDay)
-                  return slotDate >= startDay && slotDate < endDay
+                  return slotDate >= startDay && slotDate <= endDay
                 },
               )
 

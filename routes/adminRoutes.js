@@ -3,7 +3,7 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 const adminController = require('../controllers/adminController')
 const viewsController = require('../controllers/viewsController')
-const studentController = require('../controllers/studentController');
+const studentController = require('../controllers/studentController')
 const upload = require('../middlewares/upload') // Importer le middleware de téléchargement
 //-----------------------------authentication:
 
@@ -36,12 +36,14 @@ router
   .patch(adminController.updateStudent)
 
 //pour l'insertion avec excel:
-router.route('/students/uploadForm')
+router
+  .route('/students/uploadForm')
   .get(adminController.uploadStudentForm)
   .post(upload.single('studentsFile'), adminController.uploadStudents)
-//pour le téléchargement du fichier excel modele 
-router.route('/students/templateUpload')
-  .get(adminController.downloadStudentFile);
+//pour le téléchargement du fichier excel modele
+router
+  .route('/students/templateUpload')
+  .get(adminController.downloadStudentFile)
 
 //-----------------------------professor:
 router.route('/professor').post(adminController.addAndSignUpProfessor)
@@ -53,13 +55,15 @@ router
   .delete(adminController.deleteProfessor)
   .patch(adminController.updateProfessor)
 
-  //pour l'insertion avec excel:
-router.route('/professors/uploadForm')
+//pour l'insertion avec excel:
+router
+  .route('/professors/uploadForm')
   .get(adminController.uploadProfessorForm)
   .post(upload.single('profsFile'), adminController.uploadProfessors)
-  //pour le téléchargement du fichier modele 
-router.route('/professors/templateUpload')
-  .get(adminController.downloadProfessorFile);
+//pour le téléchargement du fichier modele
+router
+  .route('/professors/templateUpload')
+  .get(adminController.downloadProfessorFile)
 
 //-----------------------------binome:
 router.route('/binome').post(adminController.addAndSignUpBinome)
@@ -107,7 +111,7 @@ router
 router.route('/affected-theses').get(adminController.getAllAffectedTheses)
 router.route('/proposed-theses').get(adminController.getAllProposedTheses)
 //report de session :
-router.get('/affected-theses/report/:id', adminController.reporterThesis)
+router.patch('/affected-theses/report/:id', adminController.reporterThesis)
 //----------------------jurys:
 router
   .route('/jury/:id')
@@ -131,5 +135,8 @@ router
   .get(adminController.getAllPlanning)
   .post(adminController.generatePlanning)
   .delete(adminController.resetPlanning)
-
+router
+  .route('/planning/:id')
+  .get(adminController.getThesisDefence)
+  .patch(adminController.updateThesisDefence)
 module.exports = router
