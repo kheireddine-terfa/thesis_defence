@@ -1612,32 +1612,53 @@ exports.getThesisDefence = async (req, res) => {
   const sessionId = thesisDefence.thesis.session
   const session = await Session.findById(sessionId)
   const slots = await Slot.find({ sessionType: session.sessionType })
+  const premises = await Premise.find()
   res.status(200).render('Admin-update-planning', {
     layout: 'Admin-nav-bar',
     thesisDefence,
     slots,
+    premises,
   })
 }
 exports.updateThesisDefence = async (req, res) => {
   const slotId = req.body.slot
+  const premiseId = req.body.premise
   const thesisDefenceId = req.params.id
-  const isConflict = await ThesisDefence.findOne({ slot: slotId })
-  if (isConflict) {
+  const slotConflict = await ThesisDefence.findOne({ slot: slotId })
+  const premiseConflict = await ThesisDefence.findOne({ premise: premiseId })
+  const session = await Session.findOne({ sessionType: 'normal' })
+  const max = session.slot_nbr_theses
+  const slot = await Slot.findById(slotId)
+  const slotNbrTheses = slot.nbr_thesis
+  if (slotNbrTheses > max) {
     return res.status(403).json({
       status: 'fail',
       message:
-        'there is another thesis defence attached to this slot ! please change the slot without conflicts',
+        'the slot has exceed the max number of theses allowed! please select another slot',
+    })
+  }
+  if (slotConflict) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'there is a conflict ! please change your selection of slot',
+    })
+  }
+  if (premiseConflict) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'there is a conflict ! please change your selection of premise',
     })
   }
   const thesisDefence = await ThesisDefence.findByIdAndUpdate(
     thesisDefenceId,
-    { slot: slotId },
+    { slot: slotId, premise: premiseId },
     { new: true },
   )
+  slot.nbr_thesis++
+  await slot.save()
   res.status(200).json({
     status: 'success',
     message: 'planning updated successfully',
-    thesisDefence,
   })
 }
 // exports.generatePlanning = async (req, res) => {
