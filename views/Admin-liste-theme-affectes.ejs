@@ -1,3 +1,11 @@
+<div class="popup" id="popup">
+  <i class="bi bi-trash"></i>
+  <h4>do you really want to delay this thesis !</h4>
+  <div>      
+    <button type="button" class="btn btn-danger" id="delete-btn-dt">Reporter</button>
+    <button type="button" class="btn btn-secondary" id="cancel-btn-dt">Cancel</button>
+  </div>
+</div>
 <main id="main" class="main">
   <div class="pagetitle">
     <h1>Thème</h1>
@@ -49,7 +57,13 @@
                 <td><%= binome.ApprovedThesis.speciality.title %></td>
                 <td>
                   <% if (binome.ApprovedThesis.session._id.toString() == NSession._id.toString()) { %>
-                    <a href="/admin/affected-theses/report/<%= binome.ApprovedThesis._id %>" class="btn btn-light">Reporter</a>
+                    <button
+                    type="button"
+                    class="btn btn-outline-danger deleteButtonConf delay-thesis"
+                    data-delay-id="<%= binome.ApprovedThesis._id %>" id="delay-thesis-<%= binome.ApprovedThesis._id %>"
+                  > Reporter  
+                    </button>
+                    <!-- <a href="/admin/affected-theses/report/<%= binome.ApprovedThesis._id %>" class="btn btn-light">Reporter</a> -->
                   <% } else { %>
                     <span class="text-warning">Reportée</span>
                   <% } %>

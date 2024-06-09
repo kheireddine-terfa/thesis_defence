@@ -950,7 +950,17 @@ exports.getAllNonAvailibility = async (req, res) => {
 //-------------------
 exports.addNonAvailibility = async (req, res) => {
   const { startDay, endDay, professor: professorId } = req.body
+  // Parse the start and end dates
+  const startDate = new Date(startDay)
+  const endDate = new Date(endDay)
 
+  // Check if the start date exceeds the end date
+  if (startDate > endDate) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Start date cannot be after end date',
+    })
+  }
   // Fetch the professor document using the provided ID
   const professor = await Professor.findById(professorId)
 
@@ -1062,14 +1072,23 @@ exports.getAllAffectedTheses = async (req, res) => {
 }
 //report de session
 exports.reporterThesis = async (req, res) => {
+  const planning = await ThesisDefence.find()
+  if (planning.length > 0) {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'you cannot perform this action ! planning is already generated',
+    })
+  }
   const sessionR = await Session.findOne({ sessionType: 'retake' })
   const thesisToPostpone = await Thesis.findOneAndUpdate(
     { _id: req.params.id },
     { session: sessionR._id },
     { new: true }, // Retourne le document mis à jour
   )
-
-  res.redirect('Admin-liste-theme-affectes')
+  res.status(200).json({
+    status: 'success',
+    message: 'thesis delayed successfully',
+  })
 }
 
 exports.getAllProposedTheses = async (req, res) => {
@@ -1573,6 +1592,13 @@ exports.generateSlots = async (req, res) => {
 //------------------------------------
 exports.getAllPlanning = async (req, res) => {
   const defences = await ThesisDefence.find()
+    .populate({
+      path: 'thesis',
+      populate: {
+        path: 'professor jury binome',
+        populate: {path: 'professor1 professor2'}
+      }
+    });
   const normal_defences = defences.filter(
     (elm) => elm.slot.sessionType === 'normal',
   )
@@ -1584,6 +1610,107 @@ exports.getAllPlanning = async (req, res) => {
     layout: 'admin-nav-bar',
     normal_defences,
     retake_defences,
+  })
+}
+//------------------------------------
+exports.getThesisDefence = async (req, res) => {
+  const thesisDefenceId = req.params.id
+  const thesisDefence = await ThesisDefence.findById(thesisDefenceId)
+  const sessionId = thesisDefence.thesis.session
+  const session = await Session.findById(sessionId)
+  const slots = await Slot.find({ sessionType: session.sessionType })
+  const premises = await Premise.find()
+  res.status(200).render('Admin-update-planning', {
+    layout: 'Admin-nav-bar',
+    thesisDefence,
+    slots,
+    premises,
+  })
+}
+exports.updateThesisDefence = async (req, res) => {
+  const slotId = req.body.slot
+  const premiseId = req.body.premise
+  const thesisDefenceId = req.params.id
+  const currentThesisDefence = await ThesisDefence.findById(thesisDefenceId)
+  const selectedThesisDefence = await ThesisDefence.findOne({ slot: slotId })
+  const thesisMembers = [
+    currentThesisDefence.thesis.professor._id.toString(),
+    currentThesisDefence.thesis.jury.professor1._id.toString(),
+    currentThesisDefence.thesis.jury.professor2._id.toString(),
+  ]
+  const session = await Session.findOne({ sessionType: 'normal' })
+  const max = session.slot_nbr_theses
+  const slot = await Slot.findById(slotId)
+  const slotNbrTheses = slot.nbr_thesis
+
+  if (slotNbrTheses > max) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'the slot has exceeded the max number of theses allowed! please select another slot',
+    })
+  }
+  if (!(currentThesisDefence.slot._id.toString() === slotId.toString())) {
+    if (selectedThesisDefence) {
+      if (selectedThesisDefence.slot._id.toString() === slotId.toString()) {
+        // Check if there is a conflict with the supervisor and juries in the same slot:
+        const checkSlotThesisDefence = await ThesisDefence.find({
+          slot: slotId,
+        })
+        const checkSlotMembers = []
+        checkSlotThesisDefence.forEach((thesisD) => {
+          checkSlotMembers.push(thesisD.thesis.professor._id.toString())
+          checkSlotMembers.push(thesisD.thesis.jury.professor1._id.toString())
+          checkSlotMembers.push(thesisD.thesis.jury.professor2._id.toString())
+        })
+        console.log(thesisMembers)
+        console.log(checkSlotMembers)
+        // Check for conflicts
+        const conflictExists = thesisMembers.some((member) =>
+          checkSlotMembers.includes(member),
+        )
+        if (conflictExists) {
+          return res.status(403).json({
+            status: 'fail',
+            message:
+              'there is a conflict with the supervisor or jury members in the same slot!',
+          })
+        }
+        const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+          thesisDefenceId,
+          { slot: slotId, premise: premiseId },
+          { new: true },
+        )
+        slot.nbr_thesis++
+        await slot.save()
+      } else {
+        const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+          thesisDefenceId,
+          { slot: slotId, premise: premiseId },
+          { new: true },
+        )
+        slot.nbr_thesis++
+        await slot.save()
+      }
+    } else {
+      const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+        thesisDefenceId,
+        { slot: slotId, premise: premiseId },
+        { new: true },
+      )
+      slot.nbr_thesis++
+      await slot.save()
+    }
+  } else {
+    const thesisDefence = await ThesisDefence.findByIdAndUpdate(
+      thesisDefenceId,
+      { slot: slotId, premise: premiseId },
+      { new: true },
+    )
+  }
+  res.status(200).json({
+    status: 'success',
+    message: 'planning updated successfully',
   })
 }
 
@@ -1703,7 +1830,7 @@ exports.getAllPlanning = async (req, res) => {
 //                   (nonAvailability) => {
 //                     const startDay = new Date(nonAvailability.startDay)
 //                     const endDay = new Date(nonAvailability.endDay)
-//                     return slotDate >= startDay && slotDate < endDay
+//                     return slotDate >= startDay && slotDate <= endDay
 //                   },
 //                 )
 
@@ -1731,7 +1858,7 @@ exports.getAllPlanning = async (req, res) => {
 //               (nonAvailability) => {
 //                 const startDay = new Date(nonAvailability.startDay)
 //                 const endDay = new Date(nonAvailability.endDay)
-//                 return slotDate >= startDay && slotDate < endDay
+//                 return slotDate >= startDay && slotDate <= endDay
 //               },
 //             )
 
@@ -1816,7 +1943,13 @@ exports.generatePlanning = async (req, res) => {
     }
 
     const max = normalSession.slot_nbr_theses // Assuming both sessions have the same max
-
+    // Function to shuffle an array (Fisher-Yates shuffle)
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+      }
+    }
     // Function to generate planning for a session type
     const generatePlanningForSession = async (sessionType) => {
       // Step 2: Fetch available slots and theses for the session type
@@ -1827,7 +1960,8 @@ exports.generatePlanning = async (req, res) => {
         session:
           sessionType === 'normal' ? normalSession._id : retakeSession._id,
       }).populate('professor jury')
-
+      // Shuffle the theses array to introduce randomness
+      shuffleArray(theses)
       // Handle error cases
       if (premises.length === 0) {
         return {
@@ -1927,7 +2061,7 @@ exports.generatePlanning = async (req, res) => {
                     (nonAvailability) => {
                       const startDay = new Date(nonAvailability.startDay)
                       const endDay = new Date(nonAvailability.endDay)
-                      return slotDate >= startDay && slotDate < endDay
+                      return slotDate >= startDay && slotDate <= endDay
                     },
                   )
 
@@ -1955,7 +2089,7 @@ exports.generatePlanning = async (req, res) => {
                 (nonAvailability) => {
                   const startDay = new Date(nonAvailability.startDay)
                   const endDay = new Date(nonAvailability.endDay)
-                  return slotDate >= startDay && slotDate < endDay
+                  return slotDate >= startDay && slotDate <= endDay
                 },
               )
 
@@ -2024,12 +2158,7 @@ exports.generatePlanning = async (req, res) => {
     // Generate planning for both normal and retake sessions
     const normalPlanning = await generatePlanningForSession('normal')
     const retakePlanning = await generatePlanningForSession('retake')
-    console.log('---------------------')
-    console.log(normalPlanning)
-    console.log('---------------------')
-    console.log('---------------------')
-    console.log(retakePlanning)
-    console.log('---------------------')
+  
     // Return combined result
     res.status(200).json({
       normalPlanning,
