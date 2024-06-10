@@ -69,7 +69,7 @@ exports.getAllTheses = async (req, res) => {
   const studentId = binome.student1
   const student = await Student.findById(studentId)
   const speciality = student.speciality
-  const theses = await Thesis.find({ speciality: speciality })
+  const theses = await Thesis.find({ speciality: speciality, affected : false })
   const selectedThesis = binome.selectedThesis
   const isSelectedArray = theses.map((thesis) =>
     selectedThesis.some(
