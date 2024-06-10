@@ -13,7 +13,6 @@
 
   <section class="section dashboard">
     <div class="row">
-      <div class="row"><h2 class="mb-4">Dashbord</h2></div>
       <div class="row">
         <div class="col-md-4">
           <a href="/admin/students">
@@ -102,69 +101,8 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Statistiques par Spécialité</h5>
-
-            <!-- Column Chart -->
-            <div id="columnChart"></div>
-
-            <script>
-              document.addEventListener('DOMContentLoaded', () => {
-                new ApexCharts(document.querySelector('#columnChart'), {
-                  series: [
-                    {
-                      name: 'Etudiants',
-                      data: [44, 55, 57, 56, 61],
-                    },
-                    {
-                      name: 'Thèmes',
-                      data: [76, 85, 101, 98, 87],
-                    },
-                    {
-                      name: 'Binômes',
-                      data: [35, 41, 36, 26, 45],
-                    },
-                  ],
-                  chart: {
-                    type: 'bar',
-                    height: 350,
-                  },
-                  plotOptions: {
-                    bar: {
-                      horizontal: false,
-                      columnWidth: '55%',
-                      endingShape: 'rounded',
-                    },
-                  },
-                  dataLabels: {
-                    enabled: false,
-                  },
-                  stroke: {
-                    show: true,
-                    width: 2,
-                    colors: ['transparent'],
-                  },
-                  xaxis: {
-                    categories: ['GL', 'SIA', 'ASR', 'IA', 'RS'],
-                  },
-                  yaxis: {
-                    title: {
-                      text: '',
-                    },
-                  },
-                  fill: {
-                    opacity: 1,
-                  },
-                  tooltip: {
-                    y: {
-                      formatter: function (val) {
-                        return val
-                      },
-                    },
-                  },
-                }).render()
-              })
-            </script>
-            <!-- End Column Chart -->
+            <h5 class="card-title">Sommaire </h5>
+            Bienvenue dans la plateforme administrateur, vous retrouverez les éléments principaux dont vous avez besoin pour la gestion du site. Ici vous voyez quelques KPI, il existe différentes pages faciles à prendre en main ( Planning, Listes, étudiants,...etc ). Vous disposez aussi des informations en rapport avec votre profil et la possibilité de modifier quelques informations qui vous concernent.
           </div>
         </div>
       </div>

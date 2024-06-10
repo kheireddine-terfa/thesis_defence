@@ -31,7 +31,7 @@ if (generateBtn) {
           setTimeout(() => {
             loader.style.display = 'none'
             window.location.href = '/admin/juries'
-          }, 5000)
+          }, 2000)
         }
       })
       .then((data) => {})

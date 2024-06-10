@@ -1642,12 +1642,22 @@ exports.updateThesisDefence = async (req, res) => {
   const max = session.slot_nbr_theses
   const slot = await Slot.findById(slotId)
   const slotNbrTheses = slot.nbr_thesis
+  const isTaken = await ThesisDefence.findOne(
+    {slot : slotId, premise: premiseId}
+  )
 
   if (slotNbrTheses > max) {
     return res.status(403).json({
       status: 'fail',
       message:
-        'the slot has exceeded the max number of theses allowed! please select another slot',
+        'Le créneau sélectionné a dépassé le nombre de soutenances autorisées, veuillez sélectionner un autre créneau',
+    })
+  }
+  if (isTaken) {
+    return res.status(403).json({
+      status: 'fail',
+      message:
+        'La salle et le créneau sélectionnés sont indisponibles, veuillez sélectionner une autre salle ou/et un autre créneau.',
     })
   }
   if (!(currentThesisDefence.slot._id.toString() === slotId.toString())) {
@@ -1663,8 +1673,7 @@ exports.updateThesisDefence = async (req, res) => {
           checkSlotMembers.push(thesisD.thesis.jury.professor1._id.toString())
           checkSlotMembers.push(thesisD.thesis.jury.professor2._id.toString())
         })
-        console.log(thesisMembers)
-        console.log(checkSlotMembers)
+        
         // Check for conflicts
         const conflictExists = thesisMembers.some((member) =>
           checkSlotMembers.includes(member),
@@ -2211,7 +2220,7 @@ exports.exportDefences = async (req, res) => {
     const retakeDef = defences.filter(d => d.slot.sessionType === 'retake');
 
     const dataN = normalDef.map(defence => ({
-      'Binôme': defence.thesis.binome.userName,
+      'Binôme': defence.thesis.jury.binome.userName,
       'Thème': defence.thesis.title,
       'Encadrant': `${defence.thesis.professor.firstName} ${defence.thesis.professor.lastName}`,
       'Jury': `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName} | ${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`,
@@ -2221,7 +2230,7 @@ exports.exportDefences = async (req, res) => {
     }));
 
     const dataR = retakeDef.map(defence => ({
-      'Binôme': defence.thesis.binome.userName,
+      'Binôme': defence.thesis.jury.binome.userName,
       'Thème': defence.thesis.title,
       'Encadrant': `${defence.thesis.professor.firstName} ${defence.thesis.professor.lastName}`,
       'Jury': `${defence.thesis.jury.professor1.firstName} ${defence.thesis.jury.professor1.lastName} | ${defence.thesis.jury.professor2.firstName} ${defence.thesis.jury.professor2.lastName}`,

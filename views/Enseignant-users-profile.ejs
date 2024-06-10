@@ -17,7 +17,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body pt-3">
-            <h2 style="margin-top: 5%; margin-bottom: 10%;">Profile</h2>
+            <h2 style="margin-top: 1%; margin-bottom: 3%;">Profile</h2>
             <div style="margin: 0 auto;width:80%;">
               <div
                 class="tab-pane fade show active profile-overview"
@@ -44,6 +44,8 @@
                   <div class="col-lg-9 col-md-8"><%= user.grade %></div>
                 </div>
 
+                
+
                 <!-- <div class="row">
                   <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
                     N° Téléphone
@@ -57,6 +59,19 @@
                   </div>
                   <div class="col-lg-9 col-md-8">
                     <%= user.email %>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label" style="color: #3088de;">
+                    Domaines
+                  </div>
+                  <div class="col-lg-9 col-md-8">
+                    <% user.fields.forEach(function(field){ %>
+                      	<div class="btn btn-outline-primary">
+                          <%= `${field.title}` %>
+                        </div>
+                    <%});%>
                   </div>
                 </div>
               </div>

@@ -31,7 +31,7 @@ if (generatePlanningBtn) {
           setTimeout(() => {
             loader.style.display = 'none'
             window.location.href = '/admin/planning'
-          }, 3000)
+          }, 2000)
         }
       })
       .then((data) => {})

@@ -8,18 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault() // Prevent the default form submission behavior
 
         const formData = new FormData(updateThesisDefenceForm) // Get form data
-        console.log(formData)
         const thesisDefenceId = updateThesisDefenceForm
           .querySelector('.update-thesis-defence-btn')
           .getAttribute('data-thesis-defence-id')
-        console.log('thesis defence ID:', thesisDefenceId)
 
         // Convert form data to JSON object
         const jsonData = {}
         formData.forEach(function (value, key) {
           jsonData[key] = value
         })
-        console.log('ggggggggggggg', JSON.stringify(jsonData))
+        
         // Make API request to update the student
         fetch(`/admin/planning/${thesisDefenceId}`, {
           method: 'PATCH',
@@ -43,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 errPopup.classList.add('show') // Show error message
                 setTimeout(() => {
                   errPopup.classList.remove('show')
-                }, 3000)
+                }, 5000)
               })
             }
           })
