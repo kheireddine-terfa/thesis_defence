@@ -5,7 +5,7 @@ const deleteBtnSe = document.getElementById('delete-btn-se')
 if (btnSe) {
   btnSe.addEventListener('click', function (e) {
     e.preventDefault()
-    popupSe.classList.add('show');
+    popupSe.classList.add('show')
     deleteBtnSe.addEventListener('click', function () {
       fetch(`/admin/sessions`, {
         method: 'DELETE',
@@ -14,7 +14,7 @@ if (btnSe) {
         },
       })
         .then((response) => {
-          popupSe.classList.remove('show'); 
+          popupSe.classList.remove('show')
           if (response.ok) {
             window.location.href = '/admin/sessions'
           } else {
@@ -26,9 +26,9 @@ if (btnSe) {
               )
               errorMessageElement.textContent = data.message
               const errPopup = document.getElementById('popup-error')
-              errPopup.classList.add('show'); // Show error message
+              errPopup.classList.add('show') // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show'); 
+                errPopup.classList.remove('show')
               }, 3000)
             })
           }
@@ -45,7 +45,7 @@ if (cancelBtnSe) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

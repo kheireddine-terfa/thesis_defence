@@ -5,7 +5,7 @@ const deleteBtnPl = document.getElementById('delete-btn-pl')
 if (btnPl) {
   btnPl.addEventListener('click', function (e) {
     e.preventDefault()
-    popupPl.classList.add('show');
+    popupPl.classList.add('show')
     deleteBtnPl.addEventListener('click', function () {
       fetch(`/admin/planning`, {
         method: 'DELETE',
@@ -18,13 +18,19 @@ if (btnPl) {
             popupPl.classList.remove('show')
             window.location.href = '/admin/planning'
           } else {
-            const errMsj = document.getElementById('dlt-error')
-            errMsj.style.display = 'block'
-            console.error('Failed to delete planning')
-            // Hide error message after 3 seconds
-            setTimeout(function () {
-              errMsj.style.display = 'none'
-            }, 2000)
+            response.json().then((data) => {
+              console.log('Error:', data.message)
+              // Display error message to the user
+              const errorMessageElement = document.getElementById(
+                'popup-error-content',
+              )
+              errorMessageElement.textContent = data.message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show') // Show error message
+              setTimeout(() => {
+                errPopup.classList.remove('show')
+              }, 3000)
+            })
           }
         })
         .catch((error) => {
@@ -39,7 +45,7 @@ if (cancelBtnPl) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

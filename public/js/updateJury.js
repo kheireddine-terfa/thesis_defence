@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
                   'popup-error-content',
                 )
                 errorMessageElement.textContent = data.message
-                errorPopupSt.style.display = 'flex' // Show error message
+                const errPopup = document.getElementById('popup-error')
+                errPopup.classList.add('show') // Show error message
                 setTimeout(() => {
-                  errorPopupSt.style.display = 'none'
+                  errPopup.classList.remove('show')
                 }, 3000)
               })
             }

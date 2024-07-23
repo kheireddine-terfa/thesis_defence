@@ -2,17 +2,17 @@ const Binome = require('../models/binomeModel')
 const Student = require('../models/studentModel')
 const Thesis = require('../models/thesisModel')
 const ThesisDefence = require('../models/thesisDefenceModel')
+const catchAsync = require('../utilities/catchAsync')
+const AppError = require('../utilities/appError')
+
 //-------------------- controllers : ---------------------
-exports.nominateToThesis = async (req, res) => {
+exports.nominateToThesis = catchAsync(async (req, res, next) => {
   const thesisId = req.body.thesisId
   // Find the student by ID
   const binome = await Binome.findById(req.user._id)
   // Check if the student has already selected the maximum number of thesis
   if (binome.selectedThesis.length >= 5) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Maximum number of thesis selected',
-    })
+    return next(new AppError('Maximum number of thesis selected', 400))
   }
 
   // Find the thesis by ID
@@ -20,10 +20,7 @@ exports.nominateToThesis = async (req, res) => {
 
   // Check if the thesis is found
   if (!thesis) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Thesis not found',
-    })
+    return next(new AppError('Thesis not found', 404))
   }
 
   // Add the thesis ID to the student's selectedThesis array
@@ -35,9 +32,9 @@ exports.nominateToThesis = async (req, res) => {
     message: 'Thesis selected successfully',
     thesisNumber: binome.selectedThesis.length,
   })
-}
+})
 //--------------------- :
-exports.cancelNominationToThesis = async (req, res) => {
+exports.cancelNominationToThesis = catchAsync(async (req, res, next) => {
   const thesisId = req.body.thesisId
   // Find the student by ID
   const binome = await Binome.findById(req.user._id)
@@ -47,10 +44,7 @@ exports.cancelNominationToThesis = async (req, res) => {
 
   // Check if the thesis is found
   if (!thesis) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Thesis not found',
-    })
+    return next(new AppError('Thesis not found', 404))
   }
 
   // Add the thesis ID to the student's selectedThesis array
@@ -62,14 +56,14 @@ exports.cancelNominationToThesis = async (req, res) => {
     message: 'Thesis selected successfully',
     thesisNumber: binome.selectedThesis.length,
   })
-}
+})
 //--------------------- :
-exports.getAllTheses = async (req, res) => {
+exports.getAllTheses = catchAsync(async (req, res, next) => {
   const binome = await Binome.findById(req.user._id)
   const studentId = binome.student1
   const student = await Student.findById(studentId)
   const speciality = student.speciality
-  const theses = await Thesis.find({ speciality: speciality, affected : false })
+  const theses = await Thesis.find({ speciality: speciality, affected: false })
   const selectedThesis = binome.selectedThesis
   const isSelectedArray = theses.map((thesis) =>
     selectedThesis.some(
@@ -81,13 +75,14 @@ exports.getAllTheses = async (req, res) => {
     theses,
     isSelectedArray,
     binome,
-  }) 
-}  
+  })
+})
+exports.getDefence = catchAsync(async (req, res, next) => {
+  const binome = await Binome.findById(req.user._id)
 
-exports.getDefence = async (req, res) => {
-  const binome =  await Binome.findById(req.user._id)
-  
-  const thesis = await Thesis.findById(binome.ApprovedThesis._id).populate('professor')
+  const thesis = await Thesis.findById(binome.ApprovedThesis._id).populate(
+    'professor',
+  )
   // const thesisId = thesis._id
   const thesisDefence = await ThesisDefence.findOne({ thesis: thesis._id })
   res.status(200).render('binome-soutenance', {
@@ -95,4 +90,4 @@ exports.getDefence = async (req, res) => {
     thesisDefence,
     thesis,
   })
-}
+})

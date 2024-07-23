@@ -6,7 +6,7 @@ const deleteBtnS = document.getElementById('delete-btn-sp')
 if (deleteSpecialityBtns.length > 0) {
   deleteSpecialityBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupS.classList.add('show');
+      popupS.classList.add('show')
       deleteBtnS.setAttribute(
         'data-id',
         this.getAttribute('data-speciality-id'),
@@ -25,7 +25,7 @@ if (deleteBtnS) {
         },
       })
         .then((response) => {
-          popupS.classList.remove('show');
+          popupS.classList.remove('show')
           if (response.ok) {
             const deleteSpecialityIcon = document.getElementById(
               'delete-speciality-' + specialityId,
@@ -45,9 +45,9 @@ if (deleteBtnS) {
               )
               errorMessageElement.textContent = data.message
               const errPopup = document.getElementById('popup-error')
-              errPopup.classList.add('show'); // Show error message
+              errPopup.classList.add('show') // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show');
+                errPopup.classList.remove('show')
               }, 3000)
             })
           }
@@ -64,7 +64,7 @@ if (cancelBtnS) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

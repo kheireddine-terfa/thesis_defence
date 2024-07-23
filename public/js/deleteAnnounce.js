@@ -5,7 +5,7 @@ const deleteBtn = document.getElementById('delete-btn-an')
 if (deleteAnnounceBtns.length > 0) {
   deleteAnnounceBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      popup.classList.add('show');
+      popup.classList.add('show')
       deleteBtn.setAttribute('data-id', this.getAttribute('data-announce-id'))
     })
   })
@@ -22,7 +22,7 @@ if (deleteBtn) {
         },
       })
         .then((response) => {
-          popup.classList.remove('show');
+          popup.classList.remove('show')
           if (response.ok) {
             const deleteAnnounceIcon = document.getElementById(
               'delete-announce-' + announceId,
@@ -34,14 +34,19 @@ if (deleteBtn) {
               }
             }
           } else {
-            const errMsj = document.getElementById('dlt-error')
-            const errPopup = document.getElementById('popup-error')
-            errPopup.classList.add('show');
-            console.error('Failed to delete announce')
-            // Hide error message after 3 seconds
-            setTimeout(function () {
-              errPopup.classList.remove('show');
-            }, 2000)
+            response.json().then((data) => {
+              console.log('Error:', data.message)
+              // Display error message to the user
+              const errorMessageElement = document.getElementById(
+                'popup-error-content',
+              )
+              errorMessageElement.textContent = data.message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show') // Show error message
+              setTimeout(() => {
+                errPopup.classList.remove('show')
+              }, 3000)
+            })
           }
         })
         .catch((error) => {
@@ -56,7 +61,7 @@ if (cancelBtn) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

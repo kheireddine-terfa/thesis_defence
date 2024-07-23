@@ -32,9 +32,10 @@ if (addBinomeBtn) {
               'popup-error-content',
             )
             errorMessageElement.textContent = data.message
-            errorPopupF.style.display = 'flex' // Show error message
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show') // Show error message
             setTimeout(() => {
-              errorPopupF.style.display = 'none'
+              errPopup.classList.remove('show')
             }, 3000)
           })
         }
@@ -45,10 +46,10 @@ if (addBinomeBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `binome ${data.binome.userName} added successfully`
         if (addPopUp) {
-          addPopUp.classList.add('show');
+          addPopUp.classList.add('show')
         }
         setTimeout(() => {
-          addPopUp.classList.remove('show');
+          addPopUp.classList.remove('show')
           addBinomeForm.reset()
           window.location.href = '/admin/binome'
         }, 1000)

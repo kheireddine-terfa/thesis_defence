@@ -1,4 +1,4 @@
-//-------------------- declaration
+//-------------------- declaration (import)
 const Field = require('../models/fieldModel')
 const Professor = require('../models/professorModel')
 const Speciality = require('../models/specialityModel')
@@ -6,17 +6,20 @@ const Thesis = require('../models/thesisModel')
 const Binome = require('../models/binomeModel')
 const Session = require('../models/sessionModel')
 const thesisDefence = require('../models/thesisDefenceModel')
+const catchAsync = require('../utilities/catchAsync')
+const AppError = require('../utilities/appError')
 //------------------ controllers: --------------------------------
-exports.addThesis = async (req, res) => {
+exports.addThesis = catchAsync(async (req, res, next) => {
   const { title, description, fieldId, specialityId } = req.body
   const field = await Field.findById(fieldId)
   const speciality = await Speciality.findById(specialityId)
   if (!field || !speciality) {
-    return res.status(404).json({
-      status: 'fail',
-      message:
+    return next(
+      new AppError(
         'opps ! something went wrong we do not found a the field or speciality',
-    })
+        404,
+      ),
+    )
   }
   const thesis = await Thesis.create({
     title,
@@ -30,16 +33,10 @@ exports.addThesis = async (req, res) => {
     { new: true },
   )
   res.status(201).redirect('/professor/thesis')
-  // res.status(201).json({
-  //   status: 'success',
-  //   data: {
-  //     thesis,
-  //   },
-  // })
-}
+})
 //----------------------:
 
-exports.updateThesis = async (req, res) => {
+exports.updateThesis = catchAsync(async (req, res, next) => {
   const thesisId = req.params.id
   const thesis = await Thesis.findById(thesisId)
   const { title, description, field, speciality } = req.body
@@ -54,25 +51,24 @@ exports.updateThesis = async (req, res) => {
       thesis,
     },
   })
-}
+})
 //----------------------:
 
-exports.deleteThesis = async (req, res) => {
+exports.deleteThesis = catchAsync(async (req, res, next) => {
   const professor = Professor.findById(req.user._id)
   const thesisId = req.params.id
   const binomes = await Binome.find({ selectedThesis: thesisId })
   if (binomes.length > 0) {
-    return res.status(403).json({
-      status: 'fail',
-      message: 'you can not delete this! thesis is selected by binome',
-    })
+    return next(
+      new AppError(
+        'you can not delete this! thesis is selected by binome',
+        403,
+      ),
+    )
   }
   const thesis = await Thesis.findById(thesisId)
   if (!thesis) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Thesis not found',
-    })
+    return next(new AppError('Thesis not found', 404))
   }
 
   // Check if the thesis is approved in any binome
@@ -80,10 +76,12 @@ exports.deleteThesis = async (req, res) => {
     ApprovedThesis: thesisId,
   })
   if (binomesWithApprovedThesis.length > 0) {
-    return res.status(403).json({
-      status: 'fail',
-      message: 'Cannot delete the thesis because it is approved for binome',
-    })
+    return next(
+      new AppError(
+        'Cannot delete the thesis because it is approved for binome',
+        403,
+      ),
+    )
   }
   // Remove the thesis from the selectedThesis array of all binomes
   await Binome.updateMany(
@@ -99,10 +97,10 @@ exports.deleteThesis = async (req, res) => {
     status: 'success',
     message: 'Thesis deleted successfully',
   })
-}
+})
 //----------------------:
 
-exports.getThesis = async (req, res) => {
+exports.getThesis = catchAsync(async (req, res, next) => {
   const thesisId = req.params.id
   const thesis = await Thesis.findById(thesisId)
   res.status(200).json({
@@ -111,23 +109,20 @@ exports.getThesis = async (req, res) => {
       thesis,
     },
   })
-}
+})
 //----------------------:
 
-exports.getProsessorTheses = async (req, res) => {
+exports.getProsessorTheses = catchAsync(async (req, res, next) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
   const theses = professor.theses
-  // res.status(200).json({
-  //   theses,
-  // })
   res
     .status(200)
-    .render('Enseignant-listeTheme', { layout: 'professorLayout',theses })
-}
+    .render('Enseignant-listeTheme', { layout: 'professorLayout', theses })
+})
 //----------------------:
 
-exports.getCandidacyApp = async (req, res) => {
+exports.getCandidacyApp = catchAsync(async (req, res, next) => {
   const professorId = req.user._id
   // Find the professor by ID
   const professor = await Professor.findById(professorId)
@@ -175,10 +170,10 @@ exports.getCandidacyApp = async (req, res) => {
     layout: 'professorLayout',
     candidacyApplications,
   })
-}
+})
 //----------------------:
 
-exports.validateCandidacy = async (req, res) => {
+exports.validateCandidacy = catchAsync(async (req, res, next) => {
   //1- find the binome by id and update approvedthesis field to the current selected thesis:
   //2- delete all the Candidacy applications made by this binome
   const professorId = req.user._id
@@ -221,10 +216,7 @@ exports.validateCandidacy = async (req, res) => {
       },
     )
   } else {
-    return res.status(403).json({
-      status: 'fail',
-      message: 'session has not been created yet',
-    })
+    return next(new AppError('session has not been created yet', 403))
   }
 
   res.status(200).json({
@@ -233,9 +225,9 @@ exports.validateCandidacy = async (req, res) => {
     updatedProfessor,
     currentThesis,
   })
-}
+})
 //----------------:
-exports.getSupervisedBinomes = async (req, res) => {
+exports.getSupervisedBinomes = catchAsync(async (req, res, next) => {
   const professorId = req.user._id
   const professor = await Professor.findById(professorId)
   const supervisedBinomes = professor.supervisedBinomes
@@ -243,40 +235,46 @@ exports.getSupervisedBinomes = async (req, res) => {
     layout: 'professorLayout',
     supervisedBinomes,
   })
-}
+})
 
-exports.getDefences = async (req, res) => {
+exports.getDefences = catchAsync(async (req, res, next) => {
   const professorId = req.user._id
-  
-  const defencesEncadrant = await thesisDefence.find()
-  .populate({
+
+  const defencesEncadrant = await thesisDefence.find().populate({
     path: 'thesis',
     populate: {
       path: 'professor jury binome',
-      populate: {path: 'professor1 professor2'}
-    }
-  });
+      populate: { path: 'professor1 professor2' },
+    },
+  })
 
-  const filteredDefences = defencesEncadrant.filter(defence => {
-    return defence.thesis.professor && defence.thesis.professor._id.toString() === professorId.toString()
-  });
+  const filteredDefences = defencesEncadrant.filter((defence) => {
+    return (
+      defence.thesis.professor &&
+      defence.thesis.professor._id.toString() === professorId.toString()
+    )
+  })
 
-  console.log(filteredDefences.map(d => d.thesis.binome));  // Afficher les informations du binome pour vérification
+  console.log(filteredDefences.map((d) => d.thesis.binome)) // Afficher les informations du binome pour vérification
 
-  const defencesSupervesorPresident = defencesEncadrant.filter(defence => {
-    return defence.thesis.jury.professor1 && defence.thesis.jury.professor1._id.toString() === professorId.toString()
-  });
+  const defencesSupervesorPresident = defencesEncadrant.filter((defence) => {
+    return (
+      defence.thesis.jury.professor1 &&
+      defence.thesis.jury.professor1._id.toString() === professorId.toString()
+    )
+  })
 
-  const defencesSupervesorMember = defencesEncadrant.filter(defence => {
-    return defence.thesis.jury.professor2 && defence.thesis.jury.professor2._id.toString() === professorId.toString()
-  });
-
+  const defencesSupervesorMember = defencesEncadrant.filter((defence) => {
+    return (
+      defence.thesis.jury.professor2 &&
+      defence.thesis.jury.professor2._id.toString() === professorId.toString()
+    )
+  })
 
   res.status(200).render('Enseignant-consulterSoutenance', {
     layout: 'professorLayout',
     filteredDefences,
     defencesSupervesorPresident,
     defencesSupervesorMember,
-    
   })
-}
+})

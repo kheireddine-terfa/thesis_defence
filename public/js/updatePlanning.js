@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.forEach(function (value, key) {
           jsonData[key] = value
         })
-        
+
         // Make API request to update the student
         fetch(`/admin/planning/${thesisDefenceId}`, {
           method: 'PATCH',
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 errPopup.classList.add('show') // Show error message
                 setTimeout(() => {
                   errPopup.classList.remove('show')
-                }, 5000)
+                }, 3000)
               })
             }
           })

@@ -17,11 +17,11 @@ if (generateBtn) {
               'popup-error-content',
             )
             errorMessageElement.textContent = data.message
-            const popupError = document.getElementById('popup-error');
-            popupError.classList.add('show');
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show') // Show error message
             setTimeout(() => {
-              popupError.classList.remove('show');
-            }, 4000)
+              errPopup.classList.remove('show')
+            }, 3000)
           })
         } else {
           const loader = document.getElementById('loader')

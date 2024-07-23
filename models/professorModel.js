@@ -2,6 +2,12 @@ const mongoose = require('mongoose')
 const User = require('./userModel')
 const bcrypt = require('bcrypt')
 const professorSchema = new mongoose.Schema({
+  password: {
+    type: String,
+    required: [true, 'please provide your password'],
+    minlength: [6, 'password must have more then 6 characters'],
+    select: false,
+  },
   grade: {
     type: String,
     required: [true, 'a professor must have a grade'],

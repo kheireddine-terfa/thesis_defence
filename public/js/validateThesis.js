@@ -20,7 +20,19 @@ if (validateBtns.length > 0) {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok')
+            response.json().then((data) => {
+              console.log('Error:', data.message)
+              // Display error message to the user
+              const errorMessageElement = document.getElementById(
+                'popup-error-content',
+              )
+              errorMessageElement.textContent = data.message
+              const errPopup = document.getElementById('popup-error')
+              errPopup.classList.add('show') // Show error message
+              setTimeout(() => {
+                errPopup.classList.remove('show')
+              }, 3000)
+            })
           }
           const thesisRow = validateBtn.closest('tr') // Find the closest ancestor <tr> element
           if (thesisRow) {

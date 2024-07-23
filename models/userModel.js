@@ -3,12 +3,6 @@ const validator = require('validator')
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  password: {
-    type: String,
-    required: [true, 'please provide your password'],
-    minlength: [6, 'password must have more then 6 characters'],
-    select: false,
-  },
   passwordConfirm: {
     type: String,
     validate: {

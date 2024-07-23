@@ -6,7 +6,7 @@ const deleteBtnSt = document.getElementById('delete-btn-st')
 if (deleteStudentBtns.length > 0) {
   deleteStudentBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupSt.classList.add('show');
+      popupSt.classList.add('show')
       deleteBtnSt.setAttribute('data-id', this.getAttribute('data-student-id'))
     })
   })
@@ -22,7 +22,7 @@ if (deleteBtnSt) {
         },
       })
         .then((response) => {
-          popupSt.classList.remove('show');
+          popupSt.classList.remove('show')
           if (response.ok) {
             const deleteStudentIcon = document.getElementById(
               'delete-student-' + studentId,
@@ -42,9 +42,9 @@ if (deleteBtnSt) {
               )
               errorMessageElement.textContent = data.message
               const errPopup = document.getElementById('popup-error')
-              errPopup.classList.add('show'); // Show error message
+              errPopup.classList.add('show') // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show');
+                errPopup.classList.remove('show')
               }, 3000)
             })
           }
@@ -61,7 +61,7 @@ if (cancelBtnSt) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })

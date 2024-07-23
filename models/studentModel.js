@@ -6,6 +6,9 @@ const studentSchema = new mongoose.Schema({
   matricule: {
     type: String,
     required: [true, 'a student must have a registration number'],
+    minlength: [12, 'the registration number should have 12 numbers'],
+    maxlength: [12, 'the registration number should have 12 numbers'],
+    unique: [true, 'the registration number should be unique for each student'],
   },
   speciality: {
     type: mongoose.Schema.Types.ObjectId,

@@ -36,7 +36,19 @@ if (addSessionBtn) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          response.json().then((data) => {
+            console.log('Error:', data.message)
+            // Display error message to the user
+            const errorMessageElement = document.getElementById(
+              'popup-error-content',
+            )
+            errorMessageElement.textContent = data.message
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show') // Show error message
+            setTimeout(() => {
+              errPopup.classList.remove('show')
+            }, 3000)
+          })
         }
         return response.json()
       })
@@ -45,10 +57,10 @@ if (addSessionBtn) {
         const popUpContent = document.getElementById('popup-content')
         popUpContent.textContent = `session added successfully`
         if (addPopUp) {
-          addPopUp.classList.add('show');
+          addPopUp.classList.add('show')
         }
         setTimeout(() => {
-          addPopUp.classList.remove('show');
+          addPopUp.classList.remove('show')
           addSessionForm.reset()
         }, 1000)
       })

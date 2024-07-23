@@ -17,11 +17,11 @@ if (generatePlanningBtn) {
               'popup-error-content',
             )
             errorMessageElement.textContent = data.message
-            const popupEr =  document.getElementById('popup-error');
-            popupEr.classList.add('show'); // Show error message
+            const errPopup = document.getElementById('popup-error')
+            errPopup.classList.add('show') // Show error message
             setTimeout(() => {
-              popupEr.classList.remove('show');
-            }, 4000)
+              errPopup.classList.remove('show')
+            }, 3000)
           })
         } else {
           const loader = document.getElementById('loader')
@@ -40,4 +40,3 @@ if (generatePlanningBtn) {
       })
   })
 }
-

@@ -1,7 +1,14 @@
 const mongoose = require('mongoose')
 const User = require('./userModel')
 const bcrypt = require('bcrypt')
-const adminSchema = new mongoose.Schema({})
+const adminSchema = new mongoose.Schema({
+  password: {
+    type: String,
+    required: [true, 'please provide your password'],
+    minlength: [6, 'password must have more then 6 characters'],
+    select: false,
+  },
+})
 adminSchema.pre('save', async function (next) {
   //check if the password field modified or not (new or updated)
   if (!this.isModified('password')) return next()

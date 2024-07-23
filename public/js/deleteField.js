@@ -6,7 +6,7 @@ const deleteBtnF = document.getElementById('delete-btn-fi')
 if (deleteFieldBtns.length > 0) {
   deleteFieldBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-      popupF.classList.add('show');
+      popupF.classList.add('show')
       deleteBtnF.setAttribute('data-id', this.getAttribute('data-field-id'))
     })
   })
@@ -22,7 +22,7 @@ if (deleteBtnF) {
         },
       })
         .then((response) => {
-          popupB.classList.remove('show');
+          popupB.classList.remove('show')
           if (response.ok) {
             const deleteFieldIcon = document.getElementById(
               'delete-field-' + fieldId,
@@ -42,9 +42,9 @@ if (deleteBtnF) {
               )
               errorMessageElement.textContent = data.message
               const errPopup = document.getElementById('popup-error')
-              errPopup.classList.add('show'); // Show error message
+              errPopup.classList.add('show') // Show error message
               setTimeout(() => {
-                errPopup.classList.remove('show');
+                errPopup.classList.remove('show')
               }, 3000)
             })
           }
@@ -61,7 +61,7 @@ if (cancelBtnF) {
     if (parentElement) {
       const grandparentElement = parentElement.parentElement
       if (grandparentElement) {
-        grandparentElement.classList.remove('show');
+        grandparentElement.classList.remove('show')
       }
     }
   })
